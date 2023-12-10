@@ -9,5 +9,27 @@
 #define OrderBookEntry_hpp
 
 #include <stdio.h>
+#include <string>
+
+/*enum class made globally accessible*/
+enum class OrderBookType{bid, ask};
+
+class OrderBookEntry{
+public:
+    /* Constructor */
+    OrderBookEntry(double _price,
+                   double _amount,
+                   std::string _timestamp,
+                   std::string _product,
+                   OrderBookType _orderType);
+
+// make these private later when I have integrated the print option into the constructor
+//private:
+    double price;
+    double amount;
+    std::string timestamp;
+    std::string product;
+    OrderBookType orderType;
+};
 
 #endif /* OrderBookEntry_hpp */
