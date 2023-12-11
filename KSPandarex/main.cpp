@@ -7,10 +7,12 @@
 
 #include "OrderBookEntry.hpp"
 #include "PandaMain.hpp"
+#include "CSVReader.hpp"
 #include <iostream>
 #include <string>
 #include <vector>
 #include <limits>
+#include <fstream>
 
 /*some functions based on W3 Challenge Exercises*/
 /*double computeAveragePrice(std::vector<OrderBookEntry>& orders){
@@ -61,6 +63,8 @@ double computePriceSpread(std::vector<OrderBookEntry>& orders){
 int main(){
     PandaMain app{};
     app.init();
+ 
+    
     
     /*new vector for all orders*/
    // std::vector<OrderBookEntry> orders;

@@ -10,6 +10,7 @@
 		63B5A2BB2B25C80B00025854 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63B5A2BA2B25C80B00025854 /* main.cpp */; };
 		63B5A2C32B25C86400025854 /* OrderBookEntry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63B5A2C12B25C86400025854 /* OrderBookEntry.cpp */; };
 		63CF96062B25D10000E8AE13 /* PandaMain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63CF96042B25D10000E8AE13 /* PandaMain.cpp */; };
+		63EFAE1C2B27212900DCFD69 /* CSVReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63EFAE1A2B27212900DCFD69 /* CSVReader.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -31,6 +32,8 @@
 		63B5A2C22B25C86400025854 /* OrderBookEntry.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = OrderBookEntry.hpp; sourceTree = "<group>"; };
 		63CF96042B25D10000E8AE13 /* PandaMain.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PandaMain.cpp; sourceTree = "<group>"; };
 		63CF96052B25D10000E8AE13 /* PandaMain.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PandaMain.hpp; sourceTree = "<group>"; };
+		63EFAE1A2B27212900DCFD69 /* CSVReader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CSVReader.cpp; sourceTree = "<group>"; };
+		63EFAE1B2B27212900DCFD69 /* CSVReader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CSVReader.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +71,8 @@
 				63B5A2C22B25C86400025854 /* OrderBookEntry.hpp */,
 				63CF96042B25D10000E8AE13 /* PandaMain.cpp */,
 				63CF96052B25D10000E8AE13 /* PandaMain.hpp */,
+				63EFAE1A2B27212900DCFD69 /* CSVReader.cpp */,
+				63EFAE1B2B27212900DCFD69 /* CSVReader.hpp */,
 			);
 			path = KSPandarex;
 			sourceTree = "<group>";
@@ -130,6 +135,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				63B5A2C32B25C86400025854 /* OrderBookEntry.cpp in Sources */,
+				63EFAE1C2B27212900DCFD69 /* CSVReader.cpp in Sources */,
 				63CF96062B25D10000E8AE13 /* PandaMain.cpp in Sources */,
 				63B5A2BB2B25C80B00025854 /* main.cpp in Sources */,
 			);

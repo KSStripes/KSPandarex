@@ -7,6 +7,7 @@
 
 #include "PandaMain.hpp"
 #include "OrderBookEntry.hpp"
+#include "CSVReader.hpp"
 #include <iostream>
 #include <vector>
 
@@ -29,11 +30,7 @@ void PandaMain::init(){
 /*function to load Orderbook*/
 void PandaMain::loadOrderBook(){
     /*populate vector with an instance of the object orderBookEntry*/
-    orders.push_back(OrderBookEntry(10000, 0.00023, "WorldTime", "UTC/BTC", OrderBookType::bid));
-    orders.push_back(OrderBookEntry(10500, 0.000116, "Another time", "THE/BTC", OrderBookType::ask));
-    orders.push_back(OrderBookEntry(3000, 0.0006666, "Another time", "Calin/BTC", OrderBookType::bid));
-    orders.push_back(OrderBookEntry(500, 0.0007266, "Another time", "Alain/BTC", OrderBookType::ask));
-    orders.push_back(OrderBookEntry(400010, 0.0025, "Another time", "Alain/BTC", OrderBookType::ask));
+    orders = CSVReader::readCSV("orders_20200317.csv");
 }
 
 
@@ -55,9 +52,22 @@ void PandaMain::printHelp(){
     std::cout << "and follow the onscreen instructions." << std::endl;
 }
 
-/*function for option 2*/
+/*function for option 2 using orders vector from loadOrderBook()*/
 void PandaMain::printMarketStats(){
     std::cout << "OrderBook contains " << orders.size() << " entries" << std::endl;
+    
+    /*print stats to keep track of all asks and bids in order book*/
+    unsigned int bids = 0;
+    unsigned int asks = 0;
+    for (OrderBookEntry& e : orders){
+        if (e.orderType == OrderBookType::ask){
+            asks++;
+        }
+        if (e.orderType == OrderBookType::bid){
+            bids++;
+        }
+    }
+    std::cout << "OrderBook asks: " << asks << " , bids: " << bids << std::endl;
 }
 
 /*function for option 3*/
