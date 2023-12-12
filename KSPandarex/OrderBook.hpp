@@ -27,9 +27,15 @@ public:
     static double getHighPrice(std::vector<OrderBookEntry>& orders);
     static double getMinPrice(std::vector<OrderBookEntry>& orders);
     
+    /** functionality to move through  time*/
+    std::string getEarliesttime();
+    std::string getNexttime(std::string timestamp);
+    
 private:
     /** vector to store order book entries */
     std::vector<OrderBookEntry> orders;
+    
+    
 };
 
 

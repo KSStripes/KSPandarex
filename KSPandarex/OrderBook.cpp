@@ -91,3 +91,26 @@ double OrderBook::getMinPrice(std::vector<OrderBookEntry>& orders){
     return min;
 }
 
+/** functionality to get earliest time*/
+std::string OrderBook::getEarliesttime(){
+    return orders[0].timestamp;
+}
+
+/** functionality to get next  time*/
+std::string OrderBook::getNexttime(std::string timestamp){
+    //if we find a timestamp that's higher than the previous one, go to next time 
+    std::string next_timestamp = "";
+    for (OrderBookEntry& e : orders){
+        
+        if (e.timestamp > timestamp){
+            next_timestamp = e.timestamp;
+            break;
+        }
+    }
+    //if  there is no next timestamp in the OrderBook, loop to beginning
+    if (next_timestamp == ""){
+        next_timestamp = orders[0].timestamp;
+    }
+    
+    return next_timestamp;
+}

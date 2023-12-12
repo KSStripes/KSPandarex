@@ -18,6 +18,7 @@ PandaMain::PandaMain(){
 /*initialisation*/
 void PandaMain::init(){
     int input;
+    currentTime = orderBook.getEarliesttime();
         /*while loop to continue running after the user has picked an option*/
         while (true) {
             printMenu();
@@ -36,6 +37,7 @@ void PandaMain::printMenu(){
     std::cout << "6: Continue to next time step" << std::endl;
     std::cout << "================" << std::endl;//prints seperator line
     std::cout << "Type in 1-6" << std::endl;
+    std::cout << "Current time is: " << currentTime << std::endl;
 }
 
 /*function for option 1*/
@@ -52,7 +54,7 @@ void PandaMain::printMarketStats(){
         std::cout << "Product: " << p << std::endl;
         
         std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::ask,
-                                                                  p, "2020/03/17 17:01:24.884492");
+                                                                  p, currentTime);
     std::cout << "Asks seen: " << entries.size() << std::endl;
     std::cout << "Max ask: " << OrderBook::getHighPrice(entries) << std::endl;
     std::cout << "Minimum ask: " << OrderBook::getMinPrice(entries) << std::endl;
@@ -77,6 +79,7 @@ void PandaMain::printWallet(){
 /*function for option 6*/
 void PandaMain::nextTimeStep(){
     std::cout << "Going to the next timestep" << std::endl;
+    currentTime = orderBook.getNexttime(currentTime);
 }
 
 /*function for invalid keyboard input*/

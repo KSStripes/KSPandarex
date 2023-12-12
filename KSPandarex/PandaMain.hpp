@@ -22,6 +22,8 @@ public:
 private:
     /** pass orderbook */
     OrderBook orderBook{"orders_20200317.csv"};
+    /** get  current time*/
+    std::string currentTime;
     
     /*function to print the user menu*/
     void printMenu();
@@ -44,7 +46,7 @@ private:
     /*switch function to display the right output based on getUserOption()*/
     void processUserOption(int userOption);
     
-    
+
 };
 
 #endif /* PandaMain_hpp */
