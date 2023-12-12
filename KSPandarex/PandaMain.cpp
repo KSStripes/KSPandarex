@@ -1,7 +1,7 @@
 //
 //  PandaMain.cpp
 //  KSPandarex
-//
+/* The PandaMain class represents the application itself, and it deals with user input and menu printing */
 //  Created by Kristin Schumann on 10/12/2023.
 //
 
@@ -17,7 +17,6 @@ PandaMain::PandaMain(){
 
 /*initialisation*/
 void PandaMain::init(){
-    loadOrderBook();
     int input;
         /*while loop to continue running after the user has picked an option*/
         while (true) {
@@ -26,13 +25,6 @@ void PandaMain::init(){
             processUserOption(input);
         }
 }
-
-/*function to load Orderbook*/
-void PandaMain::loadOrderBook(){
-    /*populate vector with an instance of the object orderBookEntry*/
-    orders = CSVReader::readCSV("orders_20200317.csv");
-}
-
 
 /*function to print the user menu*/
 void PandaMain::printMenu(){
@@ -52,22 +44,19 @@ void PandaMain::printHelp(){
     std::cout << "and follow the onscreen instructions." << std::endl;
 }
 
-/*function for option 2 using orders vector from loadOrderBook()*/
+/*function for option 2 using OrderBook*/
 void PandaMain::printMarketStats(){
-    std::cout << "OrderBook contains " << orders.size() << " entries" << std::endl;
     
-    /*print stats to keep track of all asks and bids in order book*/
-    unsigned int bids = 0;
-    unsigned int asks = 0;
-    for (OrderBookEntry& e : orders){
-        if (e.orderType == OrderBookType::ask){
-            asks++;
-        }
-        if (e.orderType == OrderBookType::bid){
-            bids++;
-        }
+    //print types of orders mapped in OrderBook
+    for (std::string const& p : orderBook.getKnownProducts()){
+        std::cout << "Product: " << p << std::endl;
+        
+        std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::ask,
+                                                                  p, "2020/03/17 17:01:24.884492");
+    std::cout << "Asks seen: " << entries.size() << std::endl;
+    std::cout << "Max ask: " << OrderBook::getHighPrice(entries) << std::endl;
+    std::cout << "Minimum ask: " << OrderBook::getMinPrice(entries) << std::endl;
     }
-    std::cout << "OrderBook asks: " << asks << " , bids: " << bids << std::endl;
 }
 
 /*function for option 3*/

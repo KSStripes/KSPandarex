@@ -1,7 +1,7 @@
 //
 //  PandaMain.hpp
 //  KSPandarex
-//
+/* The PandaMain class represents the application itself, and it deals with user input and menu printing */
 //  Created by Kristin Schumann on 10/12/2023.
 //
 
@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <vector>
 #include "OrderBookEntry.hpp"
+#include "OrderBook.hpp"
 
 class PandaMain{
 public:
@@ -19,10 +20,8 @@ public:
     void init();
     
 private:
-    /*function to load OrderBook*/
-    void loadOrderBook();
-    /*new vector for all orders*/
-    std::vector<OrderBookEntry> orders;
+    /** pass orderbook */
+    OrderBook orderBook{"orders_20200317.csv"};
     
     /*function to print the user menu*/
     void printMenu();

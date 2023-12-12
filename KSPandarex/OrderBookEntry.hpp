@@ -1,7 +1,7 @@
 //
 //  OrderBookEntry.hpp
 //  KSPandarex
-//
+/* The OrderBookEntry represents a row in the order book data set (i.e. a single order in the order book). It can be a bid or an ask order. */
 //  Created by Kristin Schumann on 10/12/2023.
 //
 

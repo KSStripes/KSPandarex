@@ -1,0 +1,93 @@
+//
+//  OrderBook.cpp
+//  KSPandarex
+/* OrderBook class presents a high level interface on all the orders in the order book data set, including query functions to find out which products are in the data set, and to retrieve a subset of the orders using filters. */
+//  Created by Kristin Schumann on 12/12/2023.
+//
+
+#include "OrderBook.hpp"
+#include <string>
+#include "CSVReader.hpp"
+#include <map>
+
+/**
+ * Constructs an OrderBook object by reading order data from a CSV file.
+ *
+ * @param filename The path to the CSV file containing order book entries.
+ */
+OrderBook::OrderBook(std::string filename) {
+    // Read orders from a CSV file. Assumes the CSVReader class handles parsing.
+    orders = CSVReader::readCSV(filename);
+}
+
+/**
+ * Retrieves a list of unique products present in the order book.
+ *
+ * This method iterates over all orders, uses a map to identify unique products,
+ * and then converts the map keys to a vector.
+ *
+ * @return A vector of strings, each representing a unique product.
+ */
+std::vector<std::string> OrderBook::getKnownProducts() {
+    std::vector<std::string> products;
+    std::map<std::string, bool> prodMap;
+
+    // Iterate over all orders and map each product to true (indicating its presence).
+    for (OrderBookEntry& e : orders) {
+        prodMap[e.product] = true;
+    }
+
+    // Convert the map keys (unique products) to a vector.
+    for (auto const& e : prodMap) {
+        products.push_back(e.first);
+    }
+
+    return products; // Returns a unique list of products
+}
+
+/**
+ * Filters and returns a subset of orders based on specified criteria.
+ *
+ * This method filters the orders based on the type, product, and timestamp,
+ * creating a subset of orders that match all these criteria.
+ *
+ * @param type The type of the order (e.g., bid, ask).
+ * @param product The product for which orders are to be filtered.
+ * @param timestamp The timestamp at which orders are to be filtered.
+ * @return A vector of OrderBookEntry objects that match the specified criteria.
+ */
+std::vector<OrderBookEntry> OrderBook::getOrders(OrderBookType type,
+                                                  std::string product,
+                                                  std::string timestamp) {
+    std::vector<OrderBookEntry> orders_sub;
+
+    // Iterate over all orders and select those that match the given type, product, and timestamp.
+    for (OrderBookEntry& e : orders) {
+        if (e.orderType == type && e.product == product && e.timestamp == timestamp) {
+            orders_sub.push_back(e);
+        }
+    }
+
+    return orders_sub; // Returns the filtered list of orders
+}
+
+/** functionality for analysis of entries*/
+//getting the highest price
+double OrderBook::getHighPrice(std::vector<OrderBookEntry>& orders){
+    double max = orders[0].price;
+    for (OrderBookEntry& e : orders){
+        if (e.price > max)max = e.price;
+    }
+    return max;
+}
+
+//getting the lowest price
+double OrderBook::getMinPrice(std::vector<OrderBookEntry>& orders){
+    double min = orders[0].price;
+    for (const OrderBookEntry& e : orders){
+        if (e.price < min)
+            min = e.price;
+    }
+    return min;
+}
+
