@@ -91,6 +91,35 @@ double OrderBook::getMinPrice(std::vector<OrderBookEntry>& orders){
     return min;
 }
 
+/** KS implementation of the mean price*/
+double OrderBook::getMeanPrice(std::vector<OrderBookEntry>& orders){
+    if (orders.empty()) {
+        return 0.0; // or some appropriate default value
+    }
+
+    double sum = 0.0;
+    for (const OrderBookEntry& e : orders){
+        sum += e.price;
+    }
+
+    double mean = sum / orders.size();
+    return mean;
+}
+
+/** KS implement the spread statistics - difference between lowest ask price and highest price bid*/
+double OrderBook::getSpread(const std::string& product, const std::string& timestamp){
+    //vector for all asks of a given product at one timestamp
+    std::vector<OrderBookEntry> numAsks = getOrders(OrderBookType::ask, product, timestamp);
+    //vector for all bids of a given product at one timestamp
+    std::vector<OrderBookEntry> numBids = getOrders(OrderBookType::bid, product, timestamp);
+    
+    double minAsk = getMinPrice(numAsks);
+    double maxBid = getHighPrice(numBids);
+    
+    return minAsk - maxBid;
+}
+
+
 /** functionality to get earliest time*/
 std::string OrderBook::getEarliesttime(){
     return orders[0].timestamp;
@@ -114,3 +143,4 @@ std::string OrderBook::getNexttime(std::string timestamp){
     
     return next_timestamp;
 }
+

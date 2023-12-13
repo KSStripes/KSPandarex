@@ -58,6 +58,11 @@ void PandaMain::printMarketStats(){
     std::cout << "Asks seen: " << entries.size() << std::endl;
     std::cout << "Max ask: " << OrderBook::getHighPrice(entries) << std::endl;
     std::cout << "Minimum ask: " << OrderBook::getMinPrice(entries) << std::endl;
+        //KS function on mean price
+    std::cout << "Mean ask: " << orderBook.getMeanPrice(entries) << std::endl;
+        //KS function on spread
+    std::cout << "The spread between lowest ask and highest bid: " << orderBook.getSpread(p, currentTime) << std::endl;
+        
     }
 }
 
@@ -96,7 +101,7 @@ int PandaMain::getUserOption(){
     return userOption;
 }
 
-/*switch function to display the right output based on getUserOption()*/
+/** KS wrote switch function display the right output based on getUserOption()*/
 void PandaMain::processUserOption(int userOption){
     switch (userOption) {
         case 1:
