@@ -23,6 +23,12 @@ public:
                    std::string _product,
                    OrderBookType _orderType);
     static OrderBookType stringToOrderBookType(std::string s);
+    
+    /**function to sort  OrderBookEntry() vector by timestamp, in case new input has been addedt**/
+    static bool compareByTimestamp(OrderBookEntry& e1, OrderBookEntry& e2)
+    {
+        return e1.timestamp < e2.timestamp;
+    }
 
 // make these private later when I have integrated the print option into the constructor
 //private:

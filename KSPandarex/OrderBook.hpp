@@ -23,6 +23,19 @@ public:
     std::vector<OrderBookEntry> getOrders(OrderBookType type,
                                           std::string product,
                                           std::string timestamp);
+    
+    /** functionality to move through time*/
+    /** returns the earliest time in the orderbook*/
+    std::string getEarliesttime();
+    /** returns the next time after the
+     * sent time in the orderbook
+     * If there is no next timestamp, wraps around to the start
+     * */
+    std::string getNexttime(std::string timestamp);
+    
+    /** functionality to push user-typed order to end of OrderBookEntry() vector and to insert it by sorting through the timestamps*/
+    void insertOrder(OrderBookEntry& order);
+    
     /** functionality for analysis of entries*/
     static double getHighPrice(std::vector<OrderBookEntry>& orders);
     static double getMinPrice(std::vector<OrderBookEntry>& orders);
@@ -32,9 +45,7 @@ public:
     double getSpread(const std::string& product, const std::string& timestamp);
     
     
-    /** functionality to move through  time*/
-    std::string getEarliesttime();
-    std::string getNexttime(std::string timestamp);
+
     
     
 private:

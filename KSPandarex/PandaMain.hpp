@@ -32,9 +32,9 @@ private:
     /*function for option 2*/
     void printMarketStats();
     /*function for option 3*/
-    void makeOffer();
+    void enterAsk();
     /*function for option 4*/
-    void makeBid();
+    void enterBid();
     /*function for option 5*/
     void printWallet();
     /*function for option 6*/

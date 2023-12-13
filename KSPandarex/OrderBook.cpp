@@ -71,6 +71,14 @@ std::vector<OrderBookEntry> OrderBook::getOrders(OrderBookType type,
     return orders_sub; // Returns the filtered list of orders
 }
 
+void OrderBook::insertOrder(OrderBookEntry& order)
+{
+    //push typed order to the end of OrderBookEntry()vector
+    orders.push_back(order);
+    //insert new order at correct place by sorting through timestamps
+    std::sort(orders.begin(), orders.end(), OrderBookEntry::compareByTimestamp);
+}
+
 /** functionality for analysis of entries*/
 //getting the highest price
 double OrderBook::getHighPrice(std::vector<OrderBookEntry>& orders){

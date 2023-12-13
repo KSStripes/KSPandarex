@@ -20,12 +20,19 @@ public:
     CSVReader();
     /*function to read CSV into a vector*/
     static std::vector<OrderBookEntry> readCSV (std::string csvFile);
-    
-private:
     /*function to tokenize into a vector*/
     static std::vector<std::string> tokenize(std::string csvLine, char seperator);
-    /*function to return one OrderBookEntry*/
-    OrderBookEntry stringsToOBE(std::vector<std::string> strings);
+    /*function to return one OrderBookEntry based the 5 distinct elements, incl by user*/
+    OrderBookEntry stringItemsToOBE(std::string price,
+                                std::string amount,
+                                std::string timestamp,
+                                std::string product,
+                                OrderBookType OrderBookType);
+    
+private:
+
+    /*function to return one OrderBookEntry based the 5 elements of one CSV file line, created by stringToOrderBookType() vector*/
+    OrderBookEntry stringVectorToOBE(std::vector<std::string> strings);
 
 };
 

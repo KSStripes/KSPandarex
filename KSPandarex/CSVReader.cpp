@@ -28,7 +28,7 @@ std::vector<OrderBookEntry> CSVReader::readCSV (std::string csvFilename){
             while (std::getline(csvFile, line)) {
                 CSVReader csvReader;  // Create an instance of the CSVReader class
                 try {
-                    OrderBookEntry obe = csvReader.stringsToOBE(tokenize(line, ','));
+                    OrderBookEntry obe = csvReader.stringVectorToOBE(tokenize(line, ','));
                     entries.push_back(obe);  // Add the OrderBookEntry to the vector
                 } catch (const std::exception& e) {
                     std::cout << "CSVReader::readCSV bad data" << std::endl;
@@ -72,9 +72,37 @@ std::vector<std::string> CSVReader::tokenize (std::string csvLine, char seperato
     while(end != std::string::npos);
     return tokens;
 }
+  
+/*function to return one OrderBookEntry based the 5 distinct elements, incl by user*/
+OrderBookEntry CSVReader::stringItemsToOBE(std::string priceString,
+                                       std::string amountString,
+                                       std::string timestamp,
+                                       std::string product,
+                                       OrderBookType orderType)
+{
+    //convert user-typed prices and amounts from strings to doubles
+    double price, amount;
+    try{
+        price = std::stod(priceString);
+        amount = std::stod(amountString);
+      
+    }catch(const std::exception& e){
+        std::cout << "CSVReader::stringItemsToOBE: Bad Float; " << priceString << std::endl;
+        std::cout << "CSVReader::stringItemsToOBE: Bad Float; " << amountString << std::endl;
+        throw;
+    }
+    OrderBookEntry obe {price,
+                        amount,
+                        timestamp,
+                        product,
+                        orderType};
     
-/*function to return one OrderBookEntry*/
-OrderBookEntry CSVReader::stringsToOBE (std::vector<std::string> tokens){
+    return obe;
+}
+
+
+/*function to return one OrderBookEntry based on stringToOrderBookType() vector*/
+OrderBookEntry CSVReader::stringVectorToOBE (std::vector<std::string> tokens){
     
     double price, amount;
     
@@ -91,8 +119,8 @@ OrderBookEntry CSVReader::stringsToOBE (std::vector<std::string> tokens){
                 amount = std::stod(tokens[4]);
               
             }catch(const std::exception& e){
-                std::cout << "Bad Float; " << tokens[3] << std::endl;
-                std::cout << "Bad Float; " << tokens[4] << std::endl;
+                std::cout << "CSVReader::stringVectorToOBE: Bad Float; " << tokens[3] << std::endl;
+                std::cout << "CSVReader::stringVectorToOBE: Bad Float; " << tokens[4] << std::endl;
                 throw;
             }
         }
