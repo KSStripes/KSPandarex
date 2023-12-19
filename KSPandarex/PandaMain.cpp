@@ -45,8 +45,8 @@ void PandaMain::printMenu(){
 
 /*function for option 1*/
 void PandaMain::printHelp(){
-    std::cout << "Help - choose options from the menu." << std::endl;
-    std::cout << "and follow the onscreen instructions." << std::endl;
+    std::cout << "Type number to choose option from menu." << std::endl;
+    std::cout << "Follow onscreen instructions." << std::endl;
 }
 
 /*function for option 2 using OrderBook*/
@@ -61,10 +61,13 @@ void PandaMain::printMarketStats(){
     std::cout << "Asks seen: " << entries.size() << std::endl;
     std::cout << "Max ask: " << OrderBook::getHighPrice(entries) << std::endl;
     std::cout << "Minimum ask: " << OrderBook::getMinPrice(entries) << std::endl;
-        //KS function on mean price
+        
+        
+        /**KSStripes added function on mean price*/
     std::cout << "Mean ask: " << orderBook.getMeanPrice(entries) << std::endl;
-        //KS function on spread
+        /**KSStripes added function on spread*/
     std::cout << "The spread between lowest ask and highest bid: " << orderBook.getSpread(p, currentTime) << std::endl;
+        /**end addition KSStripes**/
         
     }
 }
@@ -84,12 +87,14 @@ void PandaMain::enterAsk(){
     }
     else{
         try{
-            //create order obe
+            //create order obe for new item
             OrderBookEntry obe = CSVReader::stringItemsToOBE(tokens[1],
                                                              tokens[2],
                                                              currentTime,
                                                              tokens[0],
                                                              OrderBookType::ask);
+            //set username for new dataset to simuser
+            obe.username = "simuser";
             //check if user user has enough money in wallet for order obe
             if (wallet.canFulfillOrder(obe))
             {
@@ -121,15 +126,15 @@ void PandaMain::enterBid(){
         }
         else {
             try {
-                //create order obe
-                OrderBookEntry obe = CSVReader::stringItemsToOBE(
-                    tokens[1],
-                    tokens[2],
-                    currentTime,
-                    tokens[0],
-                    OrderBookType::bid
-                );
-
+                //create order obe for new item
+                OrderBookEntry obe = CSVReader::stringItemsToOBE(tokens[1],
+                                                                 tokens[2],
+                                                                 currentTime,
+                                                                 tokens[0],
+                                                                 OrderBookType::bid);
+                //set username for new dataset to simuser
+                obe.username = "simuser";
+                //check if user user has enough money in wallet for order obe
                 if (wallet.canFulfillOrder(obe))
                 {
                     std::cout << "Wallet looks good. " << std::endl;
@@ -153,14 +158,22 @@ void PandaMain::printWallet(){
 
 /*function for option 6*/
 void PandaMain::nextTimeStep(){
-    std::cout << "Going to the next timestep" << std::endl;
-    
-    //test for matching algorithm
-    std::vector<OrderBookEntry> sales = orderBook.matchAsksToBids("ETH/BTC",  currentTime);
-    //iterate over sales and print
-    std::cout << "Number of sales: " << sales.size() << std::endl;
-    for (OrderBookEntry& sale : sales){
-        std::cout << "Sale price: " << sale.price << " amount: " << sale.amount << std::endl;
+    std::cout << "Going to next time frame. " << std::endl;
+    for (std::string p : orderBook.getKnownProducts())
+    {
+        std::cout << "matching " << p << std::endl;
+        std::vector<OrderBookEntry> sales =  orderBook.matchAsksToBids(p, currentTime);
+        std::cout << "Sales: " << sales.size() << std::endl;
+        for (OrderBookEntry& sale : sales)
+        {
+            std::cout << "Sale price: " << sale.price << " amount " << sale.amount << std::endl;
+            if (sale.username == "simuser")
+            {
+                // update the wallet
+                wallet.processSale(sale);
+            }
+        }
+        
     }
     
     currentTime = orderBook.getNexttime(currentTime);
@@ -187,7 +200,7 @@ int PandaMain::getUserOption(){
     return userOption;
 }
 
-/** KS wrote switch function display the right output based on getUserOption()*/
+/** KSStripes wrote switch function display the right output based on getUserOption()*/
 void PandaMain::processUserOption(int userOption){
     switch (userOption) {
         case 1:
@@ -213,3 +226,4 @@ void PandaMain::processUserOption(int userOption){
             break;
     }
 }
+/**end addition KSStripes**/

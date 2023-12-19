@@ -12,7 +12,6 @@
 int main(){
     PandaMain app{};
     app.init();
-    return 0;
     
     /**testing code to test wallet directly from main.cpp**/
     //Wallet wallet;

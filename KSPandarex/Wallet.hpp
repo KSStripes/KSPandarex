@@ -26,12 +26,14 @@ class Wallet
         bool containsCurrency(std::string type, double amount);
         /** checks if the wallet can cope with this ask or bid.*/
         bool canFulfillOrder(OrderBookEntry order);
-        /** update the contents of the wallet */
-       // void processSale(OrderBookEntry& sale);
+        /** update the contents of the wallet - assuming the order was made by the owner of the wallet*/
+        void processSale(OrderBookEntry& sale);
 
 
         /** generate a string representation of the wallet */
         std::string toString();
+    
+        /** declare friend function to display both public and private contents of Wallet in toString() format*/
         friend std::ostream& operator<<(std::ostream& os, Wallet& wallet);
 
      /**create a set of pairs of currencies and their amount **/

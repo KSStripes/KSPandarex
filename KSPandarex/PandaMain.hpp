@@ -34,10 +34,12 @@ private:
     Wallet wallet;
     
     /*function to print the user menu*/
+    /**KSStripes included a switch statement to make processUserOption() more clean**/
     void printMenu();
     /*function for option 1*/
     void printHelp();
     /*function for option 2*/
+    /** KSStripes included functions for mean price and spread */
     void printMarketStats();
     /*function for option 3*/
     void enterAsk();

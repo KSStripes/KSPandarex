@@ -35,7 +35,10 @@ std::vector<OrderBookEntry> CSVReader::readCSV (std::string csvFilename){
                 }
             }
 
-            csvFile.close();  // Close the file after reading all lines
+        /**KSStripes added a line to close csvFile after reading**/
+            csvFile.close();
+        /**end of KSStripes addition**/
+        
             std::cout << "CSVReader::readCSV " << entries.size() << " entries" << std::endl;
             return entries;
         }

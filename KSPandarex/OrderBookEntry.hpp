@@ -12,7 +12,7 @@
 #include <string>
 
 /*enum class made globally accessible*/
-enum class OrderBookType{bid, ask, unknown, sale};
+enum class OrderBookType{bid, ask, unknown, asksale, bidsale};
 
 class OrderBookEntry{
 public:
@@ -21,7 +21,8 @@ public:
                    double _amount,
                    std::string _timestamp,
                    std::string _product,
-                   OrderBookType _orderType);
+                   OrderBookType _orderType,
+                   std::string username = "dataset"); //default user to CSV
     static OrderBookType stringToOrderBookType(std::string s);
     
     /**function to sort  OrderBookEntry() vector by timestamp, to class a new input added to end**/
@@ -46,6 +47,7 @@ public:
     std::string timestamp;
     std::string product;
     OrderBookType orderType;
+    std::string username;
 };
 
 #endif /* OrderBookEntry_hpp */

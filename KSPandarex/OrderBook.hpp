@@ -43,10 +43,12 @@ public:
     /** functionality for analysis of entries*/
     static double getHighPrice(std::vector<OrderBookEntry>& orders);
     static double getMinPrice(std::vector<OrderBookEntry>& orders);
-    /** KS declaration of function to get a mean price at a given timestep*/
+    
+    /** KSStripes declaration of function to get a mean price at a given timestep*/
     double getMeanPrice(std::vector<OrderBookEntry>& orders);
-    /** KS declaration of a spread statistic - difference between lowest ask price and highest price bid*/
+    /** KSStripes declaration of a spread statistic - difference between lowest ask price and highest price bid*/
     double getSpread(const std::string& product, const std::string& timestamp);
+    /**end of KSStripes addition**/
     
     
 

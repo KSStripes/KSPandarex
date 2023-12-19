@@ -9,6 +9,8 @@
 #include <string>
 #include "CSVReader.hpp"
 #include <map>
+#include <algorithm>
+#include <iostream>
 
 /**
  * Constructs an OrderBook object by reading order data from a CSV file.
@@ -63,7 +65,10 @@ std::vector<OrderBookEntry> OrderBook::getOrders(OrderBookType type,
 
     // Iterate over all orders and select those that match the given type, product, and timestamp.
     for (OrderBookEntry& e : orders) {
-        if (e.orderType == type && e.product == product && e.timestamp == timestamp) {
+        if (e.orderType == type && 
+            e.product == product &&
+            e.timestamp == timestamp)
+        {
             orders_sub.push_back(e);
         }
     }
@@ -99,7 +104,7 @@ double OrderBook::getMinPrice(std::vector<OrderBookEntry>& orders){
     return min;
 }
 
-/** KS implementation of the mean price*/
+/** KSstripes  implementation of the mean price*/
 double OrderBook::getMeanPrice(std::vector<OrderBookEntry>& orders){
     if (orders.empty()) {
         return 0.0; // or some appropriate default value
@@ -114,7 +119,7 @@ double OrderBook::getMeanPrice(std::vector<OrderBookEntry>& orders){
     return mean;
 }
 
-/** KS implement the spread statistics - difference between lowest ask price and highest price bid*/
+/** KSStripes implementation of spread statistics - difference between lowest ask price and highest price bid*/
 double OrderBook::getSpread(const std::string& product, const std::string& timestamp){
     //vector for all asks of a given product at one timestamp
     std::vector<OrderBookEntry> numAsks = getOrders(OrderBookType::ask, product, timestamp);
@@ -126,7 +131,7 @@ double OrderBook::getSpread(const std::string& product, const std::string& times
     
     return minAsk - maxBid;
 }
-
+/**end of KSStripes addition to code**/
 
 /** functionality to get earliest time*/
 std::string OrderBook::getEarliesttime(){
@@ -169,11 +174,25 @@ std::vector<OrderBookEntry> OrderBook::matchAsksToBids(std::string product,
     // sales = []
     std::vector<OrderBookEntry> sales;
     
+    // Check to ensure we have bids and asks to process.
+    if (asks.size() == 0 || bids.size() == 0)
+    {
+        std::cout << " OrderBook::matchAsksToBids no bids or asks" << std::endl;
+        return sales;
+    }
+    
+    
     // sort asks lowest first
     std::sort(asks.begin(), asks.end(), OrderBookEntry::compareByPriceAscend);
     
-    //sort bids lowest first
+    //sort bids highest first
     std::sort(bids.begin(), bids.end(), OrderBookEntry::compareByPriceDescend);
+    
+    // for ask in asks:
+    std::cout << "max ask " << asks[asks.size()-1].price << std::endl;
+    std::cout << "min ask " << asks[0].price << std::endl;
+    std::cout << "max bid " << bids[0].price << std::endl;
+    std::cout << "min bid " << bids[bids.size()-1].price << std::endl;
     
     //for ref ask in asks (entry ref e in asks)
     for (OrderBookEntry& ask : asks){
@@ -181,8 +200,24 @@ std::vector<OrderBookEntry> OrderBook::matchAsksToBids(std::string product,
         for (OrderBookEntry& bid : bids){
             //if bid.price >= ask.price we have a match
             if (bid.price >= ask.price){
-                /** 1. create a new sale passing all OrderBookEntry constructor arguments, setting the sale price to the ask price, not the bid price*/
-                OrderBookEntry sale{ask.price, 0, timestamp, product, OrderBookType::sale};
+                
+                /** 1. create a new sale passing all OrderBookEntry constructor arguments, setting the sale price to the ask price, not the bid price, implement logic to attribute bidsale or asksale according to user input*/
+                OrderBookEntry sale{ask.price,
+                                    0,
+                                    timestamp,
+                                    product,
+                                    OrderBookType::asksale};
+
+                    if (bid.username == "simuser")
+                    {
+                        sale.username = "simuser";
+                        sale.orderType = OrderBookType::bidsale;
+                    }
+                    if (ask.username == "simuser")
+                    {
+                        sale.username = "simuser";
+                        sale.orderType =  OrderBookType::asksale;
+                    }
                 /** 2. include logic to determine sales price and go to next order**/
                 if (bid.amount == ask.amount){
                     sale.amount = ask.amount;
