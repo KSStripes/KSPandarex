@@ -12,6 +12,7 @@
 #include <vector>
 #include "OrderBookEntry.hpp"
 #include "OrderBook.hpp"
+#include "Wallet.hpp"
 
 class PandaMain{
 public:
@@ -21,13 +22,16 @@ public:
     
 private:
     /** pass orderbook */
-    //OrderBook orderBook{"orders_20200317.csv"};
+    OrderBook orderBook{"orders_20200317.csv"};
     
     /** pass test data */
-    OrderBook orderBook{"test.csv"};
+    //OrderBook orderBook{"test.csv"};
     
     /** get  current time*/
     std::string currentTime;
+    
+    /** get wallet*/
+    Wallet wallet;
     
     /*function to print the user menu*/
     void printMenu();

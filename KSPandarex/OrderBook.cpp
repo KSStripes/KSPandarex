@@ -196,7 +196,8 @@ std::vector<OrderBookEntry> OrderBook::matchAsksToBids(std::string product,
                     bid.amount = bid.amount - ask.amount; //use bid.amount to process next ask
                     break; //go onto next ask, as ask has been fulfilled
                 }
-                if (bid.amount < ask.amount){
+                if (bid.amount < ask.amount &&
+                    bid.amount > 0){
                     sale.amount = bid.amount;
                     sales.push_back(sale); //add sale to sales
                     ask.amount = ask.amount - bid.amount; //allow further bids to process the remaining amount

@@ -18,7 +18,10 @@ PandaMain::PandaMain(){
 /*initialisation*/
 void PandaMain::init(){
     int input;
-    currentTime = orderBook.getEarliesttime();
+    currentTime = orderBook.getEarliesttime(); //set up time
+    wallet.insertCurrency("BTC", 10.0); //set up wallet with inital currency and amount
+
+    
         /*while loop to continue running after the user has picked an option*/
         while (true) {
             printMenu();
@@ -70,8 +73,6 @@ void PandaMain::printMarketStats(){
 void PandaMain::enterAsk(){
     std::cout << "Make an Ask. Enter the amount: product, price amount, eg ETH/BTC,200,0.5" << std::endl;
     std::string input;
-    //clear current console input until previous '\n' char - not implemented in the end because of getline
-    //std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     //get user-typed input and save as string to input
     std::getline(std::cin, input);
     
@@ -83,13 +84,21 @@ void PandaMain::enterAsk(){
     }
     else{
         try{
-            CSVReader csvReader; //create an instance of csvReader
-            OrderBookEntry obe = csvReader.stringItemsToOBE(tokens[1],
+            //create order obe
+            OrderBookEntry obe = CSVReader::stringItemsToOBE(tokens[1],
                                                              tokens[2],
                                                              currentTime,
                                                              tokens[0],
                                                              OrderBookType::ask);
-            orderBook.insertOrder(obe);
+            //check if user user has enough money in wallet for order obe
+            if (wallet.canFulfillOrder(obe))
+            {
+                std::cout << "Wallet looks good. " << std::endl;
+                orderBook.insertOrder(obe);
+            }
+            else {
+                std::cout << "Wallet has insufficient funds. " << std::endl;
+            }
         }catch (const std::exception& e){
             std::cout << "PandaMain::enterAsk(): Bad input!" << std::endl;
         }
@@ -101,12 +110,45 @@ void PandaMain::enterAsk(){
 
 /*function for option 4*/
 void PandaMain::enterBid(){
-    std::cout << "Enter the amount of your bid." << std::endl;
-}
+        std::cout << "Make an bid - enter the amount: product,price, amount, eg  ETH/BTC,200,0.5" << std::endl;
+        std::string input;
+        std::getline(std::cin, input);
+
+        std::vector<std::string> tokens = CSVReader::tokenize(input, ',');
+        if (tokens.size() != 3)
+        {
+            std::cout << "PandaMain::enterBid(): Bad input! " << input << std::endl;
+        }
+        else {
+            try {
+                //create order obe
+                OrderBookEntry obe = CSVReader::stringItemsToOBE(
+                    tokens[1],
+                    tokens[2],
+                    currentTime,
+                    tokens[0],
+                    OrderBookType::bid
+                );
+
+                if (wallet.canFulfillOrder(obe))
+                {
+                    std::cout << "Wallet looks good. " << std::endl;
+                    orderBook.insertOrder(obe);
+                }
+                else {
+                    std::cout << "Wallet has insufficient funds. " << std::endl;
+                }
+            }catch (const std::exception& e)
+            {
+                std::cout << " PandaMain::enterBid(): Bad input " << std::endl;
+            }
+        }
+    }
 
 /*function for option 5*/
 void PandaMain::printWallet(){
-    std::cout << "Your wallet is empty" << std::endl;
+    std::cout << "Your wallet contains: " << std::endl;
+    std::cout << wallet.toString() << std::endl;
 }
 
 /*function for option 6*/

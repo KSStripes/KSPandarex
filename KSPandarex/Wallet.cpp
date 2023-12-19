@@ -1,0 +1,101 @@
+//
+//  Wallet.cpp
+//  KSPandarex
+//
+//  Created by Kristin Schumann on 19/12/2023.
+//
+
+#include "Wallet.hpp"
+#include "CSVReader.hpp"
+#include <iostream>
+
+//public:
+//Constructor
+Wallet::Wallet(){
+    
+}
+    /** add cash to the wallet */
+void Wallet::insertCurrency(std::string type, double amount){
+    double balance;
+    if (amount < 0){
+        throw std::exception{};
+    }
+    if(currencies.count(type) == 0)//not there yet
+    {
+        balance = 0;
+    }else{
+        balance = currencies[type];
+    }
+    balance += amount;
+    currencies[type] = balance;
+}
+
+/** remove currency from the wallet */
+bool Wallet::removeCurrency(std::string type, double amount){
+    if (amount < 0)
+    {
+        return false;
+    }
+    if (currencies.count(type) == 0) // not there yet
+    {
+        //std::cout << "No currency for " << type << std::endl;
+        return false;
+    }
+    else { // if we have currency, is there enough?
+        if (containsCurrency(type, amount))// we have enough
+        {
+            //std::cout << "Removing " << type << ": " << amount << std::endl;
+            currencies[type] -= amount;
+            return true;
+        }
+        else // they have it but not enough.
+            return false;
+    }
+}
+
+
+    
+    /**check if wallet contains this much or more currency*/
+bool Wallet::containsCurrency(std::string type, double amount){
+    if(currencies.count(type) == 0) return false;
+    else return currencies[type] >= amount;
+}
+    
+/**process to string what's currently in the wallet and print it in pairs of currency and amount**/
+std::string Wallet::toString(){
+    std::string s;
+    for (std::pair<std::string,double> pair : currencies)
+    {
+        std::string currency = pair.first;
+        double amount = pair.second;
+        s += currency + " : " + std::to_string(amount) + "\n";
+    }
+    return s;
+}
+
+
+/** checks if the wallet can cope with this ask or bid.*/
+bool Wallet::canFulfillOrder(OrderBookEntry order){
+    std::vector<std::string> currs = CSVReader::tokenize(order.product, '/');
+    // ask
+    if (order.orderType == OrderBookType::ask)
+    {
+        double amount = order.amount;
+        std::string currency = currs[0]; //Access currency befor '/'
+        std::cout << "Wallet::canFulfillOrder " << currency << " : " << amount << std::endl;
+
+        return containsCurrency(currency, amount);
+    }
+    // bid
+    if (order.orderType == OrderBookType::bid)
+    {
+        double amount = order.amount * order.price;
+        std::string currency = currs[1]; //access currency after '/'
+        std::cout << "Wallet::canFulfillOrder " << currency << " : " << amount << std::endl;
+        return containsCurrency(currency, amount);
+    }
+
+
+    return false;
+}
+

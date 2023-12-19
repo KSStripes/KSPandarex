@@ -6,10 +6,20 @@
 //
 
 #include "PandaMain.hpp"
+#include "Wallet.hpp"
+#include <iostream>
 
 int main(){
     PandaMain app{};
     app.init();
-    
     return 0;
+    
+    /**testing code to test wallet directly from main.cpp**/
+    //Wallet wallet;
+    //wallet.insertCurrency("BTC", 10.0);
+    //wallet.insertCurrency("USD", 100000.0);
+    //std::cout << wallet.toString() << std::endl;
+    //wallet.removeCurrency("USD", 10700.0);
+    //std::cout << wallet.toString() << std::endl;
+    
 }

@@ -23,7 +23,7 @@ public:
     /*function to tokenize into a vector*/
     static std::vector<std::string> tokenize(std::string csvLine, char seperator);
     /*function to return one OrderBookEntry based the 5 distinct elements, incl by user*/
-    OrderBookEntry stringItemsToOBE(std::string price,
+    static OrderBookEntry stringItemsToOBE(std::string price,
                                 std::string amount,
                                 std::string timestamp,
                                 std::string product,
@@ -32,7 +32,7 @@ public:
 private:
 
     /*function to return one OrderBookEntry based the 5 elements of one CSV file line, created by stringToOrderBookType() vector*/
-    OrderBookEntry stringVectorToOBE(std::vector<std::string> strings);
+    static OrderBookEntry stringVectorToOBE(std::vector<std::string> strings);
 
 };
 
