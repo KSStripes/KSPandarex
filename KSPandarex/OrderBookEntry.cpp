@@ -33,8 +33,3 @@ OrderBookType OrderBookEntry::stringToOrderBookType(std::string s){
     return OrderBookType::unknown;
 }
 
-/**function to sort  OrderBookEntry() vector by timestamp, in case new input has been addedt**/
-static bool compareByTimestamp(OrderBookEntry& e1, OrderBookEntry& e2)
-{
-    return e1.timestamp < e2.timestamp; //if this is true, elements need no swapping
-}

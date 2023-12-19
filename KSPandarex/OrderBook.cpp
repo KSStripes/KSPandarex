@@ -152,3 +152,59 @@ std::string OrderBook::getNexttime(std::string timestamp){
     return next_timestamp;
 }
 
+
+/** function for the matching algorithm to process orders*/
+std::vector<OrderBookEntry> OrderBook::matchAsksToBids(std::string product,
+                                                       std::string timestamp){
+    //asks = orderbook asks (reuse getOrders())
+    std::vector<OrderBookEntry> asks = getOrders(OrderBookType::ask,
+                                                 product,
+                                                 timestamp);
+    
+    //bids = orderbook bids (reuse getOrders())
+    std::vector<OrderBookEntry> bids = getOrders(OrderBookType::bid,
+                                                 product,
+                                                 timestamp);
+    
+    // sales = []
+    std::vector<OrderBookEntry> sales;
+    
+    // sort asks lowest first
+    std::sort(asks.begin(), asks.end(), OrderBookEntry::compareByPriceAscend);
+    
+    //sort bids lowest first
+    std::sort(bids.begin(), bids.end(), OrderBookEntry::compareByPriceDescend);
+    
+    //for ref ask in asks (entry ref e in asks)
+    for (OrderBookEntry& ask : asks){
+        //iterate over the bids (entry ref bid in bids)
+        for (OrderBookEntry& bid : bids){
+            //if bid.price >= ask.price we have a match
+            if (bid.price >= ask.price){
+                /** 1. create a new sale passing all OrderBookEntry constructor arguments, setting the sale price to the ask price, not the bid price*/
+                OrderBookEntry sale{ask.price, 0, timestamp, product, OrderBookType::sale};
+                /** 2. include logic to determine sales price and go to next order**/
+                if (bid.amount == ask.amount){
+                    sale.amount = ask.amount;
+                    sales.push_back(sale); //add sale to sales
+                    bid.amount = 0; //reset bid to make sure it is not processed again
+                    break; //go onto next ask
+                }
+                if (bid.amount > ask.amount){
+                    sale.amount = ask.amount;
+                    sales.push_back(sale); //add sale to sales
+                    bid.amount = bid.amount - ask.amount; //use bid.amount to process next ask
+                    break; //go onto next ask, as ask has been fulfilled
+                }
+                if (bid.amount < ask.amount){
+                    sale.amount = bid.amount;
+                    sales.push_back(sale); //add sale to sales
+                    ask.amount = ask.amount - bid.amount; //allow further bids to process the remaining amount
+                    bid.amount = 0; //reset bid to make sure it is not processed again
+                    continue; //go onto next bid as ask has not been fulfilled
+                }
+            }
+        }
+    }
+    return sales;
+}

@@ -36,6 +36,10 @@ public:
     /** functionality to push user-typed order to end of OrderBookEntry() vector and to insert it by sorting through the timestamps*/
     void insertOrder(OrderBookEntry& order);
     
+    /** function for the matching algorithm to process orders*/
+    std::vector<OrderBookEntry> matchAsksToBids(std::string product,
+                                                std::string timestamp);
+    
     /** functionality for analysis of entries*/
     static double getHighPrice(std::vector<OrderBookEntry>& orders);
     static double getMinPrice(std::vector<OrderBookEntry>& orders);

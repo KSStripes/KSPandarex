@@ -112,6 +112,15 @@ void PandaMain::printWallet(){
 /*function for option 6*/
 void PandaMain::nextTimeStep(){
     std::cout << "Going to the next timestep" << std::endl;
+    
+    //test for matching algorithm
+    std::vector<OrderBookEntry> sales = orderBook.matchAsksToBids("ETH/BTC",  currentTime);
+    //iterate over sales and print
+    std::cout << "Number of sales: " << sales.size() << std::endl;
+    for (OrderBookEntry& sale : sales){
+        std::cout << "Sale price: " << sale.price << " amount: " << sale.amount << std::endl;
+    }
+    
     currentTime = orderBook.getNexttime(currentTime);
 }
 

@@ -21,7 +21,11 @@ public:
     
 private:
     /** pass orderbook */
-    OrderBook orderBook{"orders_20200317.csv"};
+    //OrderBook orderBook{"orders_20200317.csv"};
+    
+    /** pass test data */
+    OrderBook orderBook{"test.csv"};
+    
     /** get  current time*/
     std::string currentTime;
     
