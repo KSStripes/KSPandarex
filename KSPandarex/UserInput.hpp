@@ -26,7 +26,7 @@ public:
     void enterBid();
     
 private:
-    std::string currentTimeRef; // Reference to current time string
+    std::string currentTimeRef; // Reference to current time string from PandaMain
     Wallet& walletRef;         // Reference to Wallet instance
     OrderBook& orderBookRef;   // Reference to OrderBook instance
 };

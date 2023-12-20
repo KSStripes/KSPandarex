@@ -9,6 +9,7 @@
 #include "OrderBookEntry.hpp"
 #include "CSVReader.hpp"
 #include "UserInput.hpp"
+#include "CandleStick.hpp"
 #include <iostream>
 #include <vector>
 
@@ -62,14 +63,14 @@ void PandaMain::printMarketStats(){
         std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::ask,
                                                                   p, currentTime);
     std::cout << "Asks seen: " << entries.size() << std::endl;
-    std::cout << "Max ask: " << OrderBook::getHighPrice(entries) << std::endl;
-    std::cout << "Minimum ask: " << OrderBook::getMinPrice(entries) << std::endl;
+    std::cout << "Max ask: " << Candlestick::getHighPrice(entries) << std::endl;
+    std::cout << "Minimum ask: " << Candlestick::getMinPrice(entries) << std::endl;
         
         
         /**KSStripes added function on mean price*/
-    std::cout << "Mean ask: " << orderBook.getMeanPrice(entries) << std::endl;
+    std::cout << "Mean ask: " << Candlestick::getMeanPrice(entries) << std::endl;
         /**KSStripes added function on spread*/
-    std::cout << "The spread between lowest ask and highest bid: " << orderBook.getSpread(p, currentTime) << std::endl;
+//    std::cout << "The spread between lowest ask and highest bid: " << Candlestick::getSpread(p, currentTime) << std::endl;
         /**end addition KSStripes**/
         
     }
