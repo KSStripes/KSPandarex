@@ -25,14 +25,16 @@ public:
                                           std::string product,
                                           std::string timestamp);
     
-    /** functionality to move through time*/
-    /** returns the earliest time in the orderbook*/
+    /** include functionality to move through time*/
+    /** function to return the earliest time in the orderbook*/
     std::string getEarliesttime();
-    /** returns the next time after the
-     * sent time in the orderbook
-     * If there is no next timestamp, wraps around to the start
-     * */
+    /** function to go to next time after the sent time in the orderbook
+     * If there is no next timestamp, wraps around to the start*/
     std::string getNexttime(std::string timestamp);
+    
+    /** KSStripes added function to go to previous time before the sent time in the orderbook
+     * If there is no previous timestamp, wraps around to the end*/
+    std::string getPreviousTime(std::string timestamp);
     
     /** functionality to push user-typed order to end of OrderBookEntry() vector and to insert it by sorting through the timestamps*/
     void insertOrder(OrderBookEntry& order);
@@ -40,19 +42,6 @@ public:
     /** function for the matching algorithm to process orders*/
     std::vector<OrderBookEntry> matchAsksToBids(std::string product,
                                                 std::string timestamp);
-    
-    /** functionality for analysis of entries*/
-    static double getHighPrice(std::vector<OrderBookEntry>& orders);
-    static double getMinPrice(std::vector<OrderBookEntry>& orders);
-    
-    /** KSStripes declaration of function to get a mean price at a given timestep*/
-    double getMeanPrice(std::vector<OrderBookEntry>& orders);
-    /** KSStripes declaration of a spread statistic - difference between lowest ask price and highest price bid*/
-    double getSpread(const std::string& product, const std::string& timestamp);
-    /**end of KSStripes addition**/
-    
-    
-
     
     
 private:

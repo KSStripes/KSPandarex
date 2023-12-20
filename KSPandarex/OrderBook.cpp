@@ -14,8 +14,6 @@
 
 /**
  * Constructs an OrderBook object by reading order data from a CSV file.
- *
- * @param filename The path to the CSV file containing order book entries.
  */
 OrderBook::OrderBook(std::string filename) {
     // Read orders from a CSV file. Assumes the CSVReader class handles parsing.
@@ -24,11 +22,8 @@ OrderBook::OrderBook(std::string filename) {
 
 /**
  * Retrieves a list of unique products present in the order book.
- *
  * This method iterates over all orders, uses a map to identify unique products,
  * and then converts the map keys to a vector.
- *
- * @return A vector of strings, each representing a unique product.
  */
 std::vector<std::string> OrderBook::getKnownProducts() {
     std::vector<std::string> products;
@@ -49,14 +44,8 @@ std::vector<std::string> OrderBook::getKnownProducts() {
 
 /**
  * Filters and returns a subset of orders based on specified criteria.
- *
  * This method filters the orders based on the type, product, and timestamp,
  * creating a subset of orders that match all these criteria.
- *
- * @param type The type of the order (e.g., bid, ask).
- * @param product The product for which orders are to be filtered.
- * @param timestamp The timestamp at which orders are to be filtered.
- * @return A vector of OrderBookEntry objects that match the specified criteria.
  */
 std::vector<OrderBookEntry> OrderBook::getOrders(OrderBookType type,
                                                   std::string product,
@@ -84,54 +73,6 @@ void OrderBook::insertOrder(OrderBookEntry& order)
     std::sort(orders.begin(), orders.end(), OrderBookEntry::compareByTimestamp);
 }
 
-/** functionality for analysis of entries*/
-//getting the highest price
-double OrderBook::getHighPrice(std::vector<OrderBookEntry>& orders){
-    double max = orders[0].price;
-    for (OrderBookEntry& e : orders){
-        if (e.price > max)max = e.price;
-    }
-    return max;
-}
-
-//getting the lowest price
-double OrderBook::getMinPrice(std::vector<OrderBookEntry>& orders){
-    double min = orders[0].price;
-    for (const OrderBookEntry& e : orders){
-        if (e.price < min)
-            min = e.price;
-    }
-    return min;
-}
-
-/** KSstripes  implementation of the mean price*/
-double OrderBook::getMeanPrice(std::vector<OrderBookEntry>& orders){
-    if (orders.empty()) {
-        return 0.0; // or some appropriate default value
-    }
-
-    double sum = 0.0;
-    for (const OrderBookEntry& e : orders){
-        sum += e.price;
-    }
-
-    double mean = sum / orders.size();
-    return mean;
-}
-
-/** KSStripes implementation of spread statistics - difference between lowest ask price and highest price bid*/
-double OrderBook::getSpread(const std::string& product, const std::string& timestamp){
-    //vector for all asks of a given product at one timestamp
-    std::vector<OrderBookEntry> numAsks = getOrders(OrderBookType::ask, product, timestamp);
-    //vector for all bids of a given product at one timestamp
-    std::vector<OrderBookEntry> numBids = getOrders(OrderBookType::bid, product, timestamp);
-    
-    double minAsk = getMinPrice(numAsks);
-    double maxBid = getHighPrice(numBids);
-    
-    return minAsk - maxBid;
-}
-/**end of KSStripes addition to code**/
 
 /** functionality to get earliest time*/
 std::string OrderBook::getEarliesttime(){
@@ -156,6 +97,28 @@ std::string OrderBook::getNexttime(std::string timestamp){
     
     return next_timestamp;
 }
+
+/** KSStripess implemented functionality to get previous time*/
+std::string OrderBook::getPreviousTime(std::string timestamp) {
+    std::string previous_timestamp = "";
+
+    // Iterate through the orders to find the previous timestamp
+    for (OrderBookEntry& e : orders) {
+        // If we find a timestamp that's lower than the given one, exit the loop
+        if (e.timestamp < timestamp) {
+            previous_timestamp = e.timestamp;
+            break;
+        }
+    }
+
+    // If there is no previous timestamp in the OrderBook, loop to the end
+    if (previous_timestamp == "") {
+        previous_timestamp = orders.back().timestamp;
+    }
+
+    return previous_timestamp;
+}
+/**end of KSStripes addition**/
 
 
 /** function for the matching algorithm to process orders*/
