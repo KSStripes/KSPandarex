@@ -34,9 +34,6 @@ private:
     /** get wallet*/
     Wallet wallet;
     
-    /**KSStripes added pass the user input**/
-    //UserInput userInput(Wallet, OrderBook);
-    
     /*function to print the user menu*/
     /**KSStripes included a switch statement to make processUserOption() more clean**/
     void printMenu();
@@ -50,7 +47,7 @@ private:
     /*function for option 4*/
     void goToBid();
     /*function for option 5*/
-    void printWallet();
+    //void printWallet();
     /*function for option 6*/
     void nextTimeStep();
     /*function for invalid keyboard input*/

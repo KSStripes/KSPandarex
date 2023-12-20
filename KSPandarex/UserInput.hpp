@@ -9,6 +9,7 @@
 #define UserInput_hpp
 #include "OrderBook.hpp"
 #include "Wallet.hpp"
+#include "PandaMain.hpp"
 
 #include <stdio.h>
 
@@ -16,16 +17,18 @@
 class UserInput{
     
 public:
-    UserInput(Wallet& wallet, OrderBook& orderBook); // Constructor that accepts references
-    /** fdeal with menu item 3 to enter a ask*/
+    /**Constructor that uses existing instances of Wallet, OrderBook and PandaMain current time*/
+    UserInput(const std::string& currentTime, Wallet& wallet, OrderBook& orderBook);
+    /** function to deal with menu item 3 to enter a ask*/
     void enterAsk();
     
     /** function to deal with menu item 4 to enter a bid*/
     void enterBid();
     
 private:
-    Wallet& walletRef;    // Reference to Wallet instance
-    OrderBook& orderBookRef;  // Reference to OrderBook instance
+    std::string currentTimeRef; // Reference to current time string
+    Wallet& walletRef;         // Reference to Wallet instance
+    OrderBook& orderBookRef;   // Reference to OrderBook instance
 };
 
 #endif /* UserInput_hpp */

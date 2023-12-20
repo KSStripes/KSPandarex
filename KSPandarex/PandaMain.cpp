@@ -23,6 +23,7 @@ void PandaMain::init(){
     wallet.insertCurrency("BTC", 10.0); //set up wallet with inital currency and amount
     wallet.insertCurrency("ETH", 1.0); //set up wallet with inital currency and amount
     
+    
         /*while loop to continue running after the user has picked an option*/
         while (true) {
             printMenu();
@@ -75,17 +76,18 @@ void PandaMain::printMarketStats(){
 }
 
 /**KSStripes implemented the function for option 3 in seperate UserInput Class*/
-void PandaMain::goToAsk(){
-    UserInput(wallet, orderBook).enterAsk();
+void PandaMain::goToAsk() {
+    UserInput userInput(currentTime, wallet, orderBook);
+    userInput.enterAsk();
 }
 
-/**KSStripes implemented the function for option 3 in seperate UserInput Class*/
+/**KSStripes implemented the function for option 4 in seperate UserInput Class*/
 void PandaMain::goToBid(){
-    UserInput(wallet, orderBook).enterBid();
+    UserInput userInput(currentTime, wallet, orderBook);
+    userInput.enterBid();
 }
 
-/*function for option 5*/
-/**KSStripes modified how the wallet is displayed to make it more visual for the user and added it directly to the Wallet.cpp to deal with wallet**/
+/**KSStripes implemented the function for option 5 in Wallet  Class*/
 
 
 /*function for option 6*/

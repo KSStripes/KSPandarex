@@ -13,24 +13,35 @@
 #include <string>
 #include "OrderBook.hpp"
 #include "Wallet.hpp"
+#include "PandaMain.hpp"
 
 
 /** KSStripes created this class to seperate user input functionality from the PandaMain app*/
-UserInput::UserInput(Wallet& wallet, OrderBook& orderBook)
-    : walletRef(wallet), orderBookRef(orderBook) {
-    // Constructor that initializes references
+
+UserInput::UserInput(const std::string& currentTime, Wallet& wallet, OrderBook& orderBook)
+    : currentTimeRef(currentTime), walletRef(wallet), orderBookRef(orderBook) {
+    // Constructor that initializes references and currentTime
 }
+
 
 /*function for option 3*/
 void UserInput::enterAsk(){
+    /**some text to explain the menu**/
     std::cout << "================" << std::endl;//prints seperator line
-    std::cout << "Make an Ask. Enter the amount: product, price amount, eg ETH/BTC,200,0.5" << std::endl;
-    std::string input;
-    //get user-typed input and save as string to input
-    std::getline(std::cin, input);
+    std::cout << "Enter your ask. Format: product, price, amount, eg ETH/BTC,200,0.5" << std::endl;
+    std::cout << "Your options: " << std::endl;
     
-    // get current time
-    std::string currentTime = orderBookRef.getEarliesttime();
+    /**print types of orders mapped in OrderBook*/
+    for (std::string const& p : orderBookRef.getKnownProducts()){
+        std::cout << "Product: " << p << std::endl;
+    }
+    
+    std::cout << "If you have DOGE and want USDT, enter DOGE/USDT,xx,xx" << std::endl;
+    
+    //get user-typed input and save as string to input
+    std::string input;
+    std::getline(std::cin, input);
+
     
     //use input string, break it into its parts, use its values using currently CSVReader functions
     std::vector<std::string> tokens = CSVReader::tokenize(input, ',');
@@ -45,7 +56,7 @@ void UserInput::enterAsk(){
             //create order obe for new item
             OrderBookEntry obe = CSVReader::stringItemsToOBE(tokens[1],
                                                              tokens[2],
-                                                             currentTime,
+                                                             currentTimeRef,
                                                              tokens[0],
                                                              OrderBookType::ask);
             //set username for new dataset to simuser
@@ -67,17 +78,24 @@ void UserInput::enterAsk(){
 }
 
 ///*function for option 4*/
-void UserInput::enterBid(){
+void UserInput::enterBid(){ 
+    /**some text to explain the menu**/
     std::cout << "================" << std::endl;//prints seperator line
-    std::cout << "Make an bid - enter the amount: product,price, amount, eg  ETH/BTC,200,0.5" << std::endl;
-    std::string input;
+    std::cout << "Enter your bid. Format: product, price, amount, eg ETH/BTC,200,0.5" << std::endl;
+    std::cout << "Your options: " << std::endl;
+    
+    /**print types of orders mapped in OrderBook*/
+    for (std::string const& p : orderBookRef.getKnownProducts()){
+        std::cout << "Product: " << p << std::endl;
+    }
+    
+    std::cout << "If you have ETH and want DOGE, enter ETH/DOGE,xx,xx" << std::endl;
+    
     //get user-typed input and save as string to input
+    std::string input;
     std::getline(std::cin, input);
 
-    // get current time
-    std::string currentTime = orderBookRef.getEarliesttime();
-    
-    
+    /**use input string, break it into its parts, use its values using currently CSVReader functions*/
     std::vector<std::string> tokens = CSVReader::tokenize(input, ',');
     if (tokens.size() != 3)
     {
@@ -89,7 +107,7 @@ void UserInput::enterBid(){
             //create order obe for new item
             OrderBookEntry obe = CSVReader::stringItemsToOBE(tokens[1],
                                                              tokens[2],
-                                                             currentTime,
+                                                             currentTimeRef,
                                                              tokens[0],
                                                              OrderBookType::bid);
             //set username for new dataset to simuser
