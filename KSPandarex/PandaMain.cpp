@@ -20,7 +20,7 @@ void PandaMain::init(){
     int input;
     currentTime = orderBook.getEarliesttime(); //set up time
     wallet.insertCurrency("BTC", 10.0); //set up wallet with inital currency and amount
-
+   wallet.insertCurrency("ETH", 1.0); //set up wallet with inital currency and amount
     
         /*while loop to continue running after the user has picked an option*/
         while (true) {
@@ -151,10 +151,30 @@ void PandaMain::enterBid(){
     }
 
 /*function for option 5*/
+/**KSStripes modified how the wallet is displayed to make it more visual for the user**/
 void PandaMain::printWallet(){
-    std::cout << "Your wallet contains: " << std::endl;
-    std::cout << wallet.toString() << std::endl;
+    std::cout << "================" << std::endl;//prints seperator line
+    
+    //Print wallet
+    std::cout << "YOUR WALLET" << std::endl;
+    //top border
+    std::cout << " _______________________________________ " << std::endl;
+    
+    //sides with text in between
+    for (int i = 0; i < 6; ++i){
+        if (i == 2){
+            std::cout <<"|         Your wallet contains:         |" << std::endl;
+        }
+        else if (i == 3){
+            std::cout << wallet.toString() << std::endl;
+        } else {
+            std::cout << "|                                       |" << std::endl;
+        }
+    }
+    //bottom border
+    std::cout << " _______________________________________ " << std::endl;
 }
+/**end modification KSStripes*/
 
 /*function for option 6*/
 void PandaMain::nextTimeStep(){
