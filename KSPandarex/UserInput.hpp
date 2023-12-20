@@ -18,7 +18,10 @@ class UserInput{
     
 public:
     /**Constructor that uses existing instances of Wallet, OrderBook and PandaMain current time*/
-    UserInput(const std::string& currentTime, Wallet& wallet, OrderBook& orderBook);
+    UserInput(const std::string& currentTime, 
+              Wallet& wallet,
+              OrderBook& orderBook);
+    
     /** function to deal with menu item 3 to enter a ask*/
     void enterAsk();
     

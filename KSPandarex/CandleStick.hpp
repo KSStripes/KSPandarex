@@ -16,17 +16,37 @@
 
 class Candlestick {
 public:
-    // Constructor that takes references to OrderBook and initializes the candlestick data
-    Candlestick(OrderBook& orderBook);
+    // Constructor that the orderbook as a reference
+    Candlestick(const std::vector<OrderBookEntry>& entries,
+                OrderBook& orderBook);
 
-    /** functionality for analysis of entries*/
+    /** functionality for analysis of entries */
+    /**highest price of all orders of one product**/
     static double getHighPrice(std::vector<OrderBookEntry>& orders);
+    /**lowest price of all orders of one product**/
     static double getMinPrice(std::vector<OrderBookEntry>& orders);
+    
+    /**functionality for the candlestick**/
+    static double highestAtOneTime(const std::string& product,
+                                   const std::string& timestamp,
+                                   OrderBookType type,
+                                   OrderBook& orderBookRef);
+    static double lowestAtOneTime(const std::string& product,
+                                  const std::string& timestamp,
+                                  OrderBookType type,
+                                  OrderBook& orderBookRef);
     
     /** KSStripes declaration of function to get a mean price at a given timestep*/
     static double getMeanPrice(std::vector<OrderBookEntry>& orders);
+    
+    /**add function to calculate getOpen = the average price per unit in the previous timeframe**/
+    static double getOpen(std::vector<OrderBookEntry>& orders);
+    /**add function to calculate getClose = the average price per unit in the current timeframe**/
+    static double getClose(std::vector<OrderBookEntry>& orders);
+    
+    
     /** KSStripes declaration of a spread statistic - difference between lowest ask price and highest price bid*/
-    double getSpread(const std::string& product, const std::string& timestamp);
+    //double getSpread(const std::string& product, const std::string& timestamp);
     /**end of KSStripes addition**/
     
     // Function to create a vector of Candlestick objects from OrderBook data
@@ -34,6 +54,7 @@ public:
 
 
 private:
+    const std::vector<OrderBookEntry>& orderBookEntries; // Reference to order book entries
     OrderBook& orderBookRef; // Declare orderBookRef as a member
 };
 

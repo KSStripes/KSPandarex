@@ -12,15 +12,59 @@
 #include "OrderBookEntry.hpp"
 #include <iostream>
 #include <vector>
+#include <cfloat> // Add this include for DBL_MAX
 
 /**constructor passing OrderBook as a reference**/
-Candlestick::Candlestick(OrderBook& orderBook)
-    : orderBookRef(orderBook)
+Candlestick::Candlestick(const std::vector<OrderBookEntry>& entries,
+                         OrderBook& orderBook)
+    :   orderBookEntries(entries),
+        orderBookRef(orderBook)
 {
+    //Constructor
 }
 
 
 /** functionality for analysis of entries*/
+/**getting the highest price of one product, at a specific timestamp in orderBookType bid or ask*/
+double Candlestick::highestAtOneTime(const std::string& product,
+                                     const std::string& timestamp,
+                                     OrderBookType type,
+                                     OrderBook& orderBookRef) {
+    double max = -DBL_MAX; // Initialize max to the lowest possible value
+
+    // Get orders for the specified product, timestamp, and order type using orderBookRef
+    std::vector<OrderBookEntry> orders = orderBookRef.getOrders(type, product, timestamp);
+
+    // Iterate over the orders
+    for (OrderBookEntry& e : orders) {
+        if (e.price > max)
+            max = e.price;
+    }
+
+    return max;
+}
+
+
+/**getting the lowest price of one product, at a specific timestamp in orderBookType bid or ask*/
+double Candlestick::lowestAtOneTime(const std::string& product,
+                                    const std::string& timestamp,
+                                    OrderBookType type,
+                                    OrderBook& orderBookRef) {
+    double min = DBL_MAX; // Initialize min to a high value
+    
+    // Get orders for the specified product, timestamp, and order type using orderBookRef
+    std::vector<OrderBookEntry> orders = orderBookRef.getOrders(type, product, timestamp);
+    
+    // Iterate over the orders
+    for (OrderBookEntry& e : orders) {
+        if (e.price < min)
+            min = e.price;
+    }
+    return min;
+}
+
+
+
 //getting the highest price
 double Candlestick::getHighPrice(std::vector<OrderBookEntry>& orders){
     double max = orders[0].price;
@@ -54,6 +98,16 @@ double Candlestick::getMeanPrice(std::vector<OrderBookEntry>& orders){
     double mean = sum / orders.size();
     return mean;
 }
+
+/**add function to calculate getOpen = the average price per unit in the previous timeframe**/
+double Candlestick::getOpen(std::vector<OrderBookEntry>& orders){
+    return 0;
+}
+/**add function to calculate getClose = the average price per unit in the current timeframe**/
+double Candlestick::getClose(std::vector<OrderBookEntry>& orders){
+    return 0;
+}
+
 /**end of KSStripes addition to code**/
 
 ////////////////
@@ -72,15 +126,15 @@ std::vector<Candlestick> generateCandlesticks(const OrderBook& orderBook) {
 }
 
 /** KSStripes implementation of spread statistics - difference between lowest ask price and highest price bid*/
-double Candlestick::getSpread(const std::string& product, const std::string& timestamp){
-    //vector for all asks of a given product at one timestamp
-    std::vector<OrderBookEntry> numAsks = orderBookRef.getOrders(OrderBookType::ask, product, timestamp);
-    //vector for all bids of a given product at one timestamp
-    std::vector<OrderBookEntry> numBids = orderBookRef.getOrders(OrderBookType::bid, product, timestamp);
-    
-    double minAsk = getMinPrice(numAsks);
-    double maxBid = getHighPrice(numBids);
-    
-    return minAsk - maxBid;
-}
+//double Candlestick::getSpread(const std::string& product, const std::string& timestamp){
+//    //vector for all asks of a given product at one timestamp
+//    std::vector<OrderBookEntry> numAsks = orderBookRef.getOrders(OrderBookType::ask, product, timestamp);
+//    //vector for all bids of a given product at one timestamp
+//    std::vector<OrderBookEntry> numBids = orderBookRef.getOrders(OrderBookType::bid, product, timestamp);
+//    
+//    double minAsk = getMinPrice(numAsks);
+//    double maxBid = getHighPrice(numBids);
+//    
+//    return minAsk - maxBid;
+//}
 /**end of KSStripes addition to code**/

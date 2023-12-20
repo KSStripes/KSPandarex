@@ -18,8 +18,13 @@
 
 /** KSStripes created this class to seperate user input functionality from the PandaMain app*/
 
-UserInput::UserInput(const std::string& currentTime, Wallet& wallet, OrderBook& orderBook)
-    : currentTimeRef(currentTime), walletRef(wallet), orderBookRef(orderBook) {
+UserInput::UserInput(const std::string& currentTime, 
+                     Wallet& wallet,
+                     OrderBook& orderBook)
+    :   currentTimeRef(currentTime),
+        walletRef(wallet),
+        orderBookRef(orderBook)
+{
     // Constructor that initializes references and currentTime
 }
 

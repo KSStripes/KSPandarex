@@ -52,18 +52,17 @@ int main() {
         
         std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::ask,
                                                                   p, currentT);
-    std::cout << "Asks seen: " << entries.size() << std::endl;
-    std::cout << "Max ask: " << Candlestick::getHighPrice(entries) << std::endl;
-    std::cout << "Minimum ask: " << Candlestick::getMinPrice(entries) << std::endl;
-        
-        
-        /**KSStripes added function on mean price*/
-    std::cout << "Mean ask: " << Candlestick::getMeanPrice(entries) << std::endl;
-        /**KSStripes added function on spread*/
-//    std::cout << "The spread between lowest ask and highest bid: " << Candlestick::getSpread(p, currentTime) << std::endl;
-        /**end addition KSStripes**/
+        std::cout << "Asks seen: " << entries.size() << std::endl;
+        std::cout << "Max ask: " << Candlestick::getHighPrice(entries) << std::endl;
+        std::cout << "Minimum ask: " << Candlestick::getMinPrice(entries) << std::endl;
+        std::cout << "Mean ask: " << Candlestick::getMeanPrice(entries) << std::endl;
+        std::cout << "Highest ask at current Time: " << Candlestick::highestAtOneTime(p, currentT, OrderBookType::ask, orderBook) << std::endl;
+        std::cout << "Minimum ask at current Time: " << Candlestick::highestAtOneTime(p, currentT, OrderBookType::ask, orderBook) << std::endl;
+        std::cout << "Mean ask: " << Candlestick::getMeanPrice(entries) << std::endl;
+        std::cout << "========================" << std::endl;
         
     }
+    
     
     return 0;
 }
