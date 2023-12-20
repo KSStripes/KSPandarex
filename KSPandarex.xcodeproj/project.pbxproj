@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		638DCD572B32E6FF00A57171 /* UserInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 638DCD552B32E6FF00A57171 /* UserInput.cpp */; };
 		63AA46C42B284BB6003FBA62 /* OrderBook.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63AA46C22B284BB6003FBA62 /* OrderBook.cpp */; };
 		63B5A2BB2B25C80B00025854 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63B5A2BA2B25C80B00025854 /* main.cpp */; };
 		63B5A2C32B25C86400025854 /* OrderBookEntry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63B5A2C12B25C86400025854 /* OrderBookEntry.cpp */; };
@@ -28,6 +29,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		638DCD552B32E6FF00A57171 /* UserInput.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = UserInput.cpp; sourceTree = "<group>"; };
+		638DCD562B32E6FF00A57171 /* UserInput.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = UserInput.hpp; sourceTree = "<group>"; };
 		63AA46C22B284BB6003FBA62 /* OrderBook.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OrderBook.cpp; sourceTree = "<group>"; };
 		63AA46C32B284BB6003FBA62 /* OrderBook.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = OrderBook.hpp; sourceTree = "<group>"; };
 		63B5A2B72B25C80B00025854 /* KSPandarex */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = KSPandarex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -83,6 +86,8 @@
 				63AA46C32B284BB6003FBA62 /* OrderBook.hpp */,
 				63FFB0692B31BF8E0046AB50 /* Wallet.cpp */,
 				63FFB06A2B31BF8E0046AB50 /* Wallet.hpp */,
+				638DCD552B32E6FF00A57171 /* UserInput.cpp */,
+				638DCD562B32E6FF00A57171 /* UserInput.hpp */,
 			);
 			path = KSPandarex;
 			sourceTree = "<group>";
@@ -144,6 +149,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				638DCD572B32E6FF00A57171 /* UserInput.cpp in Sources */,
 				63B5A2C32B25C86400025854 /* OrderBookEntry.cpp in Sources */,
 				63EFAE1C2B27212900DCFD69 /* CSVReader.cpp in Sources */,
 				63FFB06B2B31BF8E0046AB50 /* Wallet.cpp in Sources */,

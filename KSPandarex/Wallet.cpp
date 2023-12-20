@@ -149,7 +149,12 @@ void Wallet::printWallet(){
             std::cout <<"|         Your wallet contains:         |" << std::endl;
         }
         else if (i == 3){
-            std::cout << toString() << std::endl;
+            std::string walletString = toString(); // Get the wallet content as a string
+            if (walletString.empty()) {
+                std::cout << "|         Your wallet is empty!         |" << std::endl;
+            } else {
+                std::cout << walletString << std::endl;
+            }
         } else {
             std::cout << "|                                       |" << std::endl;
         }

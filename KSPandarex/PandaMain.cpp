@@ -8,6 +8,7 @@
 #include "PandaMain.hpp"
 #include "OrderBookEntry.hpp"
 #include "CSVReader.hpp"
+#include "UserInput.hpp"
 #include <iostream>
 #include <vector>
 
@@ -20,7 +21,7 @@ void PandaMain::init(){
     int input;
     currentTime = orderBook.getEarliesttime(); //set up time
     wallet.insertCurrency("BTC", 10.0); //set up wallet with inital currency and amount
-   wallet.insertCurrency("ETH", 1.0); //set up wallet with inital currency and amount
+    wallet.insertCurrency("ETH", 1.0); //set up wallet with inital currency and amount
     
         /*while loop to continue running after the user has picked an option*/
         while (true) {
@@ -45,8 +46,9 @@ void PandaMain::printMenu(){
 
 /*function for option 1*/
 void PandaMain::printHelp(){
-    std::cout << "Type number to choose option from menu." << std::endl;
-    std::cout << "Follow onscreen instructions." << std::endl;
+    std::cout << "================" << std::endl;//prints seperator line
+    std::cout << "HELP!! Type number to choose option from menu." << std::endl;
+    std::cout << "Follow onscreen instructions. \n" << std::endl;
 }
 
 /*function for option 2 using OrderBook*/
@@ -72,83 +74,15 @@ void PandaMain::printMarketStats(){
     }
 }
 
-/*function for option 3*/
-void PandaMain::enterAsk(){
-    std::cout << "Make an Ask. Enter the amount: product, price amount, eg ETH/BTC,200,0.5" << std::endl;
-    std::string input;
-    //get user-typed input and save as string to input
-    std::getline(std::cin, input);
-    
-    //use input string, break it into its parts, use its values using currently CSVReader functions
-    std::vector<std::string> tokens = CSVReader::tokenize(input, ',');
-    //check if user has typed string as per example (3 typed CSV, ex eg ETH/BTC,200,0.5)
-    if (tokens.size() != 3){
-        std::cout << "Bad input! " << input << std::endl;
-    }
-    else{
-        try{
-            //create order obe for new item
-            OrderBookEntry obe = CSVReader::stringItemsToOBE(tokens[1],
-                                                             tokens[2],
-                                                             currentTime,
-                                                             tokens[0],
-                                                             OrderBookType::ask);
-            //set username for new dataset to simuser
-            obe.username = "simuser";
-            //check if user user has enough money in wallet for order obe
-            if (wallet.canFulfillOrder(obe))
-            {
-                std::cout << "Wallet looks good. " << std::endl;
-                orderBook.insertOrder(obe);
-            }
-            else {
-                std::cout << "Wallet has insufficient funds. " << std::endl;
-            }
-        }catch (const std::exception& e){
-            std::cout << "PandaMain::enterAsk(): Bad input!" << std::endl;
-        }
-        
-    }
-    
-    std::cout << "You typed: " << input << std::endl;
+/**KSStripes implemented the function for option 3 in seperate UserInput Class*/
+void PandaMain::goToAsk(){
+    UserInput(wallet, orderBook).enterAsk();
 }
 
-/*function for option 4*/
-void PandaMain::enterBid(){
-        std::cout << "Make an bid - enter the amount: product,price, amount, eg  ETH/BTC,200,0.5" << std::endl;
-        std::string input;
-        std::getline(std::cin, input);
-
-        std::vector<std::string> tokens = CSVReader::tokenize(input, ',');
-        if (tokens.size() != 3)
-        {
-            std::cout << "PandaMain::enterBid(): Bad input! " << input << std::endl;
-        }
-        else {
-            try {
-                //create order obe for new item
-                OrderBookEntry obe = CSVReader::stringItemsToOBE(tokens[1],
-                                                                 tokens[2],
-                                                                 currentTime,
-                                                                 tokens[0],
-                                                                 OrderBookType::bid);
-                //set username for new dataset to simuser
-                obe.username = "simuser";
-                //check if user user has enough money in wallet for order obe
-                if (wallet.canFulfillOrder(obe))
-                {
-                    std::cout << "Wallet looks good. " << std::endl;
-                    orderBook.insertOrder(obe);
-                }
-                else {
-                    std::cout << "Wallet has insufficient funds. " << std::endl;
-                }
-            }catch (const std::exception& e)
-            {
-                std::cout << " PandaMain::enterBid(): Bad input " << std::endl;
-            }
-        }
-    }
+/**KSStripes implemented the function for option 3 in seperate UserInput Class*/
+void PandaMain::goToBid(){
+    UserInput(wallet, orderBook).enterBid();
+}
 
 /*function for option 5*/
 /**KSStripes modified how the wallet is displayed to make it more visual for the user and added it directly to the Wallet.cpp to deal with wallet**/
@@ -208,10 +142,10 @@ void PandaMain::processUserOption(int userOption){
             printMarketStats();
             break;
         case 3:
-            enterAsk();
+            goToAsk();
             break;
         case 4:
-            enterBid();
+            goToBid();
             break;
         case 5:
             wallet.printWallet();

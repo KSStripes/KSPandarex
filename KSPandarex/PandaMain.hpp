@@ -13,12 +13,16 @@
 #include "OrderBookEntry.hpp"
 #include "OrderBook.hpp"
 #include "Wallet.hpp"
+#include "UserInput.hpp"
 
 class PandaMain{
 public:
     /*constructor + init() to start cim*/
     PandaMain();
     void init();
+    
+    /** get  current time*/
+    std::string currentTime;
     
 private:
     /** pass orderbook */
@@ -27,11 +31,11 @@ private:
     /** pass test data */
     //OrderBook orderBook{"test.csv"};
     
-    /** get  current time*/
-    std::string currentTime;
-    
     /** get wallet*/
     Wallet wallet;
+    
+    /**KSStripes added pass the user input**/
+    //UserInput userInput(Wallet, OrderBook);
     
     /*function to print the user menu*/
     /**KSStripes included a switch statement to make processUserOption() more clean**/
@@ -42,9 +46,9 @@ private:
     /** KSStripes included functions for mean price and spread */
     void printMarketStats();
     /*function for option 3*/
-    void enterAsk();
+    void goToAsk();
     /*function for option 4*/
-    void enterBid();
+    void goToBid();
     /*function for option 5*/
     void printWallet();
     /*function for option 6*/
