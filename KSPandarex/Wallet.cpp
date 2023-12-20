@@ -133,3 +133,28 @@ std::ostream& operator<<(std::ostream& os,  Wallet& wallet)
     os << wallet.toString();
     return os;
 }
+
+/**KSStripes modified how the wallet is displayed to make it more visual for the user**/
+void Wallet::printWallet(){
+    std::cout << "================" << std::endl;//prints seperator line
+    
+    //Print wallet
+    std::cout << "YOUR WALLET" << std::endl;
+    //top border
+    std::cout << " _______________________________________ " << std::endl;
+    
+    //sides with text in between
+    for (int i = 0; i < 5; ++i){
+        if (i == 2){
+            std::cout <<"|         Your wallet contains:         |" << std::endl;
+        }
+        else if (i == 3){
+            std::cout << toString() << std::endl;
+        } else {
+            std::cout << "|                                       |" << std::endl;
+        }
+    }
+    //bottom border
+    std::cout << " _______________________________________ \n" << std::endl;
+}
+/**end modification KSStripes*/

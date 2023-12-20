@@ -28,6 +28,9 @@ class Wallet
         bool canFulfillOrder(OrderBookEntry order);
         /** update the contents of the wallet - assuming the order was made by the owner of the wallet*/
         void processSale(OrderBookEntry& sale);
+    
+        /**KSStripes modified how the wallet is displayed to make it more visual for the user**/
+        void printWallet();
 
 
         /** generate a string representation of the wallet */
