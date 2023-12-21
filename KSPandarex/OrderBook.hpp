@@ -33,14 +33,14 @@ public:
     std::string getNexttime(std::string timestamp);
     
     /** KSStripes added function to go to previous time before the sent time in the orderbook
-     * If there is no previous timestamp, wraps around to the end*/
+     * If there is no previous timestamp, wraps around to the end
+     * not implemented as function has been included in the corresponding vector function*/
     std::string getPreviousTime(std::string timestamp);
     
     /**function to return a vector at the previous timestamp**/
-    static std::vector<OrderBookEntry> orderAtPrevTime(OrderBookType type,
-                                                       const std::string& product,
-                                                       const std::string& timestamp);
-      
+    std::vector<OrderBookEntry> orderAtPrevTime(OrderBookType type,
+                                                const std::string& product,
+                                                std::string timestamp);
     
     /** function for the matching algorithm to process orders*/
     std::vector<OrderBookEntry> matchAsksToBids(std::string product,
@@ -51,16 +51,16 @@ public:
     /**lowest price of all orders of one product**/
     static double getMinPrice(std::vector<OrderBookEntry>& orders);
     
-    /**add function to calculate getOpen = the average price per unit in the previous timeframe**/
-    static double getMeanOpen(OrderBookType type,
-                              const std::string& product,
-                              const std::string& timestamp);
-    /**add function to calculate getClose = the average price per unit in the current timeframe**/
-    static double getMeanClose(std::vector<OrderBookEntry>& orders);
+    /**add function to calculate mean price at the current timestep
+     *Close value = mean price at current  timeframe**/
+    static double getMeanPrice(std::vector<OrderBookEntry>& orders);
     
+    /**add function to calculate getOpen = the average price per unit in the previous timeframe**/
+    double getMeanOpen(OrderBookType type, const std::string& product, const std::string& timestamp);
+   
     
     /** KSStripes declaration of a spread statistic - difference between lowest ask price and highest price bid*/
-    static double getSpread(const std::string& product, const std::string& timestamp);
+//    static double getSpread(const std::string& product, const std::string& timestamp);
     /**end of KSStripes addition**/
     
     

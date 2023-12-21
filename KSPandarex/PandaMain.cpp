@@ -56,23 +56,32 @@ void PandaMain::printHelp(){
 /*function for option 2 using OrderBook*/
 void PandaMain::printMarketStats(){
     
-    //print types of orders mapped in OrderBook
+    std::string currentT = orderBook.getEarliesttime();
+    std::string nextT = orderBook.getNexttime(currentT);
+    std::string prevT = orderBook.getPreviousTime(currentT);
+    
+    std::cout << "Current Time: " << currentT << std::endl;
+    std::cout << "Next Timestamp: " << nextT << std::endl;
+    std::cout << "Prev Timestamp: " << prevT << std::endl;
+    std::cout << "========================" << std::endl;
+
     for (std::string const& p : orderBook.getKnownProducts()){
         std::cout << "Product: " << p << std::endl;
         
         std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::ask,
-                                                                  p, currentTime);
-    std::cout << "Asks seen: " << entries.size() << std::endl;
-    std::cout << "Max ask: " << Candlestick::getHighPrice(entries) << std::endl;
-    std::cout << "Minimum ask: " << Candlestick::getMinPrice(entries) << std::endl;
+                                                                  p,
+                                                                  currentT);
+        std::cout << "Asks seen: " << entries.size() << std::endl;
+        std::cout << "Max ask : " << OrderBook::getHighPrice(entries) << std::endl;
+        std::cout << "Min ask : " << OrderBook::getMinPrice(entries) << std::endl;
+        std::cout << "Mean Open ask : " << orderBook.getMeanOpen(OrderBookType::ask, p, prevT) << std::endl;
+        std::cout << "Mean Close ask : " << OrderBook::getMeanPrice(entries) << std::endl;
+        std::cout << "========================" << std::endl;
+            
         
-        
-        /**KSStripes added function on mean price*/
-    std::cout << "Mean ask: " << Candlestick::getMeanClose(entries) << std::endl;
         /**KSStripes added function on spread*/
 //    std::cout << "The spread between lowest ask and highest bid: " << Candlestick::getSpread(p, currentTime) << std::endl;
         /**end addition KSStripes**/
-        
     }
 }
 

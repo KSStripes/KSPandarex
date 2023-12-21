@@ -98,7 +98,7 @@ std::string OrderBook::getNexttime(std::string timestamp){
     return next_timestamp;
 }
 
-/** KSStripess implemented functionality to get previous time*/
+/** KSStripess implemented functionality to get previous time */
 std::string OrderBook::getPreviousTime(std::string timestamp) {
     std::string previous_timestamp = "";
 
@@ -119,20 +119,35 @@ std::string OrderBook::getPreviousTime(std::string timestamp) {
     return previous_timestamp;
 }
 
-/**KSStripes implemented functionality to get a vector of all inputs at the previous timestep**/
+/**KSStripes : Function to searches through a collection of orders (OrderBookEntry vector)
+ *finds the most recent timestamp that is less than the provided timestamp.
+ *retrieves all orders with that previous timestamp using the getOrders function
+ **returns them as a vector of OrderBookEntry objects in prevOrders.
+ *If no previous timestamp is found, it defaults to using the timestamp of the last order in the collection**/
 std::vector<OrderBookEntry> OrderBook::orderAtPrevTime(OrderBookType type,
                                                        const std::string& product,
-                                                       const std::string& timestamp){
-    // Get the previous timestamp using OrderBook's getPreviousTime function
-    std::string previousTimestamp = getPreviousTime(timestamp);
+                                                       std::string timestamp){
+    //initiate a new vector of OrderBookEntry to store the vector at the previous time to orders
+    std::vector<OrderBookEntry> prevOrders;
+    std::string previous_timestamp = "";
 
-    // Get orders for the specified product, the previous timestamp, and the specified order book type
-    std::vector<OrderBookEntry> prevOrders = getOrders(type, product, previousTimestamp);
-
-    return prevOrders;
+    // Iterate through the orders to find the previous timestamp
+    for (OrderBookEntry& e : orders) {
+        // If we find a timestamp that's lower than the given one, exit the loop
+        if (e.timestamp < timestamp) {
+            previous_timestamp = e.timestamp;
+            break;
+        }
+    }
+    // If there is no previous timestamp in the OrderBook, loop to the end
+    if (previous_timestamp == "") {
+        previous_timestamp = orders.back().timestamp;
+    }
+    //assign to vector the order at the previous timestamp
+    prevOrders = getOrders(type, product, previous_timestamp);
+    return prevOrders; //return vector
 }
-
-/**end of KSStripes addition**/
+/**end of KSStripes addition of vector of orders at previous timestep**/
 
 /** functionality for analysis of entries*/
 /**getting the highest price of one product, at a specific timestamp in orderBookType bid or ask*/
@@ -163,34 +178,8 @@ double OrderBook::getMinPrice(std::vector<OrderBookEntry>& orders){
     return min;
 }
 
-
-/**add function to calculate getOpen = the average price per unit in the previous timeframe**/
-double OrderBook::getMeanOpen(OrderBookType type,
-                                         const std::string& product,
-                                         const std::string& timestamp){
-    // Get the previous timestamp using OrderBook's getPreviousTime function
-    std::string previousTimestamp = getPreviousTime(timestamp);
-
-    // Get orders for the specified product, the previous timestamp, and the specified order book type
-    std::vector<OrderBookEntry> prevOrders = orderAtPrevTime(type, product, previousTimestamp);
-        
-
-    if (prevOrders.empty()) {
-        return 0.0; // Return 0 if there are no orders for the specified product, type, and previous timestamp.
-    }
-
-    double sum = 0.0;
-    for (const OrderBookEntry& e : prevOrders) {
-        sum += e.price; // Calculate the sum of prices for all orders at the previous timestamp.
-    }
-
-    double meanOpen = sum / prevOrders.size(); // Calculate the mean open price by dividing the sum by the number of orders.
-    return meanOpen;
-}
-
-
 /**add function to calculate getClose = the average price per unit in the current timeframe**/
-double OrderBook::getMeanClose(std::vector<OrderBookEntry>& orders){
+double OrderBook::getMeanPrice(std::vector<OrderBookEntry>& orders){
     if (orders.empty()) {
         return 0.0; // or some appropriate default value
     }
@@ -200,22 +189,36 @@ double OrderBook::getMeanClose(std::vector<OrderBookEntry>& orders){
         sum += e.price;
     }
 
-    double meanClose = sum / orders.size();
-    return meanClose;
+    double meanPrice = sum / orders.size();
+    return meanPrice;
 }
+
+/**function to call orderAtPrevTime to obtain a vector of orders at the previous timestamp
+ *calculates the mean open price from these orders using the getMeanPrice function
+ *returns this mean open price as the result.**/
+double OrderBook::getMeanOpen(OrderBookType type, const std::string& product, const std::string& timestamp){
+    // Call the 'orderAtPrevTime' function to retrieve orders at the previous timestamp
+    std::vector<OrderBookEntry> prevOrders = orderAtPrevTime(type, product, timestamp);
+    // Call the 'getMeanPrice' function to calculate the mean price from the previous orders
+    double meanOpen = getMeanPrice(prevOrders);
+    // meanOpen now contains the mean open price at the previous timestamp
+    return meanOpen;
+}
+
+
 
 /** KSStripes implementation of spread statistics - difference between lowest ask price and highest price bid*/
-double OrderBook::getSpread(const std::string& product, const std::string& timestamp){
-    //vector for all asks of a given product at one timestamp
-    std::vector<OrderBookEntry> numAsks = getOrders(OrderBookType::ask, product, timestamp);
-    //vector for all bids of a given product at one timestamp
-    std::vector<OrderBookEntry> numBids = getOrders(OrderBookType::bid, product, timestamp);
-
-    double minAsk = getMinPrice(numAsks);
-    double maxBid = getHighPrice(numBids);
-
-    return minAsk - maxBid;
-}
+//double OrderBook::getSpread(const std::string& product, const std::string& timestamp){
+//    //vector for all asks of a given product at one timestamp
+//    std::vector<OrderBookEntry> numAsks = getOrders(OrderBookType::ask, product, timestamp);
+//    //vector for all bids of a given product at one timestamp
+//    std::vector<OrderBookEntry> numBids = getOrders(OrderBookType::bid, product, timestamp);
+//
+//    double minAsk = getMinPrice(numAsks);
+//    double maxBid = getHighPrice(numBids);
+//
+//    return minAsk - maxBid;
+//}
 /**end of KSStripes addition to code**/
 
 
