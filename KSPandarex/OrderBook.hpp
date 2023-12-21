@@ -36,18 +36,39 @@ public:
      * If there is no previous timestamp, wraps around to the end*/
     std::string getPreviousTime(std::string timestamp);
     
-    /** functionality to push user-typed order to end of OrderBookEntry() vector and to insert it by sorting through the timestamps*/
-    void insertOrder(OrderBookEntry& order);
+    /**function to return a vector at the previous timestamp**/
+    static std::vector<OrderBookEntry> orderAtPrevTime(OrderBookType type,
+                                                       const std::string& product,
+                                                       const std::string& timestamp);
+      
     
     /** function for the matching algorithm to process orders*/
     std::vector<OrderBookEntry> matchAsksToBids(std::string product,
                                                 std::string timestamp);
+    /** functionality for analysis of entries */
+    /**highest price of all orders of one product**/
+    static double getHighPrice(std::vector<OrderBookEntry>& orders);
+    /**lowest price of all orders of one product**/
+    static double getMinPrice(std::vector<OrderBookEntry>& orders);
     
-    /**function to return a vector at the previous timestamp**/
-    std::vector<OrderBookEntry> orderAtPrevTime(OrderBookType type,
-                                                const std::string& product,
-                                                const std::string& timestamp);
-                                                
+    /**add function to calculate getOpen = the average price per unit in the previous timeframe**/
+    static double getMeanOpen(OrderBookType type,
+                              const std::string& product,
+                              const std::string& timestamp);
+    /**add function to calculate getClose = the average price per unit in the current timeframe**/
+    static double getMeanClose(std::vector<OrderBookEntry>& orders);
+    
+    
+    /** KSStripes declaration of a spread statistic - difference between lowest ask price and highest price bid*/
+    static double getSpread(const std::string& product, const std::string& timestamp);
+    /**end of KSStripes addition**/
+    
+    
+    /** functionality to push user-typed order to end of OrderBookEntry() vector and to insert it by sorting through the timestamps*/
+    void insertOrder(OrderBookEntry& order);
+
+    
+                                             
     
     
 private:

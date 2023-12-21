@@ -53,10 +53,10 @@ int main() {
         std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::ask,
                                                                   p, currentT);
         std::cout << "Asks seen: " << entries.size() << std::endl;
-        std::cout << "Max ask : " << Candlestick::getHighPrice(entries) << std::endl;
-        std::cout << "Min ask : " << Candlestick::getMinPrice(entries) << std::endl;
-        std::cout << "Mean Open ask : " << Candlestick::getMeanOpen(OrderBookType::ask, p, prevT,  orderBook) << std::endl;
-        std::cout << "Mean Close ask : " << Candlestick::getMeanClose(entries) << std::endl;
+        std::cout << "Max ask : " << OrderBook::getHighPrice(entries) << std::endl;
+        std::cout << "Min ask : " << OrderBook::getMinPrice(entries) << std::endl;
+        std::cout << "Mean Open ask : " << OrderBook::getMeanOpen(OrderBookType::ask, p, prevT) << std::endl;
+        std::cout << "Mean Close ask : " << OrderBook::getMeanClose(entries) << std::endl;
         std::cout << "========================" << std::endl;
         
     }
