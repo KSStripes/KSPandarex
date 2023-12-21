@@ -60,7 +60,7 @@ public:
    
     
     /** KSStripes declaration of a spread statistic - difference between lowest ask price and highest price bid*/
-//    static double getSpread(const std::string& product, const std::string& timestamp);
+    double getSpread(OrderBookType type, const std::string& product, const std::string& timestamp);
     /**end of KSStripes addition**/
     
     

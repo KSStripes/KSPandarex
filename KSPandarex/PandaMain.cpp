@@ -80,7 +80,7 @@ void PandaMain::printMarketStats(){
             
         
         /**KSStripes added function on spread*/
-//    std::cout << "The spread between lowest ask and highest bid: " << Candlestick::getSpread(p, currentTime) << std::endl;
+        std::cout << "The spread between lowest ask and highest bid: " << orderBook.getSpread(OrderBookType::ask, p, currentT) << std::endl;
         /**end addition KSStripes**/
     }
 }

@@ -197,28 +197,28 @@ double OrderBook::getMeanPrice(std::vector<OrderBookEntry>& orders){
  *calculates the mean open price from these orders using the getMeanPrice function
  *returns this mean open price as the result.**/
 double OrderBook::getMeanOpen(OrderBookType type, const std::string& product, const std::string& timestamp){
+    std::string previous_timestamp = getPreviousTime(timestamp);
     // Call the 'orderAtPrevTime' function to retrieve orders at the previous timestamp
-    std::vector<OrderBookEntry> prevOrders = orderAtPrevTime(type, product, timestamp);
+    std::vector<OrderBookEntry> prevOrders = orderAtPrevTime(type, product, previous_timestamp);
     // Call the 'getMeanPrice' function to calculate the mean price from the previous orders
     double meanOpen = getMeanPrice(prevOrders);
     // meanOpen now contains the mean open price at the previous timestamp
     return meanOpen;
 }
 
+/** KSStripes implementation of spread statistics - difference between lowest ask price and highest price bid
+ *plan to use this for the second graph*/
+double OrderBook::getSpread(OrderBookType type, const std::string& product, const std::string& timestamp){
+    //vector for all asks of a given product at one timestamp
+    std::vector<OrderBookEntry> numAsks = getOrders(type, product, timestamp);
+    //vector for all bids of a given product at one timestamp
+    std::vector<OrderBookEntry> numBids = getOrders(type, product, timestamp);
 
+    double minAsk = getMinPrice(numAsks);
+    double maxBid = getHighPrice(numBids);
 
-/** KSStripes implementation of spread statistics - difference between lowest ask price and highest price bid*/
-//double OrderBook::getSpread(const std::string& product, const std::string& timestamp){
-//    //vector for all asks of a given product at one timestamp
-//    std::vector<OrderBookEntry> numAsks = getOrders(OrderBookType::ask, product, timestamp);
-//    //vector for all bids of a given product at one timestamp
-//    std::vector<OrderBookEntry> numBids = getOrders(OrderBookType::bid, product, timestamp);
-//
-//    double minAsk = getMinPrice(numAsks);
-//    double maxBid = getHighPrice(numBids);
-//
-//    return minAsk - maxBid;
-//}
+    return minAsk - maxBid;
+}
 /**end of KSStripes addition to code**/
 
 
