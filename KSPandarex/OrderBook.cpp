@@ -118,6 +118,19 @@ std::string OrderBook::getPreviousTime(std::string timestamp) {
 
     return previous_timestamp;
 }
+
+std::vector<OrderBookEntry> OrderBook::orderAtPrevTime(OrderBookType type,
+                                                       const std::string& product,
+                                                       const std::string& timestamp){
+    // Get the previous timestamp using OrderBook's getPreviousTime function
+    std::string previousTimestamp = getPreviousTime(timestamp);
+
+    // Get orders for the specified product, the previous timestamp, and the specified order book type
+    std::vector<OrderBookEntry> prevOrders = getOrders(type, product, previousTimestamp);
+
+    return prevOrders;
+}
+
 /**end of KSStripes addition**/
 
 

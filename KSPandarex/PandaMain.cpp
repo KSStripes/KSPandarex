@@ -68,7 +68,7 @@ void PandaMain::printMarketStats(){
         
         
         /**KSStripes added function on mean price*/
-    std::cout << "Mean ask: " << Candlestick::getMeanPrice(entries) << std::endl;
+    std::cout << "Mean ask: " << Candlestick::getMeanClose(entries) << std::endl;
         /**KSStripes added function on spread*/
 //    std::cout << "The spread between lowest ask and highest bid: " << Candlestick::getSpread(p, currentTime) << std::endl;
         /**end addition KSStripes**/

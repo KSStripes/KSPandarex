@@ -12,7 +12,6 @@
 #include "OrderBookEntry.hpp"
 #include <iostream>
 #include <vector>
-#include <cfloat> // Add this include for DBL_MAX
 
 /**constructor passing OrderBook as a reference**/
 Candlestick::Candlestick(const std::vector<OrderBookEntry>& entries,
@@ -26,47 +25,11 @@ Candlestick::Candlestick(const std::vector<OrderBookEntry>& entries,
 
 /** functionality for analysis of entries*/
 /**getting the highest price of one product, at a specific timestamp in orderBookType bid or ask*/
-double Candlestick::highestAtOneTime(const std::string& product,
-                                     const std::string& timestamp,
-                                     OrderBookType type,
-                                     OrderBook& orderBookRef) {
-    double max = -DBL_MAX; // Initialize max to the lowest possible value
-
-    // Get orders for the specified product, timestamp, and order type using orderBookRef
-    std::vector<OrderBookEntry> orders = orderBookRef.getOrders(type, product, timestamp);
-
-    // Iterate over the orders
-    for (OrderBookEntry& e : orders) {
-        if (e.price > max)
-            max = e.price;
-    }
-
-    return max;
-}
-
-
-/**getting the lowest price of one product, at a specific timestamp in orderBookType bid or ask*/
-double Candlestick::lowestAtOneTime(const std::string& product,
-                                    const std::string& timestamp,
-                                    OrderBookType type,
-                                    OrderBook& orderBookRef) {
-    double min = DBL_MAX; // Initialize min to a high value
-    
-    // Get orders for the specified product, timestamp, and order type using orderBookRef
-    std::vector<OrderBookEntry> orders = orderBookRef.getOrders(type, product, timestamp);
-    
-    // Iterate over the orders
-    for (OrderBookEntry& e : orders) {
-        if (e.price < min)
-            min = e.price;
-    }
-    return min;
-}
-
-
-
-//getting the highest price
 double Candlestick::getHighPrice(std::vector<OrderBookEntry>& orders){
+    if (orders.empty()) {
+        // Handle the case where the orders vector is empty
+        return 0.0;
+    }
     double max = orders[0].price;
     for (OrderBookEntry& e : orders){
         if (e.price > max)max = e.price;
@@ -74,8 +37,13 @@ double Candlestick::getHighPrice(std::vector<OrderBookEntry>& orders){
     return max;
 }
 
-//getting the lowest price
+
+/**getting the lowest price of one product, at a specific timestamp in orderBookType bid or ask*/
 double Candlestick::getMinPrice(std::vector<OrderBookEntry>& orders){
+    if (orders.empty()) {
+        // Handle the case where the orders vector is empty
+        return 0.0;
+    }
     double min = orders[0].price;
     for (const OrderBookEntry& e : orders){
         if (e.price < min)
@@ -84,8 +52,36 @@ double Candlestick::getMinPrice(std::vector<OrderBookEntry>& orders){
     return min;
 }
 
-/** KSStripes  implementation of the mean price*/
-double Candlestick::getMeanPrice(std::vector<OrderBookEntry>& orders){
+
+/**add function to calculate getOpen = the average price per unit in the previous timeframe**/
+double Candlestick::getMeanOpen(OrderBookType type,
+                                const std::string& product,
+                                const std::string& timestamp,
+                                OrderBook& orderBookRef) {
+                                
+    // Get the previous timestamp using OrderBook's getPreviousTime function
+    std::string previousTimestamp = orderBookRef.getPreviousTime(timestamp);
+
+    // Get orders for the specified product, the previous timestamp, and the specified order book type
+    std::vector<OrderBookEntry> orders = orderBookRef.orderAtPrevTime(type, product, previousTimestamp);
+
+
+    if (orders.empty()) {
+        return 0.0; // Return 0 if there are no orders for the specified product, type, and previous timestamp.
+    }
+
+    double sum = 0.0;
+    for (const OrderBookEntry& e : orders) {
+        sum += e.price; // Calculate the sum of prices for all orders at the previous timestamp.
+    }
+
+    double meanOpen = sum / orders.size(); // Calculate the mean open price by dividing the sum by the number of orders.
+    return meanOpen;
+}
+
+
+/**add function to calculate getClose = the average price per unit in the current timeframe**/
+double Candlestick::getMeanClose(std::vector<OrderBookEntry>& orders){
     if (orders.empty()) {
         return 0.0; // or some appropriate default value
     }
@@ -95,17 +91,8 @@ double Candlestick::getMeanPrice(std::vector<OrderBookEntry>& orders){
         sum += e.price;
     }
 
-    double mean = sum / orders.size();
-    return mean;
-}
-
-/**add function to calculate getOpen = the average price per unit in the previous timeframe**/
-double Candlestick::getOpen(std::vector<OrderBookEntry>& orders){
-    return 0;
-}
-/**add function to calculate getClose = the average price per unit in the current timeframe**/
-double Candlestick::getClose(std::vector<OrderBookEntry>& orders){
-    return 0;
+    double meanClose = sum / orders.size();
+    return meanClose;
 }
 
 /**end of KSStripes addition to code**/
@@ -124,6 +111,9 @@ std::vector<Candlestick> generateCandlesticks(const OrderBook& orderBook) {
     
     return candlesticks;
 }
+
+
+
 
 /** KSStripes implementation of spread statistics - difference between lowest ask price and highest price bid*/
 //double Candlestick::getSpread(const std::string& product, const std::string& timestamp){

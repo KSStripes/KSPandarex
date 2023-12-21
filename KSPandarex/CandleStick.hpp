@@ -26,23 +26,13 @@ public:
     /**lowest price of all orders of one product**/
     static double getMinPrice(std::vector<OrderBookEntry>& orders);
     
-    /**functionality for the candlestick**/
-    static double highestAtOneTime(const std::string& product,
-                                   const std::string& timestamp,
-                                   OrderBookType type,
-                                   OrderBook& orderBookRef);
-    static double lowestAtOneTime(const std::string& product,
-                                  const std::string& timestamp,
-                                  OrderBookType type,
-                                  OrderBook& orderBookRef);
-    
-    /** KSStripes declaration of function to get a mean price at a given timestep*/
-    static double getMeanPrice(std::vector<OrderBookEntry>& orders);
-    
     /**add function to calculate getOpen = the average price per unit in the previous timeframe**/
-    static double getOpen(std::vector<OrderBookEntry>& orders);
+    static double getMeanOpen(OrderBookType type,
+                              const std::string& product,
+                              const std::string& timestamp,
+                              OrderBook& orderBookRef);
     /**add function to calculate getClose = the average price per unit in the current timeframe**/
-    static double getClose(std::vector<OrderBookEntry>& orders);
+    static double getMeanClose(std::vector<OrderBookEntry>& orders);
     
     
     /** KSStripes declaration of a spread statistic - difference between lowest ask price and highest price bid*/

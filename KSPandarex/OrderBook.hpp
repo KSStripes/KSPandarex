@@ -43,6 +43,12 @@ public:
     std::vector<OrderBookEntry> matchAsksToBids(std::string product,
                                                 std::string timestamp);
     
+    /**function to return a vector at the previous timestamp**/
+    std::vector<OrderBookEntry> orderAtPrevTime(OrderBookType type,
+                                                const std::string& product,
+                                                const std::string& timestamp);
+                                                
+    
     
 private:
     /** vector to store order book entries */
