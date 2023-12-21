@@ -7,9 +7,9 @@
 
 #include "PandaMain.hpp"
 #include "OrderBookEntry.hpp"
-#include "CSVReader.hpp"
-#include "UserInput.hpp"
 #include "CandleStick.hpp"
+#include "UserInput.hpp"
+#include "OrderBook.hpp"
 #include <iostream>
 #include <vector>
 
@@ -36,14 +36,15 @@ void PandaMain::init(){
 /*function to print the user menu*/
 void PandaMain::printMenu(){
     std::cout << "1: Print Help" << std::endl;
-    std::cout << "2: Print Market Statistics" << std::endl;
-    std::cout << "3: Enter Ask" << std::endl;
-    std::cout << "4: Enter Bid" << std::endl;
-    std::cout << "5: Print Wallet" << std::endl;
-    std::cout << "6: Continue to next time step" << std::endl;
+    std::cout << "2: Print Market Stats" << std::endl;
+    std::cout << "3: Candlesticks Stats" << std::endl;
+    std::cout << "4: Enter Ask" << std::endl;
+    std::cout << "5: Enter Bid" << std::endl;
+    std::cout << "6: Print Wallet" << std::endl;
+    std::cout << "7: Complete Operation and Continue to Next Time Step" << std::endl;
     std::cout << "================" << std::endl;//prints seperator line
     std::cout << "Current time is: " << currentTime << std::endl;
-    std::cout << "Type in 1-6" << std::endl;
+    std::cout << "Type in 1-7" << std::endl;
 }
 
 /*function for option 1*/
@@ -56,11 +57,10 @@ void PandaMain::printHelp(){
 /*function for option 2 using OrderBook*/
 void PandaMain::printMarketStats(){
     
-    std::string currentT = orderBook.getEarliesttime();
-    std::string nextT = orderBook.getNexttime(currentT);
-    std::string prevT = orderBook.getPreviousTime(currentT);
+    std::string nextT = orderBook.getNexttime(currentTime);
+    std::string prevT = orderBook.getPreviousTime(currentTime);
     
-    std::cout << "Current Time: " << currentT << std::endl;
+    std::cout << "Current Time: " << currentTime << std::endl;
     std::cout << "Next Timestamp: " << nextT << std::endl;
     std::cout << "Prev Timestamp: " << prevT << std::endl;
     std::cout << "========================" << std::endl;
@@ -70,37 +70,56 @@ void PandaMain::printMarketStats(){
         
         std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::ask,
                                                                   p,
-                                                                  currentT);
+                                                                  currentTime);
         std::cout << "Asks seen: " << entries.size() << std::endl;
         std::cout << "Max ask : " << OrderBook::getHighPrice(entries) << std::endl;
         std::cout << "Min ask : " << OrderBook::getMinPrice(entries) << std::endl;
+        /**KSStripes added function outputs for open, close and  spread*/
         std::cout << "Mean Open ask : " << orderBook.getMeanOpen(OrderBookType::ask, p, prevT) << std::endl;
         std::cout << "Mean Close ask : " << OrderBook::getMeanPrice(entries) << std::endl;
+        std::cout << "The spread between lowest ask and highest bid: " << orderBook.getSpread(OrderBookType::ask, p, currentTime) << std::endl;
         std::cout << "========================" << std::endl;
-            
-        
-        /**KSStripes added function on spread*/
-        std::cout << "The spread between lowest ask and highest bid: " << orderBook.getSpread(OrderBookType::ask, p, currentT) << std::endl;
         /**end addition KSStripes**/
+        
+
     }
 }
 
-/**KSStripes implemented the function for option 3 in seperate UserInput Class*/
+/*function for option 3*/
+void PandaMain::printCandlesticks() {
+    Candlestick candlestick(orderBook); // Create a Candlestick instance
+    // Call generateCandlesticks to get candlestick data
+    std::vector<Candlestick> candlestickData = candlestick.generateCandlesticks(orderBook);
+
+    // Loop through the candlestickData and print the data to the terminal
+    for (const Candlestick& candlestick : candlestickData) {
+        // Access and print the member variables of each Candlestick object
+        std::cout << "Timestamp: " << currentTime << std::endl;
+        std::cout << "Open: " << candlestick.open << std::endl;
+        std::cout << "High: " << candlestick.high << std::endl;
+        std::cout << "Low: " << candlestick.low << std::endl;
+        std::cout << "Close: " << candlestick.close << std::endl;
+        std::cout << "========================" << std::endl;
+    }
+}
+
+
+/**KSStripes implemented the function for option 4 making an ask in seperate UserInput Class*/
 void PandaMain::goToAsk() {
     UserInput userInput(currentTime, wallet, orderBook);
     userInput.enterAsk();
 }
 
-/**KSStripes implemented the function for option 4 in seperate UserInput Class*/
+/**KSStripes implemented the function for option 5 making and ask in seperate UserInput Class*/
 void PandaMain::goToBid(){
     UserInput userInput(currentTime, wallet, orderBook);
     userInput.enterBid();
 }
 
-/**KSStripes implemented the function for option 5 in Wallet  Class*/
+/**KSStripes implemented the function for printing the wallet in the Wallet  Class - deleted here*/
 
 
-/*function for option 6*/
+/*function for option 7 - continue*/
 void PandaMain::nextTimeStep(){
     std::cout << "Going to next time frame. " << std::endl;
     for (std::string p : orderBook.getKnownProducts())
@@ -125,7 +144,7 @@ void PandaMain::nextTimeStep(){
 
 /*function for invalid keyboard input*/
 void PandaMain::invalidChoice(){
-    std::cout << "Invalid choice. Choose 1-6" << std::endl;
+    std::cout << "Invalid choice. Choose 1-7" << std::endl;
 }
 
 /*function to read user input from console, print it and return it*/
@@ -154,15 +173,18 @@ void PandaMain::processUserOption(int userOption){
             printMarketStats();
             break;
         case 3:
-            goToAsk();
+            printCandlesticks();
             break;
         case 4:
-            goToBid();
+            goToAsk();
             break;
         case 5:
-            wallet.printWallet();
+            goToBid();
             break;
         case 6:
+            wallet.printWallet();
+            break;
+        case 7:
             nextTimeStep();
             break;
         default:

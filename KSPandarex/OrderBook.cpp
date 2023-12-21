@@ -253,10 +253,10 @@ std::vector<OrderBookEntry> OrderBook::matchAsksToBids(std::string product,
     std::sort(bids.begin(), bids.end(), OrderBookEntry::compareByPriceDescend);
     
     // for ask in asks:
-    std::cout << "max ask " << asks[asks.size()-1].price << std::endl;
-    std::cout << "min ask " << asks[0].price << std::endl;
-    std::cout << "max bid " << bids[0].price << std::endl;
-    std::cout << "min bid " << bids[bids.size()-1].price << std::endl;
+//    std::cout << "max ask " << asks[asks.size()-1].price << std::endl;
+//    std::cout << "min ask " << asks[0].price << std::endl;
+//    std::cout << "max bid " << bids[0].price << std::endl;
+//    std::cout << "min bid " << bids[bids.size()-1].price << std::endl;
     
     //for ref ask in asks (entry ref e in asks)
     for (OrderBookEntry& ask : asks){

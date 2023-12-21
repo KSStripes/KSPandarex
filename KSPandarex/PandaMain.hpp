@@ -14,6 +14,7 @@
 #include "OrderBook.hpp"
 #include "Wallet.hpp"
 #include "UserInput.hpp"
+#include "CandleStick.hpp"
 
 class PandaMain{
 public:
@@ -27,6 +28,9 @@ public:
 private:
     /** pass orderbook */
     OrderBook orderBook{"orders_20200317.csv"};
+    // Create a Candlestick object and set its member variables
+    Candlestick candlestick(OrderBook); // Create a Candlestick instance
+
     
     /** pass test data */
     //OrderBook orderBook{"test.csv"};
@@ -40,15 +44,16 @@ private:
     /*function for option 1*/
     void printHelp();
     /*function for option 2*/
-    /** KSStripes included functions for mean price and spread */
     void printMarketStats();
     /*function for option 3*/
-    void goToAsk();
+    void printCandlesticks(); //created by KSStripes
     /*function for option 4*/
-    void goToBid();
+    void goToAsk();
     /*function for option 5*/
-    //void printWallet();
+    void goToBid();
     /*function for option 6*/
+    //void printWallet();
+    /*function for option 7*/
     void nextTimeStep();
     /*function for invalid keyboard input*/
     void invalidChoice();

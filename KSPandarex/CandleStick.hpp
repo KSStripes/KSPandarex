@@ -17,17 +17,20 @@
 class Candlestick {
 public:
     // Constructor that the orderbook as a reference
-    Candlestick(const std::vector<OrderBookEntry>& entries,
-                OrderBook& orderBook);
+    Candlestick(OrderBook& orderBook);
 
-
+    // Public member variables for open, high, low, and close
+    double open;
+    double high;
+    double low;
+    double close;
     
     // Function to create a vector of Candlestick objects from OrderBook data
-    std::vector<Candlestick> generateCandlesticks(const OrderBook& orderBook);
+    std::vector<Candlestick> generateCandlesticks(OrderBook& orderBook);
 
 
 private:
-
+    OrderBook& orderBookRef;   // Reference to OrderBook instance
 };
 
 
