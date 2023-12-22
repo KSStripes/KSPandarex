@@ -11,6 +11,7 @@
 #include "OrderBookEntry.hpp"
 #include <iostream>
 #include <vector>
+#include <set>
 
 /** function generateCandlesticks
  * takes orderBook as a reference
@@ -38,39 +39,57 @@ Candlestick::Candlestick(OrderBook& orderBook)
 
 
 // Define the function generateCandlesticks
-std::vector<Candlestick> Candlestick::generateCandlesticks(OrderBook& orderBook) {
+
+std::vector<Candlestick> Candlestick::generateCandlesticks(OrderBook& orderBook,
+                                                           const std::string& currentTime) {
     std::vector<Candlestick> candlesticks; // Initialize vector of Candlestick objects
     
-    std::string currentTime = orderBook.getEarliesttime(); // Set up time
+//    std::string currentTime = orderBook.getEarliesttime(); // Set up time
+    OrderBookType orderType = OrderBookType::ask;
 
-    // Loop over all products (you may need to get product names from orderBook)
-    for (std::string const& p : orderBook.getKnownProducts()) {
-        std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::ask, p, currentTime);
+    
+    // Get all known products
+    std::vector<std::string> products = orderBook.getKnownProducts();
 
-        // Loop over all OrderBookEntry& orders
-        for (OrderBookEntry& e : entries) {
-            std::string prevT = orderBook.getPreviousTime(e.timestamp);
-            double open = orderBook.getMeanOpen(OrderBookType::ask, e.product, prevT);
-            double high = OrderBook::getHighPrice(entries);
-            double low = OrderBook::getMinPrice(entries);
-            double close = OrderBook::getMeanPrice(entries);
+    // Iterate over all products
+    for (const std::string& product : products) {
+        std::vector<OrderBookEntry> entries = orderBook.getOrders(orderType, product, currentTime);
 
-            // Create a Candlestick object and set its member variables
-            Candlestick candlestick(orderBook);
-            candlestick.open = open;
-            candlestick.high = high;
-            candlestick.low = low;
-            candlestick.close = close;
+        std::set<std::string> uniqueTimestamps; // Keep track of unique timestamps
 
-            // Add the Candlestick object to the vector
-            candlesticks.push_back(candlestick);
+        // Iterate over the entries for the current product
+        for (const OrderBookEntry& entry : entries) {
+            const std::string& timestamp = entry.timestamp;
+
+            // Check if the timestamp is unique
+            if (uniqueTimestamps.find(timestamp) == uniqueTimestamps.end()) {
+                // Calculate open for the previous timestamp
+                std::string prevT = orderBook.getPreviousTime(timestamp);
+                double open = orderBook.getMeanOpen(orderType, product, prevT);
+                // Calculate high, low, close values for the current timestamp
+                double high = OrderBook::getHighPrice(entries);
+                double low = OrderBook::getMinPrice(entries);
+                double close = orderBook.getMeanPrice(entries);
+
+                // Create a Candlestick object and set its member variables
+                Candlestick candlestick(orderBook);
+                candlestick.open = open;
+                candlestick.high = high;
+                candlestick.low = low;
+                candlestick.close = close;
+
+                // Add the Candlestick object to the vector
+                candlesticks.push_back(candlestick);
+
+                // Mark the timestamp as seen
+                uniqueTimestamps.insert(timestamp);
+            }
         }
     }
 
     // Return the vector of Candlestick objects
     return candlesticks;
 }
-
 
 
 

@@ -25,8 +25,9 @@ public:
     double low;
     double close;
     
-    // Function to create a vector of Candlestick objects from OrderBook data
-    std::vector<Candlestick> generateCandlesticks(OrderBook& orderBook);
+    /**Function to create a vector of Candlestick objects from OrderBook data advancing with current time from PandaMain*/
+    std::vector<Candlestick> generateCandlesticks(OrderBook& orderBook,
+                                                  const std::string& currentTime);
 
 
 private:

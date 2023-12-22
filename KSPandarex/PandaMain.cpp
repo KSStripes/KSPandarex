@@ -89,7 +89,7 @@ void PandaMain::printMarketStats(){
 void PandaMain::printCandlesticks() {
     Candlestick candlestick(orderBook); // Create a Candlestick instance
     // Call generateCandlesticks to get candlestick data
-    std::vector<Candlestick> candlestickData = candlestick.generateCandlesticks(orderBook);
+    std::vector<Candlestick> candlestickData = candlestick.generateCandlesticks(orderBook, currentTime);
 
     // Loop through the candlestickData and print the data to the terminal
     for (const Candlestick& candlestick : candlestickData) {
