@@ -22,16 +22,25 @@ public:
               Wallet& wallet,
               OrderBook& orderBook);
     
-    /** function to deal with menu item 3 to enter a ask*/
+    /** function to deal with menu item 3 to enter a Candlestick product and ordertype */
+    void candlestickRequest();
+    
+    /** function to deal with menu item 4 to enter a ask*/
     void enterAsk();
     
-    /** function to deal with menu item 4 to enter a bid*/
+    /** function to deal with menu item 5 to enter a bid*/
     void enterBid();
     
 private:
+    /**KSStripes added a function to map user input done as a string to an enum class in the OrderBookEntry.
+     *Necessary conversion to pass userinput into the candleStickRequest function*/
+    enum OrderBookType stringToOrderBookType(const std::string& orderTypeStr);
+    
     std::string currentTimeRef; // Reference to current time string from PandaMain
     Wallet& walletRef;         // Reference to Wallet instance
     OrderBook& orderBookRef;   // Reference to OrderBook instance
+    
+
 };
 
 #endif /* UserInput_hpp */

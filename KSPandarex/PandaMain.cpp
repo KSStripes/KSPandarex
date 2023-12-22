@@ -85,22 +85,24 @@ void PandaMain::printMarketStats(){
     }
 }
 
-/*function for option 3*/
+/**KSStripes implemented the function in userinput to go to options for the candlestick menu**/
 void PandaMain::printCandlesticks() {
-    Candlestick candlestick(orderBook); // Create a Candlestick instance
-    // Call generateCandlesticks to get candlestick data
-    std::vector<Candlestick> candlestickData = candlestick.generateCandlesticks(orderBook, currentTime);
-
-    // Loop through the candlestickData and print the data to the terminal
-    for (const Candlestick& candlestick : candlestickData) {
-        // Access and print the member variables of each Candlestick object
-        std::cout << "Timestamp: " << currentTime << std::endl;
-        std::cout << "Open: " << candlestick.open << std::endl;
-        std::cout << "High: " << candlestick.high << std::endl;
-        std::cout << "Low: " << candlestick.low << std::endl;
-        std::cout << "Close: " << candlestick.close << std::endl;
-        std::cout << "========================" << std::endl;
-    }
+    UserInput userInput(currentTime, wallet, orderBook);
+    userInput.candlestickRequest();
+//    Candlestick candlestick(orderBook); // Create a Candlestick instance
+//    // Call generateCandlesticks to get candlestick data
+//    std::vector<Candlestick> candlestickData = candlestick.getAllCandlesticks(orderBook, currentTime);
+//
+//    // Loop through the candlestickData and print the data to the terminal
+//    for (const Candlestick& candlestick : candlestickData) {
+//        // Access and print the member variables of each Candlestick object
+//        std::cout << "Timestamp: " << currentTime << std::endl;
+//        std::cout << "Open: " << candlestick.open << std::endl;
+//        std::cout << "High: " << candlestick.high << std::endl;
+//        std::cout << "Low: " << candlestick.low << std::endl;
+//        std::cout << "Close: " << candlestick.close << std::endl;
+//        std::cout << "========================" << std::endl;
+//    }
 }
 
 

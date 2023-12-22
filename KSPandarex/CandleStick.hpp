@@ -25,10 +25,20 @@ public:
     double low;
     double close;
     
-    /**Function to create a vector of Candlestick objects from OrderBook data advancing with current time from PandaMain*/
-    std::vector<Candlestick> generateCandlesticks(OrderBook& orderBook,
-                                                  const std::string& currentTime);
-
+    /** KSStripes Define the function to get all candlestick data based on the orderbook at one time*/
+    std::vector<Candlestick> getAllCandlesticks(OrderBook& orderBook,
+                                                const std::string& currentTime);
+    
+    /**Function to create a vector of one Candlestick object based on user request
+     *passing current time from PandaMain
+     *passing OrderBooktype and product from UserInput
+     *non-static because it will call different aspects of the OrderBook or of the UserInput at each vector generation*/
+    std::vector<Candlestick> getOneCandlestick(OrderBook& orderBook,
+                                                  const std::string& currentTime,
+                                                  const std::string& product,
+                                                  OrderBookType orderType);
+    
+    
 
 private:
     OrderBook& orderBookRef;   // Reference to OrderBook instance
