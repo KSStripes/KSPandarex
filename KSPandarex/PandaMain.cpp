@@ -56,8 +56,14 @@ void PandaMain::printHelp(){
 
 /*function for option 2 using OrderBook*/
 void PandaMain::printMarketStats(){
-    
-    std::string nextT = orderBook.getNexttime(currentTime);
+    Candlestick candlestick(orderBook); // Create a Candlestick instance
+
+        // Print the candlestick chart
+//    candlestick.printCandlestickChart(open, high, low, close);
+    candlestick.printCandlestickChart(5, 8, 3, 6, currentTime);
+    candlestick.printCandlestickChart(0.0221015, 0.0222704, 0.0218909, 0.0220735, "2020/03/17 17:01:24.884492");
+
+    /**std::string nextT = orderBook.getNexttime(currentTime);
     std::string prevT = orderBook.getPreviousTime(currentTime);
     
     std::cout << "Current Time: " << currentTime << std::endl;
@@ -73,22 +79,24 @@ void PandaMain::printMarketStats(){
                                                                   currentTime);
         std::cout << "Asks seen: " << entries.size() << std::endl;
         std::cout << "Max ask : " << OrderBook::getHighPrice(entries) << std::endl;
-        std::cout << "Min ask : " << OrderBook::getMinPrice(entries) << std::endl;
+        std::cout << "Min ask : " << OrderBook::getMinPrice(entries) << std::endl;*/
         /**KSStripes added function outputs for open, close and  spread*/
-        std::cout << "Mean Open ask : " << orderBook.getMeanOpen(OrderBookType::ask, p, prevT) << std::endl;
+        /*std::cout << "Mean Open ask : " << orderBook.getMeanOpen(OrderBookType::ask, p, prevT) << std::endl;
         std::cout << "Mean Close ask : " << OrderBook::getMeanPrice(entries) << std::endl;
         std::cout << "The spread between lowest ask and highest bid: " << orderBook.getSpread(OrderBookType::ask, p, currentTime) << std::endl;
-        std::cout << "========================" << std::endl;
+        std::cout << "========================" << std::endl;*/
         /**end addition KSStripes**/
         
 
-    }
+//    }
 }
 
 /**KSStripes implemented the function in userinput to go to options for the candlestick menu**/
 void PandaMain::printCandlesticks() {
     UserInput userInput(currentTime, wallet, orderBook);
     userInput.candlestickRequest();
+    
+    /** Code in case I wanted to run all 5 graphs for the Candlesticks without passing through the user input
 //    Candlestick candlestick(orderBook); // Create a Candlestick instance
 //    // Call generateCandlesticks to get candlestick data
 //    std::vector<Candlestick> candlestickData = candlestick.getAllCandlesticks(orderBook, currentTime);
@@ -102,7 +110,7 @@ void PandaMain::printCandlesticks() {
 //        std::cout << "Low: " << candlestick.low << std::endl;
 //        std::cout << "Close: " << candlestick.close << std::endl;
 //        std::cout << "========================" << std::endl;
-//    }
+//    }*/
 }
 
 

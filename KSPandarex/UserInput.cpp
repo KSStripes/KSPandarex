@@ -103,16 +103,24 @@ void UserInput::candlestickRequest(){
                                               orderBookType);
         
 
-                // Loop through the candlestickData and print the data to the terminal
-                for (const Candlestick& candlestick : candlestickData) {
-                    // Access and print the member variables of each Candlestick object
-                    std::cout << "Timestamp: " << currentTimeRef << std::endl;
-                    std::cout << "Open: " << candlestick.open << std::endl;
-                    std::cout << "High: " << candlestick.high << std::endl;
-                    std::cout << "Low: " << candlestick.low << std::endl;
-                    std::cout << "Close: " << candlestick.close << std::endl;
-                    std::cout << "========================" << std::endl;
-                }
+            // Loop through the candlestickData and print the data to the terminal
+            for (const Candlestick& candlestick : candlestickData) {
+                // Access and print the member variables of each Candlestick object
+                std::cout << "Timestamp: " << currentTimeRef << std::endl;
+                std::cout << "Open: " << candlestick.open << std::endl;
+                std::cout << "High: " << candlestick.high << std::endl;
+                std::cout << "Low: " << candlestick.low << std::endl;
+                std::cout << "Close: " << candlestick.close << std::endl;
+                std::cout << "========================" << std::endl;
+            }
+            
+            double open = candlestick.open;
+            double high = candlestick.high;
+            double low = candlestick.low;
+            double close = candlestick.close;
+
+            // Print the candlestick chart
+            candlestick.printCandlestickChart(open, high, low, close, currentTimeRef);
         
         }catch (const std::exception& e){
             std::cout << "UserInput::candlestickRequest(): Bad input!" << std::endl;

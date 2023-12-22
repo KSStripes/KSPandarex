@@ -38,10 +38,18 @@ public:
                                                   const std::string& product,
                                                   OrderBookType orderType);
     
-    
+    /**function to take the four elements of the candlestick object and print them as one candlestick**/
+    void printCandlestickChart(double open,
+                               double high,
+                               double low,
+                               double close,
+                               const std::string& currentTime);
 
 private:
     OrderBook& orderBookRef;   // Reference to OrderBook instance
+    
+    /**KSStripes added a helper function to allow for string manipulation that will make it possible to print shorter timestamps**/
+    std::string extractTime(const std::string& timestamp);
 };
 
 
