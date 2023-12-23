@@ -54,9 +54,6 @@ std::vector<std::string> CSVReader::tokenize (std::string csvLine, char seperato
     std::vector<std::string> tokens;
         
     /*declare variables start and end used to delineate the positions of the tokens*/
-    //signed int start;
-    //signed int end;
-    /*changed to string type rather than unsigned int, as code was giving warnings*/
     std::string::size_type start;
     std::string::size_type end;
     std::string token;
