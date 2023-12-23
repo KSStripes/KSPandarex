@@ -103,7 +103,8 @@ void UserInput::candlestickRequest(){
                                               orderBookType);
         
 
-            // Loop through the candlestickData and print candlestick to the terminal
+            /**Loop through the candlestickData and print candlestick to the terminal
+             *My intention was to print 6 graphs for 6 timestamps next to each other but I couldn't get it to work*/
             for (int i = 0; i < std::min(6, static_cast<int>(candlestickData.size())); ++i) {
                 // Access and print the member variables of each Candlestick object
                 const Candlestick& candlestick = candlestickData[i];

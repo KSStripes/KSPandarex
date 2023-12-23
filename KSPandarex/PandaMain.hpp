@@ -45,8 +45,10 @@ private:
     void printHelp();
     /*function for option 2*/
     void printMarketStats();
-    /*function for option 3*/
-    void printCandlesticks(); //created by KSStripes
+    /** function for option 4 - created by KSStripes*/
+    void printCandlesticks(); 
+    /** function for option 4 - created by KSStripes*/
+    void printSpreadBar();
     /*function for option 4*/
     void goToAsk();
     /*function for option 5*/

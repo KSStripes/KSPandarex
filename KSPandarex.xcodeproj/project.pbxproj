@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		632796552B373DAE003F9241 /* SpreadPlot.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 632796532B373DAE003F9241 /* SpreadPlot.cpp */; };
 		638DCD572B32E6FF00A57171 /* UserInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 638DCD552B32E6FF00A57171 /* UserInput.cpp */; };
 		63AA46C42B284BB6003FBA62 /* OrderBook.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63AA46C22B284BB6003FBA62 /* OrderBook.cpp */; };
 		63B5A2BB2B25C80B00025854 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63B5A2BA2B25C80B00025854 /* main.cpp */; };
@@ -30,6 +31,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		632796532B373DAE003F9241 /* SpreadPlot.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SpreadPlot.cpp; sourceTree = "<group>"; };
+		632796542B373DAE003F9241 /* SpreadPlot.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SpreadPlot.hpp; sourceTree = "<group>"; };
 		638DCD552B32E6FF00A57171 /* UserInput.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = UserInput.cpp; sourceTree = "<group>"; };
 		638DCD562B32E6FF00A57171 /* UserInput.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = UserInput.hpp; sourceTree = "<group>"; };
 		63AA46C22B284BB6003FBA62 /* OrderBook.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OrderBook.cpp; sourceTree = "<group>"; };
@@ -93,6 +96,8 @@
 				638DCD562B32E6FF00A57171 /* UserInput.hpp */,
 				63B873282B3333B500439EB3 /* CandleStick.cpp */,
 				63B873292B3333B500439EB3 /* CandleStick.hpp */,
+				632796532B373DAE003F9241 /* SpreadPlot.cpp */,
+				632796542B373DAE003F9241 /* SpreadPlot.hpp */,
 			);
 			path = KSPandarex;
 			sourceTree = "<group>";
@@ -158,6 +163,7 @@
 				63B5A2C32B25C86400025854 /* OrderBookEntry.cpp in Sources */,
 				63EFAE1C2B27212900DCFD69 /* CSVReader.cpp in Sources */,
 				63FFB06B2B31BF8E0046AB50 /* Wallet.cpp in Sources */,
+				632796552B373DAE003F9241 /* SpreadPlot.cpp in Sources */,
 				63CF96062B25D10000E8AE13 /* PandaMain.cpp in Sources */,
 				63B8732A2B3333B500439EB3 /* CandleStick.cpp in Sources */,
 				63B5A2BB2B25C80B00025854 /* main.cpp in Sources */,

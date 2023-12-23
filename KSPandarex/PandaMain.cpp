@@ -8,6 +8,7 @@
 #include "PandaMain.hpp"
 #include "OrderBookEntry.hpp"
 #include "CandleStick.hpp"
+#include "SpreadPlot.hpp"
 #include "UserInput.hpp"
 #include "OrderBook.hpp"
 #include <iostream>
@@ -24,6 +25,12 @@ void PandaMain::init(){
     wallet.insertCurrency("BTC", 10.0); //set up wallet with inital currency and amount
     wallet.insertCurrency("ETH", 1.0); //set up wallet with inital currency and amount
     
+    // Create a vector of doubles representing spread data
+    std::vector<double> spreadData = {0.25, 0.35, 0.15, 0.28, 0.20};
+    
+    // Create an instance of SpreadPlot with the spread data
+    SpreadPlot spreadPlot(spreadData);
+    
     
         /*while loop to continue running after the user has picked an option*/
         while (true) {
@@ -38,13 +45,14 @@ void PandaMain::printMenu(){
     std::cout << "1: Print Help" << std::endl;
     std::cout << "2: Print Market Stats" << std::endl;
     std::cout << "3: Candlesticks Stats" << std::endl;
-    std::cout << "4: Enter Ask" << std::endl;
-    std::cout << "5: Enter Bid" << std::endl;
-    std::cout << "6: Print Wallet" << std::endl;
-    std::cout << "7: Complete Operation and Continue to Next Time Step" << std::endl;
+    std::cout << "4: Print Spread Stats" << std::endl;
+    std::cout << "5: Enter Ask" << std::endl;
+    std::cout << "6: Enter Bid" << std::endl;
+    std::cout << "7: Print Wallet" << std::endl;
+    std::cout << "8: Complete Operation and Continue to Next Time Step" << std::endl;
     std::cout << "================" << std::endl;//prints seperator line
     std::cout << "Current time is: " << currentTime << std::endl;
-    std::cout << "Type in 1-7" << std::endl;
+    std::cout << "Type in 1-8" << std::endl;
 }
 
 /*function for option 1*/
@@ -87,6 +95,9 @@ void PandaMain::printMarketStats(){
         std::cout << "Mean Close ask : " << OrderBook::getMeanPrice(entries) << std::endl;
         std::cout << "The spread between lowest ask and highest bid: " << orderBook.getSpread(OrderBookType::ask, p, currentTime) << std::endl;
         std::cout << "========================" << std::endl;
+        
+        
+        
         /**end addition KSStripes**/
     }
 }
@@ -95,32 +106,35 @@ void PandaMain::printMarketStats(){
 void PandaMain::printCandlesticks() {
     UserInput userInput(currentTime, wallet, orderBook);
     userInput.candlestickRequest();
-    
-    /** Code in case I wanted to run all 5 graphs for the Candlesticks without passing through the user input
-//    Candlestick candlestick(orderBook); // Create a Candlestick instance
-//    // Call generateCandlesticks to get candlestick data
-//    std::vector<Candlestick> candlestickData = candlestick.getAllCandlesticks(orderBook, currentTime);
-//
-//    // Loop through the candlestickData and print the data to the terminal
-//    for (const Candlestick& candlestick : candlestickData) {
-//        // Access and print the member variables of each Candlestick object
-//        std::cout << "Timestamp: " << currentTime << std::endl;
-//        std::cout << "Open: " << candlestick.open << std::endl;
-//        std::cout << "High: " << candlestick.high << std::endl;
-//        std::cout << "Low: " << candlestick.low << std::endl;
-//        std::cout << "Close: " << candlestick.close << std::endl;
-//        std::cout << "========================" << std::endl;
-//    }*/
 }
 
+/**KSStripes implemented the this function in seperate bar chart class**/
+void PandaMain::printSpreadBar(){
+//    // Create a vector of doubles representing spread data
+//    std::vector<double> spreadData = {0.25, 0.35, 0.15, 0.28, 0.20};
+//    
+//    // Create an instance of SpreadPlot with the spread data
+//    SpreadPlot spreadPlot(spreadData);
+//    spreadPlot.printSpreadCharts();
+    // Define your timestamps vector
+    std::vector<std::string> timestamps = {"2022-01-01 10:00:00", "2022-01-01 10:15:00", "2022-01-01 10:30:00"};
 
-/**KSStripes implemented the function for option 4 making an ask in seperate UserInput Class*/
+    // Get all spreads for the specified timestamps
+    std::vector<double> allSpreads = orderBook.getAllSpreads(OrderBookType::ask, "ProductA", currentTime);
+
+    // Print the spreads
+    for (double spread : allSpreads) {
+        std::cout << "Spread: " << spread << std::endl;
+    }
+}
+
+/**KSStripes implemented the function for option 5 making an ask in seperate UserInput Class*/
 void PandaMain::goToAsk() {
     UserInput userInput(currentTime, wallet, orderBook);
     userInput.enterAsk();
 }
 
-/**KSStripes implemented the function for option 5 making and ask in seperate UserInput Class*/
+/**KSStripes implemented the function for option 6 making and ask in seperate UserInput Class*/
 void PandaMain::goToBid(){
     UserInput userInput(currentTime, wallet, orderBook);
     userInput.enterBid();
@@ -129,7 +143,7 @@ void PandaMain::goToBid(){
 /**KSStripes implemented the function for printing the wallet in the Wallet  Class - deleted here*/
 
 
-/*function for option 7 - continue*/
+/*function for option 8 - continue*/
 void PandaMain::nextTimeStep(){
     std::cout << "Going to next time frame. " << std::endl;
     for (std::string p : orderBook.getKnownProducts())
@@ -154,7 +168,7 @@ void PandaMain::nextTimeStep(){
 
 /*function for invalid keyboard input*/
 void PandaMain::invalidChoice(){
-    std::cout << "Invalid choice. Choose 1-7" << std::endl;
+    std::cout << "Invalid choice. Choose 1-8" << std::endl;
 }
 
 /*function to read user input from console, print it and return it*/
@@ -186,15 +200,18 @@ void PandaMain::processUserOption(int userOption){
             printCandlesticks();
             break;
         case 4:
-            goToAsk();
+            printSpreadBar();
             break;
         case 5:
-            goToBid();
+            goToAsk();
             break;
         case 6:
-            wallet.printWallet();
+            goToBid();
             break;
         case 7:
+            wallet.printWallet();
+            break;
+        case 8:
             nextTimeStep();
             break;
         default:

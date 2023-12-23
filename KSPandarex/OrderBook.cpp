@@ -219,6 +219,18 @@ double OrderBook::getSpread(OrderBookType type, const std::string& product, cons
 
     return minAsk - maxBid;
 }
+
+// Function to get all spreads for a range of timestamps
+std::vector<double> OrderBook::getAllSpreads(OrderBookType type, const std::string& product, const std::vector<std::string>& timestamps) {
+    std::vector<double> allSpreads;
+
+    for (const std::string& timestamp : timestamps) {
+        double spread = getSpread(type, product, timestamp);
+        allSpreads.push_back(spread);
+    }
+
+    return allSpreads;
+}
 /**end of KSStripes addition to code**/
 
 
@@ -251,12 +263,6 @@ std::vector<OrderBookEntry> OrderBook::matchAsksToBids(std::string product,
     
     //sort bids highest first
     std::sort(bids.begin(), bids.end(), OrderBookEntry::compareByPriceDescend);
-    
-    // for ask in asks:
-//    std::cout << "max ask " << asks[asks.size()-1].price << std::endl;
-//    std::cout << "min ask " << asks[0].price << std::endl;
-//    std::cout << "max bid " << bids[0].price << std::endl;
-//    std::cout << "min bid " << bids[bids.size()-1].price << std::endl;
     
     //for ref ask in asks (entry ref e in asks)
     for (OrderBookEntry& ask : asks){
