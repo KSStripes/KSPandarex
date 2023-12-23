@@ -41,7 +41,7 @@ Candlestick::Candlestick(OrderBook& orderBook)
 
 
 /**KSStripes added a helper function to allow for string manipulation that will make it possible to print shorter timestamps**/
-std::string Candlestick::extractTime(const std::string& timestamp) {
+std::string Candlestick::extractTime(const std::string& timestamp) const {
     // Define a regular expression pattern to match the time portion
     std::regex pattern("\\d{2}:\\d{2}:\\d{2}");
 
@@ -81,13 +81,15 @@ std::vector<Candlestick> Candlestick::getAllCandlesticks(OrderBook& orderBook,
 
             // Check if the timestamp is unique
             if (uniqueTimestamps.find(timestamp) == uniqueTimestamps.end()) {
-                // Calculate open for the previous timestamp
+
+                /** Calculate open for the previous timestamp, round to 3 decimal places*/
                 std::string prevT = orderBook.getPreviousTime(timestamp);
-                double open = orderBook.getMeanOpen(orderType, product, prevT);
-                // Calculate high, low, close values for the current timestamp
-                double high = OrderBook::getHighPrice(entries);
-                double low = OrderBook::getMinPrice(entries);
-                double close = orderBook.getMeanPrice(entries);
+                double open = std::round(orderBook.getMeanOpen(orderType, product, prevT) * 1000.0) / 1000.0;
+
+                /**Calculate high, low, close values for the current timestamp rounded to 3 decimal places*/
+                double high = std::round(OrderBook::getHighPrice(entries) * 1000.0) / 1000.0;
+                double low = std::round(OrderBook::getMinPrice(entries) * 1000.0) / 1000.0;
+                double close = std::round(orderBook.getMeanPrice(entries) * 1000.0) / 1000.0;
 
                 // Create a Candlestick object and set its member variables
                 Candlestick candlestick(orderBook);
@@ -132,13 +134,14 @@ std::vector<Candlestick> Candlestick::getOneCandlestick(OrderBook& orderBook,
 
             // Check if the timestamp is unique
             if (uniqueTimestamps.find(timestamp) == uniqueTimestamps.end()) {
-                // Calculate open for the previous timestamp
+                /** Calculate open for the previous timestamp, round to 3 decimal places*/
                 std::string prevT = orderBook.getPreviousTime(timestamp);
-                double open = orderBook.getMeanOpen(orderType, product, prevT);
-                // Calculate high, low, close values for the current timestamp
-                double high = OrderBook::getHighPrice(entries);
-                double low = OrderBook::getMinPrice(entries);
-                double close = orderBook.getMeanPrice(entries);
+                double open = std::round(orderBook.getMeanOpen(orderType, product, prevT) * 1000.0) / 1000.0;
+
+                /**Calculate high, low, close values for the current timestamp rounded to 3 decimal places*/
+                double high = std::round(OrderBook::getHighPrice(entries) * 1000.0) / 1000.0;
+                double low = std::round(OrderBook::getMinPrice(entries) * 1000.0) / 1000.0;
+                double close = std::round(orderBook.getMeanPrice(entries) * 1000.0) / 1000.0;
 
                 // Create a Candlestick object and set its member variables
                 Candlestick candlestick(orderBook);
@@ -167,30 +170,37 @@ void Candlestick::printCandlestickChart(double open,
                                         double high,
                                         double low,
                                         double close,
-                                        const std::string& currentTime)
+                                        const std::string& currentTime) const
 {
     
-    // Determine the range of values to display on the y-axis
-//    double minValue = std::min(low, close);
-//    double maxValue = std::max(high, close);
-    double minValue = low;
-    double maxValue = high;
+    // Check if any of the values are 0 or smaller
+    if (open <= 0 || high <= 0 || low <= 0 || close <= 0) {
+        std::cout << "Graph cannot be displayed because one or more values are not greater than 0." << std::endl;
+        return;  // Skip displaying the graph
+    }
     
-    // Calculate the step size for y-axis labels - graph over 20 lines
-    double stepSize = (maxValue - minValue) / 19; // Divide by 19 to get 20 lines
+    // Determine the range of values to display on the y-axis
+    double minValue = std::min(low, std::min(open, close));
+    double maxValue = std::max(high, std::max(open, close));
+    
+    /** Calculate the step size for y-axis labels - graph over 30 lines, but I would like there to be a margin of 3 stepsizes to the top and to the bottom, so 24 parts for calculation of stepsize*/
+    double stepSize = (maxValue - minValue) / 23;
 
 
     // Print the y-axis labels and candlestick chart
-    for (int i = 0; i < 20; ++i) {
-        double yValue = maxValue - i * stepSize;
+    for (int i = 0; i < 30; ++i) {
+        double yValue = (maxValue + 3 * stepSize) - i * stepSize;
 
         // Print the y-axis label with fixed precision
         std::cout << std::fixed << std::setprecision(3) << std::setw(7) << yValue << " | ";
 
         // Check if 'yValue' falls within the range of 'open' to 'close'
-        if (yValue >= open && yValue <= close) {
-            // Print '=====' to represent the candlestick body
+        if (yValue >= open && yValue <= close && open >= close) {
+            // Print '=====' to represent the candlestick body with a sinking market
             std::cout << "=====";
+        } else if (yValue >= open && yValue <= close && open <= close) {
+            // Print '^^^^^' to represent the candlestick body with a rising market
+            std::cout << "^^^^^";
         } else if (yValue >= low && yValue <= high) {
             // Check if 'yValue' falls within the range of 'low' to 'high'
             // Print '  |  ' to represent the candlestick wick
@@ -214,34 +224,4 @@ void Candlestick::printCandlestickChart(double open,
     std::cout << std::endl;
     
 }
-//    // Calculate the maximum value between 'high' and 'close'
-//    double maxValue = std::max(high, close);
-//
-//    // Calculate the minimum value between 'low' and 'close'
-//    double minValue = std::min(low, close);
-//
-//    // Loop through the values from 'maxValue' down to 'minValue'
-//    for (double i = maxValue; i >= minValue; --i) {
-//        // Check if 'i' falls within the range of 'open' to 'close'
-//        if (i >= open && i <= close) {
-//            // Print '=====' to represent the candlestick body
-//            std::cout << "=====";
-//        } else if (i >= low && i <= high) {
-//            // Check if 'i' falls within the range of 'low' to 'high'
-//            // Print '  |  ' to represent the candlestick wick
-//            std::cout << "  |  ";
-//        } else {
-//            // If 'i' is not within any of the above ranges, print spaces to fill the gap
-//            std::cout << "     ";
-//        }
-//        // Move to the next line after each row of the candlestick is printed
-//        std::cout << std::endl;
-//    }
-//
-//    
-//    // Print the timestamp at the bottom
-////    std::cout << "Timestamp: " << timestamp << std::endl;
-//    
-//    // Print x-axis labels
-//    std::cout << "Open: " << open << " High: " << high << " Low: " << low << " Close: " << close << std::endl;
-//}
+

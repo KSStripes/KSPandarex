@@ -112,16 +112,15 @@ void UserInput::candlestickRequest(){
                 std::cout << "Low: " << candlestick.low << std::endl;
                 std::cout << "Close: " << candlestick.close << std::endl;
                 std::cout << "========================" << std::endl;
-            }
-            
-            double open = candlestick.open;
-            double high = candlestick.high;
-            double low = candlestick.low;
-            double close = candlestick.close;
+
 
             // Print the candlestick chart
-            candlestick.printCandlestickChart(open, high, low, close, currentTimeRef);
-        
+            candlestick.printCandlestickChart(candlestick.open,
+                                              candlestick.high,
+                                              candlestick.low,
+                                              candlestick.close,
+                                              currentTimeRef);
+            }
         }catch (const std::exception& e){
             std::cout << "UserInput::candlestickRequest(): Bad input!" << std::endl;
         }

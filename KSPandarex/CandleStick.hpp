@@ -43,13 +43,13 @@ public:
                                double high,
                                double low,
                                double close,
-                               const std::string& currentTime);
+                               const std::string& currentTime) const;
 
 private:
     OrderBook& orderBookRef;   // Reference to OrderBook instance
     
     /**KSStripes added a helper function to allow for string manipulation that will make it possible to print shorter timestamps**/
-    std::string extractTime(const std::string& timestamp);
+    std::string extractTime(const std::string& timestamp) const;
 };
 
 
