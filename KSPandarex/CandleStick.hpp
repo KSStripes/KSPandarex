@@ -24,6 +24,7 @@ public:
     double high;
     double low;
     double close;
+    std::string timestamp; 
     
     /** KSStripes Define the function to get all candlestick data based on the orderbook at one time*/
     std::vector<Candlestick> getAllCandlesticks(OrderBook& orderBook,
@@ -39,10 +40,12 @@ public:
                                                   OrderBookType orderType);
     
     /**function to take the four elements of the candlestick object and print them as one candlestick**/
-    void printCandlestickChart(double open,
-                               double high,
-                               double low,
-                               double close,
+//    void printCandlestickChart(double open,
+//                               double high,
+//                               double low,
+//                               double close,
+//                               const std::string& currentTime) const;
+    void printCandlestickChart(const std::vector<Candlestick>& candlesticks,
                                const std::string& currentTime) const;
 
 private:

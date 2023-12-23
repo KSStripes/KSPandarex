@@ -58,37 +58,37 @@ void PandaMain::printHelp(){
 void PandaMain::printMarketStats(){
     Candlestick candlestick(orderBook); // Create a Candlestick instance
 
-        // Print the candlestick chart
+        /** Print the candlestick chart - served as dummy test data*/
 //    candlestick.printCandlestickChart(open, high, low, close);
-    candlestick.printCandlestickChart(5, 8, 3, 6, currentTime);
-    candlestick.printCandlestickChart(6, 8, 3, 5, currentTime);
-    candlestick.printCandlestickChart(0.0221, 0.0222, 0.0218, 0.0220, currentTime);
-    candlestick.printCandlestickChart(119.501, 121.099, 117.329, 119.442, currentTime);
+//    candlestick.printCandlestickChart(5, 8, 3, 6, currentTime);
+//    candlestick.printCandlestickChart(6, 8, 3, 5, currentTime);
+//    candlestick.printCandlestickChart(0.0221, 0.0222, 0.0218, 0.0220, currentTime);
+//    candlestick.printCandlestickChart(119.501, 121.099, 117.329, 119.442, currentTime);
 
-//    std::string nextT = orderBook.getNexttime(currentTime);
-//    std::string prevT = orderBook.getPreviousTime(currentTime);
-//    
-//    std::cout << "Current Time: " << currentTime << std::endl;
-//    std::cout << "Next Timestamp: " << nextT << std::endl;
-//    std::cout << "Prev Timestamp: " << prevT << std::endl;
-//    std::cout << "========================" << std::endl;
-//
-//    for (std::string const& p : orderBook.getKnownProducts()){
-//        std::cout << "Product: " << p << std::endl;
-//        
-//        std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::ask,
-//                                                                  p,
-//                                                                  currentTime);
-//        std::cout << "Asks seen: " << entries.size() << std::endl;
-//        std::cout << "Max ask : " << OrderBook::getHighPrice(entries) << std::endl;
-//        std::cout << "Min ask : " << OrderBook::getMinPrice(entries) << std::endl;
-//        /**KSStripes added function outputs for open, close and  spread*/
-//        std::cout << "Mean Open ask : " << orderBook.getMeanOpen(OrderBookType::ask, p, prevT) << std::endl;
-//        std::cout << "Mean Close ask : " << OrderBook::getMeanPrice(entries) << std::endl;
-//        std::cout << "The spread between lowest ask and highest bid: " << orderBook.getSpread(OrderBookType::ask, p, currentTime) << std::endl;
-//        std::cout << "========================" << std::endl;
-//        /**end addition KSStripes**/
-//    }
+    std::string nextT = orderBook.getNexttime(currentTime);
+    std::string prevT = orderBook.getPreviousTime(currentTime);
+    
+    std::cout << "Current Time: " << currentTime << std::endl;
+    std::cout << "Next Timestamp: " << nextT << std::endl;
+    std::cout << "Prev Timestamp: " << prevT << std::endl;
+    std::cout << "========================" << std::endl;
+
+    for (std::string const& p : orderBook.getKnownProducts()){
+        std::cout << "Product: " << p << std::endl;
+        
+        std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::ask,
+                                                                  p,
+                                                                  currentTime);
+        std::cout << "Asks seen: " << entries.size() << std::endl;
+        std::cout << "Max ask : " << OrderBook::getHighPrice(entries) << std::endl;
+        std::cout << "Min ask : " << OrderBook::getMinPrice(entries) << std::endl;
+        /**KSStripes added function outputs for open, close and  spread*/
+        std::cout << "Mean Open ask : " << orderBook.getMeanOpen(OrderBookType::ask, p, prevT) << std::endl;
+        std::cout << "Mean Close ask : " << OrderBook::getMeanPrice(entries) << std::endl;
+        std::cout << "The spread between lowest ask and highest bid: " << orderBook.getSpread(OrderBookType::ask, p, currentTime) << std::endl;
+        std::cout << "========================" << std::endl;
+        /**end addition KSStripes**/
+    }
 }
 
 /**KSStripes implemented the function in userinput to go to options for the candlestick menu**/

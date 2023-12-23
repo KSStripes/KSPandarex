@@ -103,23 +103,20 @@ void UserInput::candlestickRequest(){
                                               orderBookType);
         
 
-            // Loop through the candlestickData and print the data to the terminal
-            for (const Candlestick& candlestick : candlestickData) {
+            // Loop through the candlestickData and print candlestick to the terminal
+            for (int i = 0; i < std::min(6, static_cast<int>(candlestickData.size())); ++i) {
                 // Access and print the member variables of each Candlestick object
-                std::cout << "Timestamp: " << currentTimeRef << std::endl;
+                const Candlestick& candlestick = candlestickData[i];
+                std::cout << "Timestamp: " << candlestick.timestamp << std::endl;
                 std::cout << "Open: " << candlestick.open << std::endl;
                 std::cout << "High: " << candlestick.high << std::endl;
                 std::cout << "Low: " << candlestick.low << std::endl;
                 std::cout << "Close: " << candlestick.close << std::endl;
                 std::cout << "========================" << std::endl;
 
-
-            // Print the candlestick chart
-            candlestick.printCandlestickChart(candlestick.open,
-                                              candlestick.high,
-                                              candlestick.low,
-                                              candlestick.close,
-                                              currentTimeRef);
+                // Print the candlestick chart for the current candlestick
+                candlestick.printCandlestickChart(candlestickData,
+                                                  currentTimeRef);
             }
         }catch (const std::exception& e){
             std::cout << "UserInput::candlestickRequest(): Bad input!" << std::endl;

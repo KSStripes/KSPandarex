@@ -41,13 +41,13 @@ Candlestick::Candlestick(OrderBook& orderBook)
 
 
 /**KSStripes added a helper function to allow for string manipulation that will make it possible to print shorter timestamps**/
-std::string Candlestick::extractTime(const std::string& timestamp) const {
+std::string Candlestick::extractTime(const std::string& currentTime) const {
     // Define a regular expression pattern to match the time portion
     std::regex pattern("\\d{2}:\\d{2}:\\d{2}");
 
     // Search for the pattern in the timestamp
     std::smatch match;
-    if (std::regex_search(timestamp, match, pattern)) {
+    if (std::regex_search(currentTime, match, pattern)) {
         // The first match found contains the time portion
         return match[0];
     }
@@ -82,14 +82,14 @@ std::vector<Candlestick> Candlestick::getAllCandlesticks(OrderBook& orderBook,
             // Check if the timestamp is unique
             if (uniqueTimestamps.find(timestamp) == uniqueTimestamps.end()) {
 
-                /** Calculate open for the previous timestamp, round to 3 decimal places*/
+                /** Calculate open for the previous timestamp, round to 5 decimal places*/
                 std::string prevT = orderBook.getPreviousTime(timestamp);
-                double open = std::round(orderBook.getMeanOpen(orderType, product, prevT) * 1000.0) / 1000.0;
+                double open = std::round(orderBook.getMeanOpen(orderType, product, prevT) * 100000) / 100000;
 
-                /**Calculate high, low, close values for the current timestamp rounded to 3 decimal places*/
-                double high = std::round(OrderBook::getHighPrice(entries) * 1000.0) / 1000.0;
-                double low = std::round(OrderBook::getMinPrice(entries) * 1000.0) / 1000.0;
-                double close = std::round(orderBook.getMeanPrice(entries) * 1000.0) / 1000.0;
+                /**Calculate high, low, close values for the current timestamp rounded to 5 decimal places*/
+                double high = std::round(OrderBook::getHighPrice(entries) * 100000) / 100000;
+                double low = std::round(OrderBook::getMinPrice(entries) * 100000) / 100000;
+                double close = std::round(orderBook.getMeanPrice(entries) * 100000) / 100000;
 
                 // Create a Candlestick object and set its member variables
                 Candlestick candlestick(orderBook);
@@ -134,14 +134,14 @@ std::vector<Candlestick> Candlestick::getOneCandlestick(OrderBook& orderBook,
 
             // Check if the timestamp is unique
             if (uniqueTimestamps.find(timestamp) == uniqueTimestamps.end()) {
-                /** Calculate open for the previous timestamp, round to 3 decimal places*/
+                /** Calculate open for the previous timestamp, round to 5 decimal places*/
                 std::string prevT = orderBook.getPreviousTime(timestamp);
-                double open = std::round(orderBook.getMeanOpen(orderType, product, prevT) * 1000.0) / 1000.0;
+                double open = std::round(orderBook.getMeanOpen(orderType, product, prevT) * 100000) / 100000;
 
-                /**Calculate high, low, close values for the current timestamp rounded to 3 decimal places*/
-                double high = std::round(OrderBook::getHighPrice(entries) * 1000.0) / 1000.0;
-                double low = std::round(OrderBook::getMinPrice(entries) * 1000.0) / 1000.0;
-                double close = std::round(orderBook.getMeanPrice(entries) * 1000.0) / 1000.0;
+                /**Calculate high, low, close values for the current timestamp rounded to 5 decimal places*/
+                double high = std::round(OrderBook::getHighPrice(entries) * 100000) / 100000;
+                double low = std::round(OrderBook::getMinPrice(entries) * 100000) / 100000;
+                double close = std::round(orderBook.getMeanPrice(entries) * 100000) / 100000;
 
                 // Create a Candlestick object and set its member variables
                 Candlestick candlestick(orderBook);
@@ -164,64 +164,67 @@ std::vector<Candlestick> Candlestick::getOneCandlestick(OrderBook& orderBook,
     
 }
 
-
-/**function to take the four elements of the candlestick object and print them as one candlestick**/
-void Candlestick::printCandlestickChart(double open,
-                                        double high,
-                                        double low,
-                                        double close,
+void Candlestick::printCandlestickChart(const std::vector<Candlestick>& candlesticks,
                                         const std::string& currentTime) const
 {
+    // Check if the candlesticks vector is empty
+     if (candlesticks.empty()) {
+         std::cout << "No data to display." << std::endl;
+         return;
+     }
     
-    // Check if any of the values are 0 or smaller
-    if (open <= 0 || high <= 0 || low <= 0 || close <= 0) {
-        std::cout << "Graph cannot be displayed because one or more values are not greater than 0." << std::endl;
-        return;  // Skip displaying the graph
-    }
-    
-    // Determine the range of values to display on the y-axis
-    double minValue = std::min(low, std::min(open, close));
-    double maxValue = std::max(high, std::max(open, close));
-    
-    /** Calculate the step size for y-axis labels - graph over 30 lines, but I would like there to be a margin of 3 stepsizes to the top and to the bottom, so 24 parts for calculation of stepsize*/
-    double stepSize = (maxValue - minValue) / 23;
-
-
-    // Print the y-axis labels and candlestick chart
-    for (int i = 0; i < 30; ++i) {
-        double yValue = (maxValue + 3 * stepSize) - i * stepSize;
-
-        // Print the y-axis label with fixed precision
-        std::cout << std::fixed << std::setprecision(3) << std::setw(7) << yValue << " | ";
-
-        // Check if 'yValue' falls within the range of 'open' to 'close'
-        if (yValue >= open && yValue <= close && open >= close) {
-            // Print '=====' to represent the candlestick body with a sinking market
-            std::cout << "=====";
-        } else if (yValue >= open && yValue <= close && open <= close) {
-            // Print '^^^^^' to represent the candlestick body with a rising market
-            std::cout << "^^^^^";
-        } else if (yValue >= low && yValue <= high) {
-            // Check if 'yValue' falls within the range of 'low' to 'high'
-            // Print '  |  ' to represent the candlestick wick
-            std::cout << "  |  ";
-        } else {
-            // If 'yValue' is not within any of the above ranges, print spaces
-            std::cout << "     ";
+    // Iterate over each Candlestick object in the vector
+//    for (const Candlestick& candlestick : candlesticks) {
+        
+        // Check if any of the values are 0 or smaller
+        if (open <= 0 || high <= 0 || low <= 0 || close <= 0) {
+            std::cout << "Graph cannot be displayed because one or more values are not greater than 0." << std::endl;
+            return;  // Skip displaying the graph
         }
-        // Move to the next line after each row of the candlestick is printed
-        std::cout << std::endl;
-    }
-    
-    // Print the x-axis labels
-    std::cout << "      +------+------+------+------+------+------+------+------+------+------+"
-              << std::endl;
-//    std::cout << "      Open   High   Low    Close" << std::endl;
-    
+        
+        // Determine the range of values to display on the y-axis
+        double minValue = std::min(low, std::min(open, close));
+        double maxValue = std::max(high, std::max(open, close));
+        
+        /** Calculate the step size for y-axis labels - graph over 30 lines, but I would like there to be a margin of 3 stepsizes to the top and to the bottom, so 24 parts for calculation of stepsize*/
+        double stepSize = (maxValue - minValue) / 23;
+        
+        
+        // Print the y-axis labels and candlestick chart
+        for (int i = 0; i < 30; ++i) {
+            double yValue = (maxValue + 3 * stepSize) - i * stepSize;
+            
+            // Print the y-axis label with fixed precision
+            std::cout << std::fixed << std::setprecision(3) << std::setw(7) << yValue << " | ";
+            
+            // Check if 'yValue' falls within the range of 'open' to 'close'
+            if (yValue >= open && yValue <= close && open >= close) {
+                // Print '=====' to represent the candlestick body with a sinking market
+                std::cout << "=====";
+            } else if (yValue >= open && yValue <= close && open <= close) {
+                // Print '^^^^^' to represent the candlestick body with a rising market
+                std::cout << "^^^^^";
+            } else if (yValue >= low && yValue <= high) {
+                // Check if 'yValue' falls within the range of 'low' to 'high'
+                // Print '  |  ' to represent the candlestick wick
+                std::cout << "  |  ";
+            } else {
+                // If 'yValue' is not within any of the above ranges, print spaces
+                std::cout << "     ";
+            }
+            // Move to the next line after each row of the candlestick is printed
+            std::cout << std::endl;
+        }
+        
+        // Print the x-axis labels
+        std::cout << "      +------+------+------+------+------+------+------+------+------+------+"
+        << std::endl;
+        
+    // Extract and print the timestamp for the current candlestick
     std::string time = extractTime(currentTime);
     std::cout << "      " << time << std::endl;
-    // Move to the next line after each row of the candlestick is printed
-    std::cout << std::endl;
-    
+        // Move to the next line after each row of the candlestick is printed
+        std::cout << std::endl;
+//    }
 }
 
