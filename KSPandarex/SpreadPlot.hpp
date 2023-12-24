@@ -20,11 +20,9 @@ public:
     // Constructor that takes a vector of doubles and a vector of timestamps
     SpreadPlot(const std::string& currentTime,
                OrderBook& orderBook);
-
-    // Function to calculate the spread data
-    void calculateSpreadData();
-    // Function to print the enhanced bar chart for each spread value
-    void printSpreadCharts();
+    //function to calculate all spreads based on current time and on orderbook spread calc
+    std::vector<double> getAllSpreads(const std::string& currentTime);
+    void printSpreadBarChart(const std::vector<double>& spreads);
 
 private:
 //    std::vector<std::pair<double, std::string>> data; // A vector of pairs for spread data and timestamps
@@ -42,7 +40,7 @@ private:
      std::vector<double> spreadData; // Stores calculated spread data
 
      // Function to calculate the bar chart string with a minimum length
-     std::string calculateBarChart(double spread, int minChartLength);
+     void calculateBarChart(double spread);
  };
 
 #endif /* SpreadPlot_hpp */

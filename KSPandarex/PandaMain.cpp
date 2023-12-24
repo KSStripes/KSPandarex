@@ -93,7 +93,6 @@ void PandaMain::printMarketStats(){
         /**KSStripes added function outputs for open, close and  spread*/
         std::cout << "Mean Open ask : " << orderBook.getMeanOpen(OrderBookType::ask, p, prevT) << std::endl;
         std::cout << "Mean Close ask : " << OrderBook::getMeanPrice(entries) << std::endl;
-        std::cout << "The spread between lowest ask and highest bid: " << orderBook.getSpread(OrderBookType::ask, p, currentTime) << std::endl;
         std::cout << "========================" << std::endl;
         
         
@@ -110,12 +109,26 @@ void PandaMain::printCandlesticks() {
 
 /**KSStripes implemented the this function in seperate bar chart class**/
 void PandaMain::printSpreadBar(){
-    // Fetch spread data and timestamps
+    std::cout << "Your Spread Statistics!" << std::endl;
+    std::cout << "See the difference between lowest ask prices and highest price bids!" << std::endl;
+    
+    for (std::string const& p : orderBook.getKnownProducts()){
+        std::cout << "Product: " << p << std::endl;
+        
+        // Call the getSpread function to calculate the spread
+        double spread = orderBook.getSpread(p, currentTime);
+        
+        // Print the result
+        std::cout << "Spread for Product " << p << " at Timestamp " << currentTime << ": " << spread << std::endl;
+
+        std::cout << "========================" << std::endl;
+    }
+    
     // Create an instance of the SpreadPlot class
     SpreadPlot spreadPlot(currentTime, orderBook);
-
+    std::vector<double> spreads = spreadPlot.getAllSpreads(currentTime);;
     // Print the spread charts
-    spreadPlot.printSpreadCharts();
+    spreadPlot.printSpreadBarChart(spreads);
 
 }
 

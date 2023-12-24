@@ -15,6 +15,7 @@
 #include "Wallet.hpp"
 #include "PandaMain.hpp"
 #include "CandleStick.hpp"
+#include "SpreadPlot.hpp"
 
 
 /** KSStripes created this class to seperate user input functionality from the PandaMain app*/
@@ -126,7 +127,7 @@ void UserInput::candlestickRequest(){
 }
 
 
-/**function for option 4 - entering an ask */
+/**function for option 5 - entering an ask */
 void UserInput::enterAsk(){
     /**some text to explain the menu**/
     std::cout << "================" << std::endl;//prints seperator line
@@ -179,7 +180,7 @@ void UserInput::enterAsk(){
     }
 }
 
-///*function for option 5 - making a bid*/
+///*function for option 6 - making a bid*/
 void UserInput::enterBid(){
     /**some text to explain the menu**/
     std::cout << "================" << std::endl;//prints seperator line

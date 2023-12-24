@@ -162,5 +162,7 @@ void Wallet::printWallet(){
     //bottom border
     std::cout << "⣿⣿⣧⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣼⣿⣿" << std::endl;
     std::cout << "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿" << std::endl;
+    std::cout << "================================" << std::endl;
+    std::cout << "image source: https://emojicombos.com" << std::endl;
 }
 /**end modification KSStripes*/

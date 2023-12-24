@@ -123,7 +123,6 @@ std::vector<Candlestick> Candlestick::getOneCandlestick(OrderBook& orderBook,
     std::vector<Candlestick> candlesticks; // Initialize vector of Candlestick objects
 
     // Iterate over all products
-//    for (const std::string& product : products) {
         std::vector<OrderBookEntry> entries = orderBook.getOrders(orderType, product, currentTime);
 
         std::set<std::string> uniqueTimestamps; // Keep track of unique timestamps
@@ -156,7 +155,6 @@ std::vector<Candlestick> Candlestick::getOneCandlestick(OrderBook& orderBook,
                 // Mark the timestamp as seen
                 uniqueTimestamps.insert(timestamp);
             }
-//        }
     }
 
     // Return the vector of Candlestick objects
