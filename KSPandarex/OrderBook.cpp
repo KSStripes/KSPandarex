@@ -208,7 +208,9 @@ double OrderBook::getMeanOpen(OrderBookType type, const std::string& product, co
 
 /** KSStripes implementation of spread statistics - difference between lowest ask price and highest price bid
  *plan to use this for the second graph*/
-double OrderBook::getSpread(OrderBookType type, const std::string& product, const std::string& timestamp){
+double OrderBook::getSpread(OrderBookType type, 
+                            const std::string& product,
+                            const std::string& timestamp){
     //vector for all asks of a given product at one timestamp
     std::vector<OrderBookEntry> numAsks = getOrders(type, product, timestamp);
     //vector for all bids of a given product at one timestamp
@@ -220,17 +222,7 @@ double OrderBook::getSpread(OrderBookType type, const std::string& product, cons
     return minAsk - maxBid;
 }
 
-// Function to get all spreads for a range of timestamps
-std::vector<double> OrderBook::getAllSpreads(OrderBookType type, const std::string& product, const std::vector<std::string>& timestamps) {
-    std::vector<double> allSpreads;
 
-    for (const std::string& timestamp : timestamps) {
-        double spread = getSpread(type, product, timestamp);
-        allSpreads.push_back(spread);
-    }
-
-    return allSpreads;
-}
 /**end of KSStripes addition to code**/
 
 

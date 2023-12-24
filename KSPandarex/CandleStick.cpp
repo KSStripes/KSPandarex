@@ -59,7 +59,7 @@ std::string Candlestick::extractTime(const std::string& currentTime) const {
 
 /** KSStripes Define the function to get all candlestick data based on the orderbook at one time*/
 std::vector<Candlestick> Candlestick::getAllCandlesticks(OrderBook& orderBook,
-                                                           const std::string& currentTime) {
+                                                        const std::string& currentTime) {
     std::vector<Candlestick> candlesticks; // Initialize vector of Candlestick objects
     
 //    std::string currentTime = orderBook.getEarliesttime(); // Set up time

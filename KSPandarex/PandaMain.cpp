@@ -25,11 +25,11 @@ void PandaMain::init(){
     wallet.insertCurrency("BTC", 10.0); //set up wallet with inital currency and amount
     wallet.insertCurrency("ETH", 1.0); //set up wallet with inital currency and amount
     
-    // Create a vector of doubles representing spread data
-    std::vector<double> spreadData = {0.25, 0.35, 0.15, 0.28, 0.20};
-    
-    // Create an instance of SpreadPlot with the spread data
-    SpreadPlot spreadPlot(spreadData);
+//    // Create a vector of doubles representing spread data
+//    std::vector<double> spreadData = {0.25, 0.35, 0.15, 0.28, 0.20};
+//    
+//    // Create an instance of SpreadPlot with the spread data
+//    SpreadPlot spreadPlot(spreadData);
     
     
         /*while loop to continue running after the user has picked an option*/
@@ -110,22 +110,13 @@ void PandaMain::printCandlesticks() {
 
 /**KSStripes implemented the this function in seperate bar chart class**/
 void PandaMain::printSpreadBar(){
-//    // Create a vector of doubles representing spread data
-//    std::vector<double> spreadData = {0.25, 0.35, 0.15, 0.28, 0.20};
-//    
-//    // Create an instance of SpreadPlot with the spread data
-//    SpreadPlot spreadPlot(spreadData);
-//    spreadPlot.printSpreadCharts();
-    // Define your timestamps vector
-    std::vector<std::string> timestamps = {"2022-01-01 10:00:00", "2022-01-01 10:15:00", "2022-01-01 10:30:00"};
+    // Fetch spread data and timestamps
+    // Create an instance of the SpreadPlot class
+    SpreadPlot spreadPlot(currentTime, orderBook);
 
-    // Get all spreads for the specified timestamps
-    std::vector<double> allSpreads = orderBook.getAllSpreads(OrderBookType::ask, "ProductA", currentTime);
+    // Print the spread charts
+    spreadPlot.printSpreadCharts();
 
-    // Print the spreads
-    for (double spread : allSpreads) {
-        std::cout << "Spread: " << spread << std::endl;
-    }
 }
 
 /**KSStripes implemented the function for option 5 making an ask in seperate UserInput Class*/
