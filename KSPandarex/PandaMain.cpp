@@ -112,17 +112,15 @@ void PandaMain::printSpreadBar(){
     std::cout << "Your Spread Statistics!" << std::endl;
     std::cout << "See the difference between lowest ask prices and highest price bids!" << std::endl;
     
+    /**print the spread stats as reference values**/
     for (std::string const& p : orderBook.getKnownProducts()){
-        std::cout << "Product: " << p << std::endl;
-        
         // Call the getSpread function to calculate the spread
         double spread = orderBook.getSpread(p, currentTime);
-        
         // Print the result
         std::cout << "Spread for Product " << p << " at Timestamp " << currentTime << ": " << spread << std::endl;
-
-        std::cout << "========================" << std::endl;
     }
+    std::cout << "========================" << std::endl;
+    
     
     // Create an instance of the SpreadPlot class
     SpreadPlot spreadPlot(currentTime, orderBook);

@@ -147,7 +147,7 @@ void Wallet::printWallet(){
     std::cout << "⣿⣿⡿⠛⠛⠛⣿⠀⠀⠀⣿⠀⠀⢰⡟⠀⠀⠀⠀⠀⠀⠀⠀⢰⡟⠛⢛⣿⣿" << std::endl;
     std::cout << "⣿⣿⡷⠤⠤⠤⠿⠤⠤⠾⠿⠤⠤⠿⠧⠤⠤⠤⠤⠤⠤⠤⠿⠧⠤⠼⢿⣿⣿" << std::endl;
     std::cout << "⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ ⠀⠀⠀⠀⠀⢸⣿⣿" << std::endl;
-    std::cout << "⣿⣿⡇Your wallet contains:     ⢸⣿⣿" << std::endl;
+    std::cout << "⣿⣿⡇Your wallet contains: 4   ⢸⣿⣿" << std::endl;
     std::cout << "⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⣀⣀⣸⣿⣿" << std::endl;
     std::cout << "⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀ ⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⡟⠉⣿⠻⣯⠉⠉⢹⣿" << std::endl;
     std::cout << "⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀ ⠀⠀⠀⠀⠀⠀⠀⠀⠘⢷⣤⣽⣿⣯⣤⣤⣼⣿" << std::endl;
@@ -157,7 +157,7 @@ void Wallet::printWallet(){
             if (walletString.empty()) {
                 std::cout << "⣿⣿⡇Your wallet is empty!     ⢸⣿⣿" << std::endl;
             } else {
-                std::cout << "⣿⣿⡇ " << walletString << std::endl;
+                std::cout << walletString << std::endl;
             }
     //bottom border
     std::cout << "⣿⣿⣧⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣼⣿⣿" << std::endl;

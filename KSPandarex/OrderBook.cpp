@@ -217,7 +217,7 @@ double OrderBook::getSpread(const std::string& product,
     double minAsk = getMinPrice(numAsks);
     double maxBid = getHighPrice(numBids);
 
-    return maxBid - minAsk;
+    return minAsk - maxBid;
 }
 
 

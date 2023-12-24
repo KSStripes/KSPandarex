@@ -10,6 +10,7 @@
 #include <vector>
 #include <string>
 #include <set> //included to set unique timestamps
+#include <iomanip> // Included <iomanip> for setw
 #include "OrderBook.hpp"
 #include "PandaMain.hpp"
 
@@ -34,8 +35,8 @@ std::vector<double> SpreadPlot::getAllSpreads(const std::string& currentTime) {
     for (const std::string& product : products) {
         // Calculate the spread for the current product and timestamp
         double spread = orderBookRef.getSpread(product, currentTime);
-        // Round to 4 decimal places
-        spread = std::round(spread * 10000) / 10000;
+        // Round to 6 decimal places
+        spread = std::round(spread * 1000000) / 1000000;
         // Add the calculated spread to the vector
         spreads.push_back(spread);
     }
@@ -48,7 +49,7 @@ std::vector<double> SpreadPlot::getAllSpreads(const std::string& currentTime) {
 // Function to calculate the bar chart string
 void SpreadPlot::calculateBarChart(double spread) {
     // Define a scale for the spread values (adjust as needed)
-    double scale = 0.1; // Each character represents 0.1 spread
+    double scale = 0.01; // Each character represents 0.1 spread
 
     // Calculate the number of characters in the bar
     int numChars = static_cast<int>(spread / scale);
@@ -66,6 +67,8 @@ void SpreadPlot::calculateBarChart(double spread) {
     std::cout << "Spread: " << spread << " " << chart << std::endl;
 }
 
+
+
 // Function to print the enhanced bar chart for each spread value
 void SpreadPlot::printSpreadBarChart(const std::vector<double>& spreads) {
     // Iterate over each spread value in the vector
@@ -73,36 +76,6 @@ void SpreadPlot::printSpreadBarChart(const std::vector<double>& spreads) {
         calculateBarChart(spread); // Print the bar chart for each spread
     }
 }
-//void SpreadPlot::printSpreadCharts() {
-//    // Define a minimum chart length (minimum number of characters)
-//    int minChartLength = 50;
-//    
-//    // Define a scale for the spread values (adjust as needed)
-//    double scale = 0.1; // Each character represents 0.1 spread
-//
-//    // Print a box around the bar chart
-//    std::string boxTop = "+" + std::string(minChartLength, '-') + "+";
-//    std::cout << boxTop << std::endl;
-//
-//    // Iterate over each spread value in the vector
-//    for (const double& spread : spreadData) {
-//        // Calculate the number of characters in the bar
-//        int numChars = static_cast<int>(spread / scale);
-//
-//        // Create the bar chart string
-//        std::string chart = "[";
-//
-//        for (int i = 0; i < numChars; ++i) {
-//            chart += "#"; // Use '#' character for the bar
-//        }
-//
-//        chart += "]";
-//
-//        // Print the spread value and its bar chart
-//        std::cout << "Spread: " << spread << " " << chart << std::endl;
-//    }
-//    // Print the bottom of the box
-//    std::cout << boxTop << std::endl;
-//}
+
 
 
