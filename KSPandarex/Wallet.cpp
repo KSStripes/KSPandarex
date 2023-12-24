@@ -138,28 +138,29 @@ std::ostream& operator<<(std::ostream& os,  Wallet& wallet)
 void Wallet::printWallet(){
     std::cout << "================" << std::endl;//prints seperator line
     
-    //Print wallet
+    //Print wallet image
     std::cout << "YOUR WALLET" << std::endl;
-    //top border
-    std::cout << " _______________________________________ " << std::endl;
+    std::cout << "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿" << std::endl;
+    std::cout << "⣿⣿⣿⣿⣿⣿⡿⠛⠛⠛⢻⡇⠀⠀⠀⢠⡿⠈⠉⠛⠻⠿⣿⣿⣿⣿⣿⣿⣿" << std::endl;
+    std::cout << "⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⢸⡇⠀⠀⢀⣾⠃⠀⠀⠀⠀⠀⠀⠀⢙⣿⣿⣿⣿" << std::endl;
+    std::cout << "⣿⣿⣿⣿⣿⣿⣇⠀⠀⠀⣿⠃⠀⠀⣼⠇⠀⠀⠀⠀⠀⠀⠀⠀⣼⣿⣿⣿⣿" << std::endl;
+    std::cout << "⣿⣿⡿⠛⠛⠛⣿⠀⠀⠀⣿⠀⠀⢰⡟⠀⠀⠀⠀⠀⠀⠀⠀⢰⡟⠛⢛⣿⣿" << std::endl;
+    std::cout << "⣿⣿⡷⠤⠤⠤⠿⠤⠤⠾⠿⠤⠤⠿⠧⠤⠤⠤⠤⠤⠤⠤⠿⠧⠤⠼⢿⣿⣿" << std::endl;
+    std::cout << "⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ ⠀⠀⠀⠀⠀⢸⣿⣿" << std::endl;
+    std::cout << "⣿⣿⡇Your wallet contains:     ⢸⣿⣿" << std::endl;
+    std::cout << "⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⣀⣀⣸⣿⣿" << std::endl;
+    std::cout << "⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀ ⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⡟⠉⣿⠻⣯⠉⠉⢹⣿" << std::endl;
+    std::cout << "⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀ ⠀⠀⠀⠀⠀⠀⠀⠀⠘⢷⣤⣽⣿⣯⣤⣤⣼⣿" << std::endl;
     
-    //sides with text in between
-    for (int i = 0; i < 5; ++i){
-        if (i == 2){
-            std::cout <<"|         Your wallet contains:         |" << std::endl;
-        }
-        else if (i == 3){
+    // wallet text in between
             std::string walletString = toString(); // Get the wallet content as a string
             if (walletString.empty()) {
-                std::cout << "|         Your wallet is empty!         |" << std::endl;
+                std::cout << "⣿⣿⡇Your wallet is empty!     ⢸⣿⣿" << std::endl;
             } else {
-                std::cout << walletString << std::endl;
+                std::cout << "⣿⣿⡇ " << walletString << std::endl;
             }
-        } else {
-            std::cout << "|                                       |" << std::endl;
-        }
-    }
     //bottom border
-    std::cout << " _______________________________________ \n" << std::endl;
+    std::cout << "⣿⣿⣧⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣼⣿⣿" << std::endl;
+    std::cout << "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿" << std::endl;
 }
 /**end modification KSStripes*/

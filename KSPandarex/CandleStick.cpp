@@ -217,7 +217,7 @@ void Candlestick::printCandlestickChart(const std::vector<Candlestick>& candlest
         }
         
         // Print the x-axis labels
-        std::cout << "      +------+------+------+------+------+------+------+------+------+------+"
+        std::cout << "      +------+------+"
         << std::endl;
         
     // Extract and print the timestamp for the current candlestick
