@@ -89,7 +89,7 @@ std::string OrderBook::getEarliesttime(){
  ->Create 36 time buckets based on the calculated time intervals.
  ->Iterate over each OrderBookEntry, and for each entry, find the corresponding time bucket based on its timestamp.
  ->Add the entry to the corresponding time bucket.*/
-void OrderBook::clusterOrdersIntoBuckets() {
+std::vector<std::vector<OrderBookEntry>> OrderBook::getTimeBuckets() {
     
     //set number of timeBuckets
     int bucketAmt = 36;
@@ -100,23 +100,7 @@ void OrderBook::clusterOrdersIntoBuckets() {
         uniqueTimestamps.insert(e.timestamp);
     }
     
-    // Find the size of the uniqueTimestamps set
-    std::size_t numUniqueTimestamps = uniqueTimestamps.size();
-
-    // Now you can use numUniqueTimestamps as the size of the set
-    std::cout << "Number of unique timestamps: " << numUniqueTimestamps << std::endl;
-    
     std::vector<std::string> sortedTimestamps(uniqueTimestamps.begin(), uniqueTimestamps.end());
-
-    // Calculate time intervals
-     std::vector<std::chrono::duration<double>> timeIntervals;
-     for (size_t i = 0; i < sortedTimestamps.size() - 1; ++i) {
-         // Convert timestamps to time points
-         std::chrono::system_clock::time_point timePoint1, timePoint2;
-         // Calculate time interval
-         std::chrono::duration<double> interval = timePoint2 - timePoint1;
-         timeIntervals.push_back(interval);
-     }
     
     // Initialize 36 time buckets
     std::vector<std::vector<OrderBookEntry>> timeBuckets(bucketAmt);
@@ -148,24 +132,34 @@ void OrderBook::clusterOrdersIntoBuckets() {
         // Add the entry to the corresponding time bucket
         timeBuckets[bucketIndex].push_back(e);
     }
-
-    // Print the clustered orders in time buckets
-    for (int i = 0; i < bucketAmt; ++i) {
-        std::cout << "Time Bucket " << i << " | Timestamp: " << sortedTimestamps[i] << " | Number of Entries: " << timeBuckets[i].size() << std::endl;
-    }
+    
+    // Return the time buckets
+    return timeBuckets;
 }
 
+// Function to print time buckets and the number of unique timestamps
+void OrderBook::printTimeBuckets(const std::vector<std::vector<OrderBookEntry>>& timeBuckets) const {
+    // Find all unique timestamps and store them in uniqueTimestamps set
+    std::set<std::string> uniqueTimestamps;
+    for (const OrderBookEntry& e : orders) {
+        uniqueTimestamps.insert(e.timestamp);
+    }
 
+    // Store the number of unique timestamps in a variable
+    std::size_t numUniqueTimestamps = uniqueTimestamps.size();
 
+    // Print the number of unique timestamps
+    std::cout << "Number of unique timestamps: " << numUniqueTimestamps << std::endl;
 
+    // Print the number of time buckets
+    std::vector<std::vector<OrderBookEntry>>::size_type numTimeBuckets = timeBuckets.size();
+    std::cout << "Number of time buckets: " << numTimeBuckets << std::endl;
 
-
-
-
-
-
-
-
+    // Iterate over the time buckets
+    for (int i = 0; i < numTimeBuckets; ++i) {
+        std::cout << "Time Bucket " << i << "| Number of Entries: " << timeBuckets[i].size() << std::endl;
+    }
+}
 
 
 /** functionality to get next  time*/

@@ -31,7 +31,9 @@ public:
     
     /**functionality to cluster orders to 36 timeBuckets.
      *for a dataset of 3 hours (=180minutes) this would give a timeBucket of around 5 minutes*/
-    void clusterOrdersIntoBuckets();
+    std::vector<std::vector<OrderBookEntry>> getTimeBuckets();
+    /**Function to print time buckets and the number of unique timestamps*/
+    void printTimeBuckets(const std::vector<std::vector<OrderBookEntry>>& timeBuckets) const;
     
     
     /** function to go to next time after the sent time in the orderbook

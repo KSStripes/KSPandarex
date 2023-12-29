@@ -62,7 +62,6 @@ void PandaMain::printHelp(){
     std::cout << "HELP!! Type number to choose option from menu." << std::endl;
     std::cout << "Follow onscreen instructions." << std::endl;
     std::cout << std::endl;
-    orderBook.clusterOrdersIntoBuckets();
 }
 
 /*function for option 2 using OrderBook*/
@@ -245,14 +244,25 @@ void PandaMain::printCandlesticks() {
     std::cout << std::endl;
     std::cout << "==============================================================================" << std::endl;
 
+    
+    // Call the function to print time buckets and unique timestamps
+    orderBook.printTimeBuckets(orderBook.getTimeBuckets());
+    std::cout << std::endl;
+    std::cout << "==============================================================================" << std::endl;
+    
     // Print the candlesticks for that timeframe
-    for (const Candlestick& candle : sticks){
-        candlestick.printCandlestickChart(candle.open,
-                                          candle.high,
-                                          candle.low,
-                                          candle.close,
-                                          currentTime);
+    const std::vector<std::vector<OrderBookEntry>>& timeBuckets = orderBook.getTimeBuckets();
+
+    for (const Candlestick& candle : sticks) {
+        for (const std::vector<OrderBookEntry>& timeBucket : timeBuckets) {
+            candlestick.printCandlestickChart(candle.open,
+                                              candle.high,
+                                              candle.low,
+                                              candle.close,
+                                              timeBucket);
+        }
     }
+
 
     
 //    UserInput userInput(currentTime, wallet, orderBook);

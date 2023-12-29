@@ -44,7 +44,7 @@ public:
                                double high,
                                double low,
                                double close,
-                               const std::string& currentTime) const;
+                               const std::vector<OrderBookEntry>& timeBucket) const;
 //    void printCandlestickChart(const std::vector<Candlestick>& candlesticks,
 //                               const std::string& currentTime) const;
 
