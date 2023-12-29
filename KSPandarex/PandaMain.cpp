@@ -203,17 +203,60 @@ std::cout << std::endl;
 
 /**KSStripes implemented the function in userinput to go to options for the candlestick menu**/
 void PandaMain::printCandlesticks() {
-    Candlestick candlestick(orderBook); // Create a Candlestick instance
-    /** Print the candlestick chart - served as dummy test data*/
-//    candlestick.printCandlestickChart(open, high, low, close);
-//    candlestick.printCandlestickChart(5, 8, 3, 6, currentTime);
-//    candlestick.printCandlestickChart(6, 8, 3, 5, currentTime);
-//    candlestick.printCandlestickChart(0.0221, 0.0222, 0.0218, 0.0220, currentTime);
-//    candlestick.printCandlestickChart(119.501, 121.099, 117.329, 119.442, currentTime);
+    std::cout << std::endl;
+    std::cout << "Here are your trading statistic for all products at the current time!" << std::endl;
+    
+    // Instantiate candlestick and initialize the vector of all candlesticks at the current time
+    Candlestick candlestick(orderBook);
+    std::vector<Candlestick> sticks = candlestick.getAllCandlesticks(orderBook, currentTime);
+    std::vector<std::string> products = orderBook.getKnownProducts();
+
+    // Print candlestick data in table format
+    int headerWidth = 12;
+    int dataWidth = 10;
+    // Set the floating-point output to two decimal places
+    std::cout << std::fixed << std::setprecision(2);
+    
+    std::cout << "==============================================================================" <<std::endl;
+    std::cout << std::left << std::setw(headerWidth) << "Product " << " | ";
+    for (std::string const& p : products) {
+        std::cout << std::right << std::setw(dataWidth) << p << " | ";
+    }
+    std::cout << std::endl;
+    std::cout << std::left << std::setw(headerWidth) << "Open " << " | ";
+    for (const Candlestick& candle : sticks) {
+        std::cout << std::right << std::setw(dataWidth) << candle.open << " | ";
+    }
+    std::cout << std::endl;    
+    std::cout << std::left << std::setw(headerWidth) << "High " << " | ";
+    for (const Candlestick& candle : sticks) {
+        std::cout << std::right << std::setw(dataWidth) << candle.high << " | ";
+    }
+    std::cout << std::endl;    
+    std::cout << std::left << std::setw(headerWidth) << "Low " << " | ";
+    for (const Candlestick& candle : sticks) {
+        std::cout << std::right << std::setw(dataWidth) << candle.low << " | ";
+    }
+    std::cout << std::endl;    
+    std::cout << std::left << std::setw(headerWidth) << "Close " << " | ";
+    for (const Candlestick& candle : sticks) {
+        std::cout << std::right << std::setw(dataWidth) << candle.close << " | ";
+    }
+    std::cout << std::endl;
+    std::cout << "==============================================================================" << std::endl;
+
+    // Print the candlesticks for that timeframe
+    for (const Candlestick& candle : sticks){
+        candlestick.printCandlestickChart(candle.open,
+                                          candle.high,
+                                          candle.low,
+                                          candle.close,
+                                          currentTime);
+    }
 
     
-    UserInput userInput(currentTime, wallet, orderBook);
-    userInput.candlestickRequest();
+//    UserInput userInput(currentTime, wallet, orderBook);
+//    userInput.candlestickRequest();
 }
 
 /**KSStripes implemented the this function in seperate bar chart class**/

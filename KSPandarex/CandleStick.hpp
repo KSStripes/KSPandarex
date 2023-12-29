@@ -40,13 +40,13 @@ public:
                                                   OrderBookType orderType);
     
     /**function to take the four elements of the candlestick object and print them as one candlestick**/
-//    void printCandlestickChart(double open,
-//                               double high,
-//                               double low,
-//                               double close,
-//                               const std::string& currentTime) const;
-    void printCandlestickChart(const std::vector<Candlestick>& candlesticks,
+    void printCandlestickChart(double open,
+                               double high,
+                               double low,
+                               double close,
                                const std::string& currentTime) const;
+//    void printCandlestickChart(const std::vector<Candlestick>& candlesticks,
+//                               const std::string& currentTime) const;
 
 private:
     OrderBook& orderBookRef;   // Reference to OrderBook instance

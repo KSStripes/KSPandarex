@@ -10,8 +10,6 @@
 
 int main(){
     
-    // Set the locale to UTF-8 to handle wide characters
-    std::wcout.imbue(std::locale("en_US.UTF-8"));
 
     std::cout << "Hello Panda" << std::endl;
     std::cout << "This is Your Trading Platform" << std::endl;

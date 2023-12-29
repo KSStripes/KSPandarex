@@ -125,7 +125,7 @@ void OrderBook::clusterOrdersIntoBuckets() {
     std::vector<std::string> endTimeBucket(bucketAmt);
     
     // Calculate the number of entries per bucket
-    std::size_t entriesPerBucket = sortedTimestamps.size() / bucketAmt;
+//    std::size_t entriesPerBucket = sortedTimestamps.size() / bucketAmt;
 
     
     // Iterate over all OrderBookEntry objects in the 'orders' container

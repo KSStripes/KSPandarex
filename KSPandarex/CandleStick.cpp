@@ -58,6 +58,7 @@ std::string Candlestick::extractTime(const std::string& currentTime) const {
 
 
 /** KSStripes Define the function to get all candlestick data based on the orderbook at one time*/
+///// Currently not used in the code
 std::vector<Candlestick> Candlestick::getAllCandlesticks(OrderBook& orderBook,
                                                         const std::string& currentTime) {
     std::vector<Candlestick> candlesticks; // Initialize vector of Candlestick objects
@@ -162,67 +163,107 @@ std::vector<Candlestick> Candlestick::getOneCandlestick(OrderBook& orderBook,
     
 }
 
-void Candlestick::printCandlestickChart(const std::vector<Candlestick>& candlesticks,
-                                        const std::string& currentTime) const
-{
-    // Check if the candlesticks vector is empty
-     if (candlesticks.empty()) {
-         std::cout << "No data to display." << std::endl;
-         return;
-     }
-    
-    // Iterate over each Candlestick object in the vector
-//    for (const Candlestick& candlestick : candlesticks) {
-        
-        // Check if any of the values are 0 or smaller
-        if (open <= 0 || high <= 0 || low <= 0 || close <= 0) {
-            std::cout << "Graph cannot be displayed because one or more values are not greater than 0." << std::endl;
-            return;  // Skip displaying the graph
+void Candlestick::printCandlestickChart(double open, 
+                                        double high,
+                                        double low,
+                                        double close,
+                                        const std::string& currentTime) const {
+    // Determine the range of values to display on the y-axis
+    double minValue = std::min(low, std::min(open, close));
+    double maxValue = std::max(high, std::max(open, close));
+
+    // Calculate the step size for y-axis labels
+    double stepSize = (maxValue - minValue) / 23;
+
+    // Print the y-axis labels and candlestick chart
+    for (int i = 0; i < 30; ++i) {
+        double yValue = (maxValue + 3 * stepSize) - i * stepSize;
+
+        // Print the y-axis label with fixed precision
+        std::cout << std::fixed << std::setprecision(2) << std::setw(8) << yValue << " | ";
+
+        // Check if 'yValue' falls within the range of 'open' to 'close'
+        if (yValue >= open && yValue <= close && open >= close) {
+            // Print '□□□□□' to represent the candlestick body with a sinking market
+            std::cout << "□□□□□";
+        } else if (yValue >= open && yValue <= close && open <= close) {
+            // Print '■■■■■' to represent the candlestick body with a rising market
+            std::cout << "■■■■■";
+        } else if (yValue >= low && yValue <= high) {
+            // Check if 'yValue' falls within the range of 'low' to 'high'
+            // Print '  |  ' to represent the candlestick wick
+            std::cout << "  |  ";
+        } else {
+            // If 'yValue' is not within any of the above ranges, print spaces
+            std::cout << "     ";
         }
-        
-        // Determine the range of values to display on the y-axis
-        double minValue = std::min(low, std::min(open, close));
-        double maxValue = std::max(high, std::max(open, close));
-        
-        /** Calculate the step size for y-axis labels - graph over 30 lines, but I would like there to be a margin of 3 stepsizes to the top and to the bottom, so 24 parts for calculation of stepsize*/
-        double stepSize = (maxValue - minValue) / 23;
-        
-        
-        // Print the y-axis labels and candlestick chart
-        for (int i = 0; i < 30; ++i) {
-            double yValue = (maxValue + 3 * stepSize) - i * stepSize;
-            
-            // Print the y-axis label with fixed precision
-            std::cout << std::fixed << std::setprecision(3) << std::setw(7) << yValue << " | ";
-            
-            // Check if 'yValue' falls within the range of 'open' to 'close'
-            if (yValue >= open && yValue <= close && open >= close) {
-                // Print '=====' to represent the candlestick body with a sinking market
-                std::cout << "=====";
-            } else if (yValue >= open && yValue <= close && open <= close) {
-                // Print '^^^^^' to represent the candlestick body with a rising market
-                std::cout << "^^^^^";
-            } else if (yValue >= low && yValue <= high) {
-                // Check if 'yValue' falls within the range of 'low' to 'high'
-                // Print '  |  ' to represent the candlestick wick
-                std::cout << "  |  ";
-            } else {
-                // If 'yValue' is not within any of the above ranges, print spaces
-                std::cout << "     ";
-            }
-            // Move to the next line after each row of the candlestick is printed
-            std::cout << std::endl;
-        }
-        
-        // Print the x-axis labels
-        std::cout << "      +------+------+"
-        << std::endl;
-        
+        // Move to the next line after each row of the candlestick is printed
+        std::cout << std::endl;
+    }
+
+    // Print the x-axis labels
+    std::cout << "      +------+------+" << std::endl;
+
     // Extract and print the timestamp for the current candlestick
     std::string time = extractTime(currentTime);
     std::cout << "      " << time << std::endl;
-        // Move to the next line after each row of the candlestick is printed
-        std::cout << std::endl;
-//    }
+    // Move to the next line after each row of the candlestick is printed
+    std::cout << std::endl;
 }
+
+
+
+//void Candlestick::printCandlestickChart(const std::vector<Candlestick>& candlesticks,
+//                                        const std::string& currentTime) const
+//{
+//    // Check if the candlesticks vector is empty
+//     if (candlesticks.empty()) {
+//         std::cout << "CandleStick :: No data to display." << std::endl;
+//         return;
+//     }
+//      
+//    // Determine the range of values to display on the y-axis
+//    double minValue = std::min(low, std::min(open, close));
+//    double maxValue = std::max(high, std::max(open, close));
+//    
+//    /** Calculate the step size for y-axis labels - graph over 30 lines, but I would like there to be a margin of 3 stepsizes to the top and to the bottom, so 24 parts for calculation of stepsize*/
+//    double stepSize = (maxValue - minValue) / 23;
+//        
+//        
+//    // Print the y-axis labels and candlestick chart
+//    for (int i = 0; i < 30; ++i) {
+//        double yValue = (maxValue + 3 * stepSize) - i * stepSize;
+//        
+//        // Print the y-axis label with fixed precision
+//        std::cout << std::fixed << std::setprecision(2) << std::setw(8) << yValue << " | ";
+//
+//        // Check if 'yValue' falls within the range of 'open' to 'close'
+//        if (yValue >= open && yValue <= close && open >= close) {
+//            // Print '□□□□□' to represent the candlestick body with a sinking market
+//            std::cout << "□□□□□";
+//        } else if (yValue >= open && yValue <= close && open <= close) {
+//            // Print '■■■■■' to represent the candlestick body with a rising market
+//            std::cout << "■■■■■";
+//        } else if (yValue >= low && yValue <= high) {
+//            // Check if 'yValue' falls within the range of 'low' to 'high'
+//            // Print '  |  ' to represent the candlestick wick
+//            std::cout << "  |  ";
+//        } else {
+//            // If 'yValue' is not within any of the above ranges, print spaces
+//            std::cout << "     ";
+//        }
+//        // Move to the next line after each row of the candlestick is printed
+//        std::cout << std::endl;
+//    }
+//
+//    // Print the x-axis labels
+//    std::cout << "      +------+------+" << std::endl;
+//
+//        
+//    // Extract and print the timestamp for the current candlestick
+//    std::string time = extractTime(currentTime);
+//    std::cout << "      " << time << std::endl;
+//    // Move to the next line after each row of the candlestick is printed
+//    std::cout << std::endl;
+//}
 

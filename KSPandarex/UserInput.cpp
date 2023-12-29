@@ -59,7 +59,7 @@ OrderBookType UserInput::stringToOrderBookType(const std::string& orderTypeStr) 
  * candlestick should use the pandamain current time, */
 void UserInput::candlestickRequest(){
     /**some text to explain the menu**/
-    std::cout << "================" << std::endl;//prints seperator line
+    std::cout << std::endl;
     std::cout << "Your options: " << std::endl;
     std::cout << "Ordertyes: bid or ask " << std::endl;
     std::cout << "================" << std::endl;//prints seperator line
@@ -118,8 +118,8 @@ void UserInput::candlestickRequest(){
                 std::cout << "========================" << std::endl;
 
                 // Print the candlestick chart for the current candlestick
-                candlestick.printCandlestickChart(candlestickData,
-                                                  currentTimeRef);
+//                candlestick.printCandlestickChart(candlestickData,
+//                                                  currentTimeRef);
             }
         }catch (const std::exception& e){
             std::cout << "UserInput::candlestickRequest(): Bad input!" << std::endl;
