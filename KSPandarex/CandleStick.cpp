@@ -112,69 +112,65 @@ std::vector<Candlestick> Candlestick::getAllCandlesticks(OrderBook& orderBook,
     return candlesticks;
 }
 
+
+//not implemented
 /**KSStripes defined function to create a vector of one Candlestick object based on user request
  *passing current time from PandaMain
  *passing OrderBooktype and product from UserInput
  *non-static because it will call different aspects of the OrderBook or of the UserInput at each vector generation*/
-std::vector<Candlestick> Candlestick::getOneCandlestick(OrderBook& orderBook,
-                                                        const std::string& currentTime,
-                                                        const std::string& product,
-                                                        OrderBookType orderType){
-    
-    std::vector<Candlestick> candlesticks; // Initialize vector of Candlestick objects
+//std::vector<Candlestick> Candlestick::getOneCandlestick(OrderBook& orderBook,
+//                                                        const std::string& currentTime,
+//                                                        const std::string& product,
+//                                                        OrderBookType orderType){
+//    
+//    std::vector<Candlestick> candlesticks; // Initialize vector of Candlestick objects
+//
+//    // Iterate over all products
+//        std::vector<OrderBookEntry> entries = orderBook.getOrders(orderType, product, currentTime);
+//
+//        std::set<std::string> uniqueTimestamps; // Keep track of unique timestamps
+//
+//        // Iterate over the entries for the current product
+//        for (const OrderBookEntry& entry : entries) {
+//            const std::string& timestamp = entry.timestamp;
+//
+//            // Check if the timestamp is unique
+//            if (uniqueTimestamps.find(timestamp) == uniqueTimestamps.end()) {
+//                /** Calculate open for the previous timestamp, round to 5 decimal places*/
+//                std::string prevT = orderBook.getPreviousTime(timestamp);
+//                double open = std::round(orderBook.getMeanOpen(orderType, product, prevT) * 100000) / 100000;
+//
+//                /**Calculate high, low, close values for the current timestamp rounded to 5 decimal places*/
+//                double high = std::round(OrderBook::getHighPrice(entries) * 100000) / 100000;
+//                double low = std::round(OrderBook::getMinPrice(entries) * 100000) / 100000;
+//                double close = std::round(orderBook.getMeanPrice(entries) * 100000) / 100000;
+//
+//                // Create a Candlestick object and set its member variables
+//                Candlestick candlestick(orderBook);
+//                candlestick.open = open;
+//                candlestick.high = high;
+//                candlestick.low = low;
+//                candlestick.close = close;
+//
+//                // Add the Candlestick object to the vector
+//                candlesticks.push_back(candlestick);
+//
+//                // Mark the timestamp as seen
+//                uniqueTimestamps.insert(timestamp);
+//            }
+//    }
+//
+//    // Return the vector of Candlestick objects
+//    return candlesticks;
+//    
+//}
 
-    // Iterate over all products
-        std::vector<OrderBookEntry> entries = orderBook.getOrders(orderType, product, currentTime);
 
-        std::set<std::string> uniqueTimestamps; // Keep track of unique timestamps
-
-        // Iterate over the entries for the current product
-        for (const OrderBookEntry& entry : entries) {
-            const std::string& timestamp = entry.timestamp;
-
-            // Check if the timestamp is unique
-            if (uniqueTimestamps.find(timestamp) == uniqueTimestamps.end()) {
-                /** Calculate open for the previous timestamp, round to 5 decimal places*/
-                std::string prevT = orderBook.getPreviousTime(timestamp);
-                double open = std::round(orderBook.getMeanOpen(orderType, product, prevT) * 100000) / 100000;
-
-                /**Calculate high, low, close values for the current timestamp rounded to 5 decimal places*/
-                double high = std::round(OrderBook::getHighPrice(entries) * 100000) / 100000;
-                double low = std::round(OrderBook::getMinPrice(entries) * 100000) / 100000;
-                double close = std::round(orderBook.getMeanPrice(entries) * 100000) / 100000;
-
-                // Create a Candlestick object and set its member variables
-                Candlestick candlestick(orderBook);
-                candlestick.open = open;
-                candlestick.high = high;
-                candlestick.low = low;
-                candlestick.close = close;
-
-                // Add the Candlestick object to the vector
-                candlesticks.push_back(candlestick);
-
-                // Mark the timestamp as seen
-                uniqueTimestamps.insert(timestamp);
-            }
-    }
-
-    // Return the vector of Candlestick objects
-    return candlesticks;
-    
-}
-
-void Candlestick::printCandlestickChart(double open, 
+void Candlestick::printCandlestickChart(double open,
                                         double high,
                                         double low,
                                         double close,
-                                        const std::vector<OrderBookEntry>& timeBucket) const {
-
-    const std::vector<std::vector<OrderBookEntry>>& timeBuckets = orderBookRef.getTimeBuckets();
-    // Check if the time buckets vector is empty
-    if (timeBuckets.empty()) {
-        std::cout << "No data in time buckets." << std::endl;
-        return;
-    }
+                                        const std::string& currentTime)const {
     // Determine the range of values to display on the y-axis
     double minValue = std::min(low, std::min(open, close));
     double maxValue = std::max(high, std::max(open, close));
@@ -211,7 +207,8 @@ void Candlestick::printCandlestickChart(double open,
 
     // Print the x-axis labels
     std::cout << "      +------+------+" << std::endl;
-
+    std::string currentTimeStr = extractTime(currentTime);
+    std::cout << "      " << currentTimeStr << std::endl;
     std::cout << std::endl;
 }
 

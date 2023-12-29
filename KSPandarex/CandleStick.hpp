@@ -30,23 +30,25 @@ public:
     std::vector<Candlestick> getAllCandlesticks(OrderBook& orderBook,
                                                 const std::string& currentTime);
     
+    
+    //Not implemented
     /**Function to create a vector of one Candlestick object based on user request
      *passing current time from PandaMain
      *passing OrderBooktype and product from UserInput
      *non-static because it will call different aspects of the OrderBook or of the UserInput at each vector generation*/
-    std::vector<Candlestick> getOneCandlestick(OrderBook& orderBook,
-                                                  const std::string& currentTime,
-                                                  const std::string& product,
-                                                  OrderBookType orderType);
+//    std::vector<Candlestick> getOneCandlestick(OrderBook& orderBook,
+//                                                  const std::string& currentTime,
+//                                                  const std::string& product,
+//                                                  OrderBookType orderType);
     
     /**function to take the four elements of the candlestick object and print them as one candlestick**/
     void printCandlestickChart(double open,
                                double high,
                                double low,
                                double close,
-                               const std::vector<OrderBookEntry>& timeBucket) const;
+                               const std::string& currentTime) const;
 //    void printCandlestickChart(const std::vector<Candlestick>& candlesticks,
-//                               const std::string& currentTime) const;
+//                               const std::vector<OrderBookEntry>& timeBucket) const;
 
 private:
     OrderBook& orderBookRef;   // Reference to OrderBook instance

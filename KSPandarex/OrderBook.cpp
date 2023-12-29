@@ -156,9 +156,9 @@ void OrderBook::printTimeBuckets(const std::vector<std::vector<OrderBookEntry>>&
     std::cout << "Number of time buckets: " << numTimeBuckets << std::endl;
 
     // Iterate over the time buckets
-    for (int i = 0; i < numTimeBuckets; ++i) {
-        std::cout << "Time Bucket " << i << "| Number of Entries: " << timeBuckets[i].size() << std::endl;
-    }
+//    for (int i = 0; i < numTimeBuckets; ++i) {
+//        std::cout << "Time Bucket " << i << "| Number of Entries: " << timeBuckets[i].size() << std::endl;
+//    }
 }
 
 

@@ -251,19 +251,18 @@ void PandaMain::printCandlesticks() {
     std::cout << "==============================================================================" << std::endl;
     
     // Print the candlesticks for that timeframe
-    const std::vector<std::vector<OrderBookEntry>>& timeBuckets = orderBook.getTimeBuckets();
-
     for (const Candlestick& candle : sticks) {
-        for (const std::vector<OrderBookEntry>& timeBucket : timeBuckets) {
-            candlestick.printCandlestickChart(candle.open,
-                                              candle.high,
-                                              candle.low,
-                                              candle.close,
-                                              timeBucket);
-        }
+        candlestick.printCandlestickChart(candle.open,
+                                          candle.high,
+                                          candle.low,
+                                          candle.close,
+                                          currentTime);
     }
-
-
+    // Loop over the time buckets and print candlesticks - not implemented
+    //    const std::vector<std::vector<OrderBookEntry>>& timeBuckets = orderBook.getTimeBuckets();
+//    for (const std::vector<OrderBookEntry>& timeBucket : timeBuckets) {
+//        candlestick.printCandlestickChart(sticks, timeBucket);
+//    }
     
 //    UserInput userInput(currentTime, wallet, orderBook);
 //    userInput.candlestickRequest();

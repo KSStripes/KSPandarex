@@ -51,81 +51,81 @@ OrderBookType UserInput::stringToOrderBookType(const std::string& orderTypeStr) 
     }
 }
 
-
+//not implemented
 /** KSStripes created function to deal with menu item 3 to enter a Candlestick product and ordertype
  * this function was meant to print a menu for the user and some instructions to type a product and an ordertype
  * process the userinput into the console and tokenize it
  * generate the candlestick corresponding to the product and ordertype by the user
  * candlestick should use the pandamain current time, */
-void UserInput::candlestickRequest(){
-    /**some text to explain the menu**/
-    std::cout << std::endl;
-    std::cout << "Your options: " << std::endl;
-    std::cout << "Ordertyes: bid or ask " << std::endl;
-    std::cout << "================" << std::endl;//prints seperator line
-    std::cout << "Enter your analysis request!" << std::endl;
-    std::cout << "For all asks to buy USDT with DOGE, enter DOGE/USDT,ask" << std::endl;
-    std::cout << "For all bids to buy DOGE with USDT, enter USDT/DOGE,bid" << std::endl;
-
-    
-    /**print types of orders mapped in OrderBook*/
-    for (std::string const& p : orderBookRef.getKnownProducts()){
-        std::cout << "Product: " << p << std::endl;
-    }
-    
-    
-    
-    //get user-typed input and save as string to input
-    std::string input;
-    std::getline(std::cin, input);
-
-    
-    //use input string, break it into its parts, use its values using currently CSVReader functions
-    std::vector<std::string> tokens = CSVReader::tokenize(input, ',');
-    
-    //check if user has typed string as per example (3 typed CSV, ex eg ETH/BTC,200,0.5)
-    if (tokens.size() != 2){
-        std::cout << "UserInput::enterAsk(): Bad input! " << input << std::endl;
-    }
-    else{
-        std::string product = tokens[0];   // Extract product from user input
-        std::string orderType = tokens[1]; // Extract orderType from user input
-        OrderBookType orderBookType = stringToOrderBookType(orderType); // Convert to enum
-
-        std::cout << "You typed: " << input << std::endl;
-        std::cout << "================" << std::endl;//prints seperator line
-        try{
-            /** instantiate  candlestick for userinput*/
-            Candlestick candlestick(orderBookRef);
-            /**Create vector and pass tokenized user input for product and orderType*/
-            std::vector<Candlestick> candlestickData =
-                candlestick.getOneCandlestick(orderBookRef,
-                                              currentTimeRef,
-                                              product,
-                                              orderBookType);
-        
-
-            /**Loop through the candlestickData and print candlestick to the terminal
-             *My intention was to print 6 graphs for 6 timestamps next to each other but I couldn't get it to work*/
-            for (int i = 0; i < std::min(6, static_cast<int>(candlestickData.size())); ++i) {
-                // Access and print the member variables of each Candlestick object
-                const Candlestick& candlestick = candlestickData[i];
-                std::cout << "Timestamp: " << candlestick.timestamp << std::endl;
-                std::cout << "Open: " << candlestick.open << std::endl;
-                std::cout << "High: " << candlestick.high << std::endl;
-                std::cout << "Low: " << candlestick.low << std::endl;
-                std::cout << "Close: " << candlestick.close << std::endl;
-                std::cout << "========================" << std::endl;
-
-                // Print the candlestick chart for the current candlestick
-//                candlestick.printCandlestickChart(candlestickData,
-//                                                  currentTimeRef);
-            }
-        }catch (const std::exception& e){
-            std::cout << "UserInput::candlestickRequest(): Bad input!" << std::endl;
-        }
-    }
-}
+//void UserInput::candlestickRequest(){
+//    /**some text to explain the menu**/
+//    std::cout << std::endl;
+//    std::cout << "Your options: " << std::endl;
+//    std::cout << "Ordertyes: bid or ask " << std::endl;
+//    std::cout << "================" << std::endl;//prints seperator line
+//    std::cout << "Enter your analysis request!" << std::endl;
+//    std::cout << "For all asks to buy USDT with DOGE, enter DOGE/USDT,ask" << std::endl;
+//    std::cout << "For all bids to buy DOGE with USDT, enter USDT/DOGE,bid" << std::endl;
+//
+//    
+//    /**print types of orders mapped in OrderBook*/
+//    for (std::string const& p : orderBookRef.getKnownProducts()){
+//        std::cout << "Product: " << p << std::endl;
+//    }
+//    
+//    
+//    
+//    //get user-typed input and save as string to input
+//    std::string input;
+//    std::getline(std::cin, input);
+//
+//    
+//    //use input string, break it into its parts, use its values using currently CSVReader functions
+//    std::vector<std::string> tokens = CSVReader::tokenize(input, ',');
+//    
+//    //check if user has typed string as per example (3 typed CSV, ex eg ETH/BTC,200,0.5)
+//    if (tokens.size() != 2){
+//        std::cout << "UserInput::enterAsk(): Bad input! " << input << std::endl;
+//    }
+//    else{
+//        std::string product = tokens[0];   // Extract product from user input
+//        std::string orderType = tokens[1]; // Extract orderType from user input
+//        OrderBookType orderBookType = stringToOrderBookType(orderType); // Convert to enum
+//
+//        std::cout << "You typed: " << input << std::endl;
+//        std::cout << "================" << std::endl;//prints seperator line
+//        try{
+//            /** instantiate  candlestick for userinput*/
+//            Candlestick candlestick(orderBookRef);
+//            /**Create vector and pass tokenized user input for product and orderType*/
+//            std::vector<Candlestick> candlestickData =
+//                candlestick.getOneCandlestick(orderBookRef,
+//                                              currentTimeRef,
+//                                              product,
+//                                              orderBookType);
+//        
+//
+//            /**Loop through the candlestickData and print candlestick to the terminal
+//             *My intention was to print 6 graphs for 6 timestamps next to each other but I couldn't get it to work*/
+//            for (int i = 0; i < std::min(6, static_cast<int>(candlestickData.size())); ++i) {
+//                // Access and print the member variables of each Candlestick object
+//                const Candlestick& candlestick = candlestickData[i];
+//                std::cout << "Timestamp: " << candlestick.timestamp << std::endl;
+//                std::cout << "Open: " << candlestick.open << std::endl;
+//                std::cout << "High: " << candlestick.high << std::endl;
+//                std::cout << "Low: " << candlestick.low << std::endl;
+//                std::cout << "Close: " << candlestick.close << std::endl;
+//                std::cout << "========================" << std::endl;
+//
+//                // Print the candlestick chart for the current candlestick
+////                candlestick.printCandlestickChart(candlestickData,
+////                                                  currentTimeRef);
+//            }
+//        }catch (const std::exception& e){
+//            std::cout << "UserInput::candlestickRequest(): Bad input!" << std::endl;
+//        }
+//    }
+//}
 
 
 /**function for option 5 - entering an ask */
