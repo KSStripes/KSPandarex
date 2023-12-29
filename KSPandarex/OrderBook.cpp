@@ -11,6 +11,9 @@
 #include <map>
 #include <algorithm>
 #include <iostream>
+#include <chrono>
+#include <set>
+
 
 /**
  * Constructs an OrderBook object by reading order data from a CSV file.
@@ -78,6 +81,92 @@ void OrderBook::insertOrder(OrderBookEntry& order)
 std::string OrderBook::getEarliesttime(){
     return orders[0].timestamp;
 }
+
+/**functionality to cluster orders to 36 timeBuckets.
+ *for a dataset of 3 hours (=180minutes) this would give a timeBucket of around 5 minutes
+ ->Retrieve all unique timestamps from your orders vector and sort them.
+ ->Calculate the time interval between each pair of adjacent timestamps.
+ ->Create 36 time buckets based on the calculated time intervals.
+ ->Iterate over each OrderBookEntry, and for each entry, find the corresponding time bucket based on its timestamp.
+ ->Add the entry to the corresponding time bucket.*/
+void OrderBook::clusterOrdersIntoBuckets() {
+    
+    //set number of timeBuckets
+    int bucketAmt = 36;
+    
+    // Find all unique timestamps and sort them
+    std::set<std::string> uniqueTimestamps;
+    for (const OrderBookEntry& e : orders) {
+        uniqueTimestamps.insert(e.timestamp);
+    }
+    
+    // Find the size of the uniqueTimestamps set
+    std::size_t numUniqueTimestamps = uniqueTimestamps.size();
+
+    // Now you can use numUniqueTimestamps as the size of the set
+    std::cout << "Number of unique timestamps: " << numUniqueTimestamps << std::endl;
+    
+    std::vector<std::string> sortedTimestamps(uniqueTimestamps.begin(), uniqueTimestamps.end());
+
+    // Calculate time intervals
+     std::vector<std::chrono::duration<double>> timeIntervals;
+     for (size_t i = 0; i < sortedTimestamps.size() - 1; ++i) {
+         // Convert timestamps to time points
+         std::chrono::system_clock::time_point timePoint1, timePoint2;
+         // Calculate time interval
+         std::chrono::duration<double> interval = timePoint2 - timePoint1;
+         timeIntervals.push_back(interval);
+     }
+    
+    // Initialize 36 time buckets
+    std::vector<std::vector<OrderBookEntry>> timeBuckets(bucketAmt);
+    // Initialize vectors to store the starting and ending timestamps for each time bucket
+    std::vector<std::string> startTimeBucket(bucketAmt);
+    std::vector<std::string> endTimeBucket(bucketAmt);
+    
+    // Calculate the number of entries per bucket
+    std::size_t entriesPerBucket = sortedTimestamps.size() / bucketAmt;
+
+    
+    // Iterate over all OrderBookEntry objects in the 'orders' container
+    for (OrderBookEntry& e : orders) {
+        // Find the corresponding time bucket based on timestamp
+        int bucketIndex = -1;
+        for (int i = 0; i < 36; ++i) {
+            // Assuming sortedTimestamps is a vector of sorted timestamps
+            if (e.timestamp <= sortedTimestamps[i]) {
+                bucketIndex = i;
+                break;
+            }
+        }
+
+        // Handle the case when the timestamp is after the last interval
+        if (bucketIndex == -1) {
+            bucketIndex = 35;
+        }
+
+        // Add the entry to the corresponding time bucket
+        timeBuckets[bucketIndex].push_back(e);
+    }
+
+    // Print the clustered orders in time buckets
+    for (int i = 0; i < bucketAmt; ++i) {
+        std::cout << "Time Bucket " << i << " | Timestamp: " << sortedTimestamps[i] << " | Number of Entries: " << timeBuckets[i].size() << std::endl;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /** functionality to get next  time*/
 std::string OrderBook::getNexttime(std::string timestamp){

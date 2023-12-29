@@ -62,6 +62,7 @@ void PandaMain::printHelp(){
     std::cout << "HELP!! Type number to choose option from menu." << std::endl;
     std::cout << "Follow onscreen instructions." << std::endl;
     std::cout << std::endl;
+    orderBook.clusterOrdersIntoBuckets();
 }
 
 /*function for option 2 using OrderBook*/

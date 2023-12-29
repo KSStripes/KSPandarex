@@ -28,6 +28,12 @@ public:
     /** include functionality to move through time*/
     /** function to return the earliest time in the orderbook*/
     std::string getEarliesttime();
+    
+    /**functionality to cluster orders to 36 timeBuckets.
+     *for a dataset of 3 hours (=180minutes) this would give a timeBucket of around 5 minutes*/
+    void clusterOrdersIntoBuckets();
+    
+    
     /** function to go to next time after the sent time in the orderbook
      * If there is no next timestamp, wraps around to the start*/
     std::string getNexttime(std::string timestamp);
