@@ -147,7 +147,7 @@ void Wallet::printWallet(){
     std::cout << "⣿⣿⡿⠛⠛⠛⣿⠀⠀⠀⣿⠀⠀⢰⡟⠀⠀⠀⠀⠀⠀⠀⠀⢰⡟⠛⢛⣿⣿" << std::endl;
     std::cout << "⣿⣿⡷⠤⠤⠤⠿⠤⠤⠾⠿⠤⠤⠿⠧⠤⠤⠤⠤⠤⠤⠤⠿⠧⠤⠼⢿⣿⣿" << std::endl;
     std::cout << "⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ ⠀⠀⠀⠀⠀⢸⣿⣿" << std::endl;
-    std::cout << "⣿⣿⡇Your wallet contains: 4   ⢸⣿⣿" << std::endl;
+    std::cout << "⣿⣿⡇Your wallet contains:    ⢸⣿⣿" << std::endl;
     std::cout << "⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⣀⣀⣸⣿⣿" << std::endl;
     std::cout << "⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀ ⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⡟⠉⣿⠻⣯⠉⠉⢹⣿" << std::endl;
     std::cout << "⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀ ⠀⠀⠀⠀⠀⠀⠀⠀⠘⢷⣤⣽⣿⣯⣤⣤⣼⣿" << std::endl;
