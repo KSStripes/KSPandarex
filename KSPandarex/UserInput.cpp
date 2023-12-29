@@ -9,6 +9,7 @@
 #include "OrderBookEntry.hpp"
 #include "CSVReader.hpp"
 #include <iostream>
+#include <iomanip>
 #include <vector>
 #include <string>
 #include "OrderBook.hpp"
@@ -129,16 +130,17 @@ void UserInput::candlestickRequest(){
 
 /**function for option 5 - entering an ask */
 void UserInput::enterAsk(){
-    /**some text to explain the menu**/
-    std::cout << "================" << std::endl;//prints seperator line
-    std::cout << "Enter your ask. Format: product, price, amount, eg ETH/BTC,200,0.5" << std::endl;
-    std::cout << "Your options: " << std::endl;
-    
     /**print types of orders mapped in OrderBook*/
-    for (std::string const& p : orderBookRef.getKnownProducts()){
-        std::cout << "Product: " << p << std::endl;
+    int headerWidth = 12;
+    int dataWidth = 9;
+    std::cout << std::left << std::setw(headerWidth) << "Your Product options: ";
+    for (std::string const& p : orderBookRef.getKnownProducts()) {
+        std::cout << std::right << std::setw(dataWidth) << p << "; ";
     }
-    
+    std::cout << std::endl;
+    std::cout << std::endl;
+    /**some text to explain the menu**/
+    std::cout << "Enter your ask in the format : product, price, amount, eg ETH/BTC,200,0.5!" << std::endl;
     std::cout << "If you have DOGE and want USDT, enter DOGE/USDT,xx,xx" << std::endl;
     
     //get user-typed input and save as string to input
@@ -182,16 +184,17 @@ void UserInput::enterAsk(){
 
 ///*function for option 6 - making a bid*/
 void UserInput::enterBid(){
-    /**some text to explain the menu**/
-    std::cout << "================" << std::endl;//prints seperator line
-    std::cout << "Enter your bid. Format: product, price, amount, eg ETH/BTC,200,0.5" << std::endl;
-    std::cout << "Your options: " << std::endl;
-    
     /**print types of orders mapped in OrderBook*/
-    for (std::string const& p : orderBookRef.getKnownProducts()){
-        std::cout << "Product: " << p << std::endl;
+    int headerWidth = 12;
+    int dataWidth = 9;
+    std::cout << std::left << std::setw(headerWidth) << "Your Product options: ";
+    for (std::string const& p : orderBookRef.getKnownProducts()) {
+        std::cout << std::right << std::setw(dataWidth) << p << "; ";
     }
-    
+    std::cout << std::endl;
+    std::cout << std::endl;
+    /**some text to explain the menu**/
+    std::cout << "Enter your bid in the format : product, price, amount, eg ETH/BTC,200,0.5!" << std::endl;
     std::cout << "If you have ETH and want DOGE, enter DOGE/ETH,xx,xx" << std::endl;
     
     //get user-typed input and save as string to input

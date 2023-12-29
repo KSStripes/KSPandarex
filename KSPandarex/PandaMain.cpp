@@ -58,9 +58,10 @@ void PandaMain::printMenu(){
 
 /*function for option 1*/
 void PandaMain::printHelp(){
-    std::cout << "================" << std::endl;//prints seperator line
+    std::cout << std::endl;
     std::cout << "HELP!! Type number to choose option from menu." << std::endl;
-    std::cout << "Follow onscreen instructions. \n" << std::endl;
+    std::cout << "Follow onscreen instructions." << std::endl;
+    std::cout << std::endl;
 }
 
 /*function for option 2 using OrderBook*/
@@ -254,12 +255,28 @@ void PandaMain::goToBid(){
 
 /*function for option 8 - continue*/
 void PandaMain::nextTimeStep(){
-    std::cout << "Going to next time frame. " << std::endl;
-    for (std::string p : orderBook.getKnownProducts())
-    {
-        std::cout << "matching " << p << std::endl;
+    std::cout << "Sales Statistics" << std::endl;
+    std::cout << std::endl;
+    
+    // Define column width for headers and data
+    int headerWidth = 18;
+    int dataWidth = 10;
+    
+    // Set the floating-point output to two decimal places
+    std::cout << std::fixed << std::setprecision(2);
+
+    // Print data headers - product names
+    std::cout << std::left << std::setw(headerWidth) << "Products Matched" << " | ";
+    for (std::string const& p : orderBook.getKnownProducts()) {
+        std::cout << std::right << std::setw(dataWidth) << p << " | ";
+    }
+    std::cout << std::endl;
+
+    // Print stats for "Sales
+    std::cout << std::left << std::setw(headerWidth) << "Sales" << " | ";
+    for (std::string const& p : orderBook.getKnownProducts()) {
         std::vector<OrderBookEntry> sales =  orderBook.matchAsksToBids(p, currentTime);
-        std::cout << "Sales: " << sales.size() << std::endl;
+        std::cout << std::right << std::setw(dataWidth) << sales.size() << " | ";
         for (OrderBookEntry& sale : sales)
         {
             std::cout << "Sale price: " << sale.price << " amount " << sale.amount << std::endl;
@@ -269,10 +286,14 @@ void PandaMain::nextTimeStep(){
                 wallet.processSale(sale);
             }
         }
-        
     }
+    std::cout << std::endl;
+    std::cout << "===================================================================================" << std::endl;
     
     currentTime = orderBook.getNexttime(currentTime);
+    std::cout << "Current Time: " << currentTime << std::endl;
+    std::cout << "================" << std::endl;
+    std::cout << std::endl;
 }
 
 /*function for invalid keyboard input*/
@@ -292,6 +313,7 @@ int PandaMain::getUserOption(){
         //
     }
     std::cout << "You wrote: " << line << std::endl;
+    std::cout << "================" << std::endl;//prints seperator line
     
     return userOption;
 }
