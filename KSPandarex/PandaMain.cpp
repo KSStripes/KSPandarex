@@ -271,23 +271,27 @@ void PandaMain::printCandlesticks() {
 /**KSStripes implemented the this function in seperate bar chart class**/
 void PandaMain::printSpreadBar(){
     std::cout << "Your Spread Statistics!" << std::endl;
-    std::cout << "See the difference between lowest ask prices and highest price bids!" << std::endl;
+    std::cout << "Current difference between lowest ask prices and highest price bids!" << std::endl;
+    
+    // Set the floating-point output to two decimal places
+    std::cout << std::fixed << std::setprecision(2);
     
     /**print the spread stats as reference values**/
     for (std::string const& p : orderBook.getKnownProducts()){
         // Call the getSpread function to calculate the spread
         double spread = orderBook.getSpread(p, currentTime);
         // Print the result
-        std::cout << "Spread for Product " << p << " at Timestamp " << currentTime << ": " << spread << std::endl;
+        std::cout << "Product " << p << ": " << spread << std::endl;
     }
     std::cout << "========================" << std::endl;
     
     
     // Create an instance of the SpreadPlot class
     SpreadPlot spreadPlot(currentTime, orderBook);
-    std::vector<double> spreads = spreadPlot.getAllSpreads(currentTime);;
-    // Print the spread charts
-    spreadPlot.printSpreadBarChart(spreads);
+    std::vector<std::pair<std::string, double>> spreadPairs = spreadPlot.getAllSpreads(currentTime);
+
+     // Call the printSpreadBarChart function to print bar charts for each spread value
+     spreadPlot.calculateBarChart(spreadPairs);
 
 }
 

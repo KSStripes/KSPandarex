@@ -21,26 +21,15 @@ public:
     SpreadPlot(const std::string& currentTime,
                OrderBook& orderBook);
     //function to calculate all spreads based on current time and on orderbook spread calc
-    std::vector<double> getAllSpreads(const std::string& currentTime);
-    void printSpreadBarChart(const std::vector<double>& spreads);
+    std::vector<std::pair<std::string, double>> getAllSpreads(const std::string& currentTime);
+    void calculateBarChart(const std::vector<std::pair<std::string, double>>& spreadPairs);
 
 private:
-//    std::vector<std::pair<double, std::string>> data; // A vector of pairs for spread data and timestamps
-//
-//    // Function to calculate the bar chart string with a minimum length
-//    std::string calculateBarChart(double spread, int minChartLength);
-//    
-//    OrderBook& orderBookRef;   // Reference to OrderBook instance
-//    std::vector<double> spreadData_; // Member variable to store spread data
-//    OrderBookType orderType_;       // Member variable to store order type
-//};
-    
     OrderBook& orderBookRef;
-     std::vector<std::string> timestamps;
-     std::vector<double> spreadData; // Stores calculated spread data
+    std::vector<std::string> timestamps;
+    std::vector<double> spreadData; // Stores calculated spread data
 
-     // Function to calculate the bar chart string with a minimum length
-     void calculateBarChart(double spread);
+    
  };
 
 #endif /* SpreadPlot_hpp */
